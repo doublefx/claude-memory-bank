@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 # Configuration
 INSTALL_DIR="$HOME/.claude-memory-bank"
 BIN_DIR="$HOME/.local/bin"
-REPO_URL="https://github.com/USER/claude-memory-bank"  # Update with actual repo URL
+REPO_URL="https://github.com/Jaabiruu/claude-memory-bank"  # Update with actual repo URL
 
 echo -e "${BLUE}Claude Memory Bank - Global Installer${NC}"
 echo -e "${BLUE}======================================${NC}"

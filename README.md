@@ -40,7 +40,7 @@ Claude Memory Bank adapts the proven cursor-memory-bank methodology for Claude C
 
 ### One-Line Installation
 ```bash
-curl -sSL https://raw.githubusercontent.com/USER/claude-memory-bank/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/Jaabiruu/claude-memory-bank/main/install.sh | bash
 ```
 
 ### Project Setup
