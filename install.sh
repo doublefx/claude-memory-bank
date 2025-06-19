@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Claude Memory Bank Global Installer
+# Claude Memory Bank Global Installer v2.0
 # Adaptation of the original cursor-memory-bank by @vanzan01 for Claude Code
 # This installer sets up the global commands and prepares the system for project-specific setup
+# v2.0: Added support for single-project and multi-project repositories
 
 set -e
 
@@ -18,10 +19,11 @@ INSTALL_DIR="$HOME/.claude-memory-bank"
 BIN_DIR="$HOME/.local/bin"
 REPO_URL="https://github.com/Jaabiruu/claude-memory-bank"  # Update with actual repo URL
 
-echo -e "${BLUE}Claude Memory Bank - Global Installer${NC}"
-echo -e "${BLUE}======================================${NC}"
+echo -e "${BLUE}Claude Memory Bank v2.0 - Global Installer${NC}"
+echo -e "${BLUE}===========================================${NC}"
 echo ""
-echo "This installer will set up Claude Memory Bank globally on your system."
+echo "This installer will set up Claude Memory Bank v2.0 globally on your system."
+echo "Supports both single-project and multi-project repositories."
 echo "Original methodology by @vanzan01, adapted for Claude Code."
 echo ""
 
@@ -119,14 +121,14 @@ EOF
 
 INSTALL_DIR="$HOME/.claude-memory-bank"
 
-echo "Claude Memory Bank Status"
-echo "========================"
+echo "Claude Memory Bank v2.0 Status"
+echo "==============================="
 echo "Installation directory: $INSTALL_DIR"
 
 if [ -d "$INSTALL_DIR/claude-memory-bank" ]; then
     echo "✓ System installed"
     cd "$INSTALL_DIR/claude-memory-bank"
-    echo "Version: $(git describe --tags --always 2>/dev/null || echo 'development')"
+    echo "Version: v2.0 ($(git describe --tags --always 2>/dev/null || echo 'development'))"
     echo "Last updated: $(git log -1 --format=%cd --date=short 2>/dev/null || echo 'unknown')"
 else
     echo "✗ System not installed"
@@ -134,9 +136,17 @@ fi
 
 echo ""
 echo "Project status:"
-if [ -f "memory-bank/tasks.md" ]; then
+if [ -f "memory-bank/tasks.md" ] || [ -d "memory-bank/shared" ]; then
     echo "✓ Memory bank initialized in current directory"
-    if [ -f "claude.md" ]; then
+    if [ -d "memory-bank/shared" ]; then
+        echo "✓ Multi-project repository detected"
+        # Count projects
+        project_count=$(find memory-bank -maxdepth 1 -type d ! -name "memory-bank" ! -name "shared" ! -name "custom_modes" ! -name "scripts" | wc -l)
+        echo "  Projects: $project_count"
+    else
+        echo "✓ Single-project repository"
+    fi
+    if [ -f "CLAUDE.md" ]; then
         echo "✓ Claude Code configuration present"
     else
         echo "✗ Claude Code configuration missing"
@@ -209,7 +219,7 @@ main() {
     setup_shell_integration
     
     echo ""
-    echo -e "${GREEN}Claude Memory Bank installation complete!${NC}"
+    echo -e "${GREEN}Claude Memory Bank v2.0 installation complete!${NC}"
     echo ""
     echo "Next steps:"
     echo "1. Restart your shell or run: source ~/.bashrc (or ~/.zshrc)"
@@ -217,14 +227,23 @@ main() {
     echo "3. Run: claude-memory-setup"
     echo ""
     echo "Available commands:"
-    echo "  claude-memory-setup  - Initialize memory bank in current project"
-    echo "  claude-memory-status - Check installation and project status"
-    echo "  claude-memory-update - Update to latest version"
+    echo "  claude-memory-setup        - Initialize memory bank in current project"
+    echo "  claude-memory-setup --single    - Force single-project setup"
+    echo "  claude-memory-setup --multi     - Force multi-project setup"
+    echo "  claude-memory-setup --add-project - Add project to multi-repo"
+    echo "  claude-memory-status       - Check installation and project status"
+    echo "  claude-memory-update       - Update to latest version"
     echo ""
     echo "Short aliases:"
-    echo "  cmb-setup   - Setup project"
+    echo "  cmb-setup   - Setup project (supports all options)"
     echo "  cmb-status  - Check status"
     echo "  cmb-update  - Update system"
+    echo ""
+    echo -e "${BLUE}Version 2.0 Features:${NC}"
+    echo "  - Automatic single/multi-project detection"
+    echo "  - Cross-project task scanning"
+    echo "  - Shared patterns for multi-project repos"
+    echo "  - Living context documentation"
     echo ""
     echo -e "${BLUE}Original methodology by @vanzan01${NC}"
     echo -e "${BLUE}Claude Code adaptation preserves 100% of workflow integrity${NC}"
@@ -233,13 +252,16 @@ main() {
 # Handle command line arguments
 case "${1:-}" in
     --help|-h)
-        echo "Claude Memory Bank Global Installer"
+        echo "Claude Memory Bank v2.0 Global Installer"
         echo ""
         echo "Usage: $0 [options]"
         echo ""
         echo "Options:"
         echo "  --help, -h     Show this help message"
         echo "  --uninstall    Remove Claude Memory Bank"
+        echo ""
+        echo "Version 2.0 supports both single-project and multi-project repositories"
+        echo "with automatic structure detection and cross-project task management."
         echo ""
         exit 0
         ;;

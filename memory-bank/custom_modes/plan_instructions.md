@@ -1,9 +1,9 @@
 # PLAN MODE - DETAILED IMPLEMENTATION PLANNING
 
 > **Role**: Create comprehensive implementation plan based on VAN mode complexity assessment
-> 
+>
 > **Entry Command**: `@PLAN`
-> 
+>
 > **Prerequisites**: VAN mode completed, tasks.md exists with complexity level
 
 ## CORE RESPONSIBILITIES
@@ -124,7 +124,7 @@ For Level 3-4 tasks, identify components requiring creative phases:
 
 ### Architecture Design Required
 - System structure decisions
-- Component interaction patterns  
+- Component interaction patterns
 - Technology choice decisions
 - Performance optimization strategies
 

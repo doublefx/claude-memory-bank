@@ -36,6 +36,7 @@ venv.bak/
 *.swp
 *.swo
 *~
+*.iml
 
 # OS files
 .DS_Store
@@ -69,6 +70,17 @@ temp/
 # But ignore backup files that might be created
 memory-bank.backup.*
 *.backup
+
+# Memory Bank temporary files (for project instances)
+memory-bank/**/*.tmp
+memory-bank/**/*.bak
+memory-bank/**/*.swp
+memory-bank/**/.DS_Store
+memory-bank/**/~*
+memory-bank/**/#*#
+
+# Local copy of setup script (copied to project roots)
+setup-memory-bank.sh
 
 # Ignore compiled installation cache
 .claude-memory-bank-cache/

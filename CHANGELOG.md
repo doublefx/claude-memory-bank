@@ -5,6 +5,35 @@ All notable changes to Claude Memory Bank will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - Unreleased
+
+### Changed
+- **BREAKING**: Redesigned as Memory Bank Hybrid System v2.0 - Context-Driven Workflow
+- Simplified from 6 modes to 4 modes (VAN, PLAN, IMPLEMENT, REFLECT)
+- Shifted focus to context-first development with persistent context files
+- Reduced complexity levels from 4 to 3 for streamlined workflow routing
+- PLAN mode now incorporates design exploration for Level 3 tasks (previously CREATIVE mode)
+- Enhanced multi-project support with automatic active task detection
+- Improved project structure detection for single vs multi-project repositories
+
+### Added
+- Context persistence as primary feature - context files created once and updated continuously
+- Active task detection across multiple projects on startup
+- Smart project switching in multi-project repositories
+- Support for hierarchical project setup automation (non-interactive mode)
+- Enhanced error recovery mechanisms for missing or stale context
+
+### Fixed
+- Fixed arithmetic operation bug in setup-hierarchy.sh causing script exit with `set -e` when incrementing from 0
+- Fixed hierarchy scripts (setup-hierarchy.sh, detect-hierarchy.py, auto-setup-hierarchy.py) not being copied during setup
+- Fixed setup-hierarchy.sh only processing root repository instead of all sub-projects
+
+### Removed
+- Removed ARCHIVE mode (knowledge preservation now continuous through context updates)
+- Removed CREATIVE mode (design exploration integrated into PLAN mode for Level 3)
+- Removed Level 4 complexity (architectural changes now Level 3)
+- Removed separate design exploration phase (now part of PLAN when needed)
+
 ## [1.0.0] - 2024-06-04
 
 ### Added
@@ -21,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cross-project learning and pattern sharing capabilities
 
 ### Core Files
-- `claude.md` - Complete Claude Code configuration with mode definitions
+- `CLAUDE.md` - Complete Claude Code configuration with mode definitions
 - `starter-prompt.md` - Initialization guide for first-time users
 - `install.sh` - Global installation script with shell integration
 - `setup-memory-bank.sh` - Project-specific setup automation

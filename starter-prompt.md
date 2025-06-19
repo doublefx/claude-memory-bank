@@ -1,209 +1,264 @@
-# Claude Memory Bank - Starter Prompt
+# Claude Memory Bank - System Starter v2.0
 
-> **Welcome to Claude Memory Bank** - A complete adaptation of @vanzan01's cursor-memory-bank for Claude Code  
-> This system preserves 100% of the original workflow methodology while adapting to file-based configuration
+> **Memory Bank System v2.0** - Generic Context-Driven Workflow  
+> Supports both single-project and multi-project repositories  
+> Original methodology by @vanzan01, enhanced for flexible project structures
 
 ## Quick Start
 
-**Essential First Step**: Copy this message to Claude Code to initialize the Memory Bank system:
+Copy this message to Claude Code to initialize the Memory Bank system:
 
 ```
-I want to use the Claude Memory Bank system. Please read the claude.md configuration file and all necessary instruction files from memory-bank/custom_modes/ to understand the complete 6-mode workflow system. 
+I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from memory-bank/custom_modes/ to understand the context-driven workflow.
 
-After reading the configuration, start with @VAN mode to analyze this project and create the initial tasks.md file as the single source of truth for task tracking.
+The system supports both single-project and multi-project repositories. It will automatically detect the structure and adapt its behavior. The system uses 4 modes (VAN, PLAN, IMPLEMENT, REFLECT) with context files as the foundation.
 
-The Memory Bank system uses complexity-based routing (Level 1-4) to determine which modes are required. Please follow the exact workflow progression defined in the system.
+For multi-project repos: The system will scan for active tasks across all projects and help me choose which to continue or start new work.
+
+Start with @VAN mode to detect project structure, create/update context files, and assess task complexity.
 ```
 
 ## System Overview
 
-Claude Memory Bank is a structured workflow system with 6 specialized modes:
+The hybrid Memory Bank system prioritizes context understanding while maintaining structured workflow:
 
 ```mermaid
-graph LR
-    VAN[🔍 VAN<br>Initialize] --> PLAN[📋 PLAN<br>Strategy]
-    PLAN --> CREATIVE[🎨 CREATIVE<br>Design]
-    CREATIVE --> IMPLEMENT[⚒️ IMPLEMENT<br>Build]
-    IMPLEMENT --> REFLECT[🔍 REFLECT<br>Review]
-    REFLECT --> ARCHIVE[📚 ARCHIVE<br>Document]
+flowchart TD
+    subgraph "Context Foundation"
+        PB[📄 projectBrief.md] --> PC[🎯 productContext.md]
+        PB --> SP[🏗️ systemPatterns.md]
+        PB --> TC[⚙️ techContext.md]
+    end
     
-    VAN -.->|Level 1| IMPLEMENT
-    PLAN -.->|No creative<br>components| IMPLEMENT
-    REFLECT -.->|Level 1-2| Complete[✅ Complete]
+    subgraph "Workflow"
+        VAN[🔍 VAN] --> PLAN[📋 PLAN]
+        VAN --> IMPLEMENT[⚒️ IMPLEMENT]
+        PLAN --> IMPLEMENT
+        IMPLEMENT --> REFLECT[✅ REFLECT]
+    end
+    
+    PC --> AC[💡 activeContext.md]
+    SP --> AC
+    TC --> AC
 ```
+
+## Core Philosophy
+
+1. **Context First**: All work begins with understanding through context files
+2. **Adaptive Workflow**: Only use modes that add value (3 complexity levels)
+3. **Living Documentation**: Context evolves with each task
+4. **Minimal Ceremony**: Streamlined from 6 to 4 modes
 
 ## Mode Commands
 
-### Primary Commands
-- `@VAN` - **MANDATORY START** - Initialize project and assess complexity
-- `@PLAN` - Create detailed implementation plan (Level 2-4)
-- `@CREATIVE` - Design exploration for complex components (Level 3-4)
-- `@IMPLEMENT` - Systematic code implementation
-- `@REFLECT` - Quality validation and lessons learned
-- `@ARCHIVE` - Knowledge preservation (Level 3-4)
+### Primary Workflow
+- `@VAN` - **Initialize & Assess** (Always first - creates/updates context)
+- `@PLAN` - **Strategy & Design** (Level 2-3 tasks)
+- `@IMPLEMENT` - **Build & Test** (Execute with context awareness)
+- `@REFLECT` - **Validate & Learn** (Update context with insights)
 
-### Workflow Routing by Complexity
+### Context Files Created by VAN
+- **projectBrief.md** - Project overview, goals, constraints
+- **productContext.md** - User needs, features, business value
+- **systemPatterns.md** - Architecture, conventions, patterns
+- **techContext.md** - Stack, dependencies, technical details
 
-#### Level 1: Quick Bug Fix (< 30 min)
+## Complexity Routing
+
+### Level 1: Quick Fix (< 1 hour)
 ```
-@VAN → @IMPLEMENT → Done
+@VAN → @IMPLEMENT → @REFLECT
 ```
-Simple fixes, single file changes, minimal testing
+Simple fixes using existing context
 
-#### Level 2: Simple Enhancement (2-8 hours)
+### Level 2: Feature/Enhancement (1 hour - 1 day)
 ```
-@VAN → @PLAN → @IMPLEMENT → @REFLECT → Done
+@VAN → @PLAN → @IMPLEMENT → @REFLECT
 ```
-Feature additions, 2-3 files, straightforward implementation
+Clear requirements with some design decisions
 
-#### Level 3: Complex Feature (1-3 days)
+### Level 3: Complex Feature (1+ days)
 ```
-@VAN → @PLAN → @CREATIVE → @IMPLEMENT → @REFLECT → @ARCHIVE
+@VAN → @PLAN (with design) → @IMPLEMENT → @REFLECT
 ```
-Multi-component features, design decisions, multiple systems
+Multiple components, significant design decisions
 
-#### Level 4: System Architecture (1+ weeks)
+## Key Benefits
+
+### Over Pure Task-Based Approach
+- Context persists across tasks
+- Better architectural decisions
+- Faster onboarding for new work
+- Patterns emerge and evolve
+
+### Over Pure Context-Only Approach
+- Structured workflow ensures quality
+- Progress tracking built-in
+- Design decisions documented
+- Validation phase included
+
+## Project Structure Support
+
+The Memory Bank system automatically adapts to your repository type:
+
+### Single-Project Repository
 ```
-@VAN → @PLAN → @CREATIVE → @IMPLEMENT → @REFLECT → @ARCHIVE
+memory-bank/
+├── context/                 # Foundation files
+│   ├── projectBrief.md     # Created/updated by VAN
+│   ├── productContext.md   # Business perspective
+│   ├── systemPatterns.md   # Technical patterns
+│   └── techContext.md      # Implementation details
+├── active/                  # Current work
+│   ├── activeContext.md    # Synthesized context
+│   ├── tasks.md           # Task breakdown
+│   └── progress.md        # Progress tracking
+├── technical/              # Deep implementation docs
+├── decisions/              # Design decisions
+│   └── log.md             # Decision history
+└── qa/                     # Quality assurance
+    └── validation-results.md # From REFLECT mode
 ```
-Major architectural changes, multiple subsystems, significant design decisions
 
-## Critical System Rules
-
-### 🚨 MANDATORY REQUIREMENTS
-1. **Always start with @VAN** - Cannot skip initialization
-2. **tasks.md is sacred** - Single source of truth, cannot be optional
-3. **Follow complexity routing** - Level determines required workflow path
-4. **Complete each mode fully** - Meet exit criteria before proceeding
-5. **Creative phases required** - Level 3-4 components must complete design exploration
-
-### 📁 Key Files (Auto-created by modes)
-- `memory-bank/tasks.md` - Central task tracking (created by VAN)
-- `memory-bank/activeContext.md` - Current work focus
-- `memory-bank/progress.md` - Implementation status
-- `memory-bank/decisions/design-options.md` - Creative phase decisions
-- `memory-bank/qa/validation-results.md` - Quality validation
-- `memory-bank/archive/` - Completed project documentation
-
-## Example Usage Session
-
-### Starting a New Task
-1. **Initialize**: `@VAN`
-   - System analyzes project and requirements
-   - Creates tasks.md with complexity assessment
-   - Recommends next mode based on level
-
-2. **Follow Routing**: Based on VAN assessment
-   - Level 1: Proceed to `@IMPLEMENT`
-   - Level 2+: Proceed to `@PLAN`
-
-3. **Continue Workflow**: Follow mode recommendations
-   - Each mode provides clear next steps
-   - System tracks progress automatically
-
-### Example Level 3 Workflow
+### Multi-Project Repository
 ```
-User: I need to add a user dashboard with charts and user management
+memory-bank/
+├── shared/                 # Cross-project resources
+│   ├── patterns.md        # Reusable patterns
+│   └── conventions.md     # Global standards
+├── api-service/           # Each project has full structure
+│   ├── context/
+│   ├── active/
+│   ├── technical/
+│   ├── decisions/
+│   └── qa/
+├── web-app/
+│   └── [same structure]
+└── mobile-app/
+    └── [same structure]
+```
+
+**Key Differences**:
+- Single: All files in root memory-bank/
+- Multi: Each project isolated, shared patterns centralized
+- Multi: VAN mode scans all projects for active tasks
+
+## Example Usage
+
+### Single-Project Repository
+
+```
+User: I need to add error tracking to the pipeline viewer
+
+Claude: I'll use the Memory Bank system to help with this. Let me start with @VAN mode.
 
 @VAN
-↓ (System analyzes: Level 3 - Complex feature, multiple components)
-Creates tasks.md with assessment
+[Detects single-project structure, reads context files]
 
-@PLAN  
-↓ (System creates implementation plan, identifies creative components)
-Updates tasks.md with plan, flags UI and architecture decisions
+This is a single-project repository. Based on the context, adding error tracking is a Level 2 enhancement. The system already has error handling patterns in systemPatterns.md that we'll extend.
 
-@CREATIVE
-↓ (System explores design options for flagged components)
-Creates design-options.md with justified recommendations
-
-@IMPLEMENT
-↓ (System builds according to plan and design decisions)
-Creates implementation-log.md, tracks progress
-
-@REFLECT
-↓ (System validates quality and captures lessons)
-Creates validation-results.md with assessment
-
-@ARCHIVE
-↓ (System preserves knowledge and completes workflow)
-Creates comprehensive archive document
+Next mode: @PLAN
 ```
 
-## System Features
+### Multi-Project Repository
 
-### 🎯 Complexity-Based Routing
-Automatically determines appropriate workflow based on task complexity, ensuring optimal development approach without unnecessary overhead.
+```
+User: I need to work on the authentication feature
 
-### 🧠 Context Preservation
-Maintains complete context across all development phases through persistent file-based memory system.
+Claude: Let me check your Memory Bank structure with @VAN mode.
 
-### 🎨 Creative Phase Methodology
-Implements Claude's "Think" tool approach for structured design exploration with systematic option analysis.
+@VAN
+[Detects multi-project structure, scans all projects]
 
-### 📊 Progress Tracking
-Continuous progress tracking with detailed status updates and milestone completion verification.
+I've detected this is a multi-project repository with:
+- api-service (has active Level 2 task: "Add rate limiting")
+- web-app (no active tasks)
+- auth-service (has active Level 3 task: "Implement OAuth2")
 
-### 📚 Knowledge Preservation
-Automatic extraction and archiving of reusable patterns, decisions, and lessons learned for future projects.
+Would you like to:
+1. Continue the auth-service OAuth2 task
+2. Continue the api-service rate limiting task
+3. Start a new authentication task
 
-### 🔄 Cross-Session Continuity
-File-based system maintains workflow state across Claude Code sessions, allowing resumption of complex projects.
+User: Continue with OAuth2
 
-## Troubleshooting
+Claude: Loading auth-service context and resuming OAuth2 implementation...
+[Continues with appropriate workflow mode]
+```
 
-### Common Issues and Solutions
+## Tips for Success
 
-#### "tasks.md not found"
-**Solution**: Start with `@VAN` mode to initialize the system properly.
+### General Tips
+1. **Trust the Context**: Let context files guide decisions
+2. **Update Continuously**: Keep context current as you learn
+3. **Use Appropriate Modes**: Skip PLAN for Level 1 tasks
+4. **Document Patterns**: Capture reusable patterns in REFLECT
+5. **Synthesize Actively**: activeContext.md connects context to current work
 
-#### "Mode not responding correctly"
-**Solution**: Ensure previous mode completed all exit criteria. Check memory-bank files for current status.
+### Multi-Project Tips
+6. **Use Shared Wisely**: Promote patterns to shared/ when they benefit multiple projects
+7. **Maintain Isolation**: Each project's context remains independent
+8. **Cross-Project Learning**: REFLECT mode can suggest patterns for shared/
+9. **Active Task Awareness**: VAN always shows what's in progress across projects
+10. **Consistent Conventions**: Follow shared/conventions.md across all projects
 
-#### "Creative phase seems incomplete"
-**Solution**: For Level 3-4 tasks, each flagged component must complete full creative phase process with 2-4 options explored.
+## Common Scenarios
 
-#### "System seems confused about current state"
-**Solution**: Check `memory-bank/activeContext.md` for current mode and status. Use appropriate mode command to continue.
+### Bug Fix (Level 1)
+- VAN reads context, identifies fix location
+- Skip PLAN, go directly to IMPLEMENT
+- REFLECT validates fix and updates techContext if needed
 
-### Recovery Commands
-- **Check Status**: Review `memory-bank/activeContext.md` and `memory-bank/progress.md`
-- **Restart Workflow**: Begin new cycle with `@VAN` for new task
-- **Continue Workflow**: Use next recommended mode from current context
+### New Feature (Level 2)
+- VAN updates productContext with new feature
+- PLAN creates strategy using existing patterns
+- IMPLEMENT builds following plan
+- REFLECT captures new patterns
 
-## Advanced Features
+### Architecture Change (Level 3)
+- VAN comprehensively updates all context files
+- PLAN includes design exploration
+- IMPLEMENT follows design decisions
+- REFLECT updates architecture patterns
 
-### 🔍 QA Integration
-Quality assurance capabilities can be invoked from any mode when technical validation is needed.
+## Getting Started
 
-### 🏗️ Pattern Recognition
-System automatically identifies and extracts reusable code patterns and architectural decisions.
+### Setup Options
 
-### 📈 Performance Tracking
-Built-in metrics for time estimation accuracy and workflow effectiveness.
+1. **Single-Project Setup**: `setup-memory-bank.sh` or `setup-memory-bank.sh --single`
+2. **Multi-Project Setup**: `setup-memory-bank.sh --multi`
+3. **Add Project to Multi**: `setup-memory-bank.sh --add-project`
 
-### 🔄 Adaptive Learning
-System learns from each project to improve future complexity assessments and recommendations.
+### First Steps
 
-## Support
+1. Run setup script with your preferred option
+2. Copy the initialization message above to Claude
+3. Let VAN mode detect structure and create context
+4. Follow the workflow based on complexity
+5. Watch your context evolve with each task
 
-### Documentation
-- `claude.md` - Complete system configuration
-- `memory-bank/custom_modes/` - Detailed mode instructions
-- Project files - Live system state and progress
+### Automation Tools
 
-### Best Practices
-- Always read system recommendations carefully
-- Complete each mode fully before proceeding
-- Trust the complexity assessment routing
-- Use the persistent memory system effectively
+**Single-Project**:
+```bash
+python memory-bank/scripts/auto-update.py --health-check
+python memory-bank/scripts/auto-update.py --list-tasks
+```
+
+**Multi-Project**:
+```bash
+python memory-bank/scripts/auto-update.py --list-projects
+python memory-bank/scripts/auto-update.py --health-check --project-name api-service
+```
 
 ---
 
-## Ready to Start?
+**System v2.0 Benefits**:
+- Automatic structure detection
+- Context provides deep understanding
+- Supports simple to complex repositories
+- Patterns emerge and persist
+- Knowledge compounds over time
+- Seamless project switching in multi-project
 
-Copy the initialization message above to Claude Code and begin with `@VAN` to start your first Memory Bank workflow!
-
-**Original Methodology**: @vanzan01 (cursor-memory-bank)  
-**Claude Code Adaptation**: 100% workflow preservation with file-based configuration  
-**System Status**: Ready for production use
+Ready to start? Use the initialization message above and begin with @VAN!
