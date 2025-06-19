@@ -54,7 +54,7 @@ When contributing, please ensure that:
 2. **Test mode instructions**:
    - Verify all 6 mode instruction files are complete
    - Check that workflow routing is preserved
-   - Ensure claude.md configuration is comprehensive
+   - Ensure CLAUDE.md configuration is comprehensive
 
 3. **Test automation scripts**:
    ```bash
