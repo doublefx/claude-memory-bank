@@ -93,7 +93,7 @@ The original cursor-memory-bank used a comprehensive 6-mode workflow:
 
 ### One-Line Installation
 ```bash
-curl -sSL https://raw.githubusercontent.com/Jaabiruu/claude-memory-bank/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/doublefx/claude-memory-bank/main/install.sh | bash
 ```
 
 ### Project Setup
