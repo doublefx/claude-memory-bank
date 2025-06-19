@@ -136,12 +136,12 @@ fi
 
 echo ""
 echo "Project status:"
-if [ -f "memory-bank/tasks.md" ] || [ -d "memory-bank/shared" ]; then
+if [ -f ".memory-bank/tasks.md" ] || [ -d ".memory-bank/shared" ]; then
     echo "✓ Memory bank initialized in current directory"
-    if [ -d "memory-bank/shared" ]; then
+    if [ -d ".memory-bank/shared" ]; then
         echo "✓ Multi-project repository detected"
         # Count projects
-        project_count=$(find memory-bank -maxdepth 1 -type d ! -name "memory-bank" ! -name "shared" ! -name "custom_modes" ! -name "scripts" | wc -l)
+        project_count=$(find .memory-bank -maxdepth 1 -type d ! -name ".memory-bank" ! -name "shared" ! -name "custom_modes" ! -name "scripts" | wc -l)
         echo "  Projects: $project_count"
     else
         echo "✓ Single-project repository"

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **BREAKING**: Redesigned as Memory Bank Hybrid System v2.0 - Context-Driven Workflow
+- **BREAKING**: Changed folder name from `memory-bank` to `.memory-bank` (hidden) for cleaner project structure
 - Simplified from 6 modes to 4 modes (VAN, PLAN, IMPLEMENT, REFLECT)
 - Shifted focus to context-first development with persistent context files
 - Reduced complexity levels from 4 to 3 for streamlined workflow routing

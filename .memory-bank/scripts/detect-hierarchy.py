@@ -17,9 +17,9 @@ class HierarchyDetector:
         self.ignored_patterns = self._load_ignore_patterns()
     
     def _load_ignore_patterns(self) -> List[str]:
-        """Load patterns from memory-bank-ignore file"""
+        """Load patterns from .memory-bank-ignore file"""
         patterns = []
-        ignore_file = self.root / "memory-bank-ignore"
+        ignore_file = self.root / ".memory-bank-ignore"
         
         if ignore_file.exists():
             with open(ignore_file, 'r') as f:

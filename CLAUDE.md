@@ -45,7 +45,7 @@ flowchart TD
 
 ### Single Project Repository
 ```
-memory-bank/
+.memory-bank/
 ├── context/                    # Project understanding
 ├── active/                     # Current work tracking
 ├── technical/                  # Deep technical docs
@@ -57,7 +57,7 @@ memory-bank/
 
 ### Multi-Project Repository
 ```
-memory-bank/
+.memory-bank/
 ├── shared/                     # Cross-project resources
 │   ├── patterns.md            # Common code patterns
 │   └── conventions.md         # Shared conventions

@@ -3,18 +3,18 @@
 ## Example Structure
 ```
 platform/ (.git)
-├── memory-bank/
+├── .memory-bank/
 │   └── shared/
 │       ├── patterns.md      # Platform-wide patterns
 │       └── conventions.md   # Global conventions
 ├── services/
 │   └── auth-service/ (.git)
-│       └── memory-bank/
+│       └── .memory-bank/
 │           └── context/
 │               └── systemPatterns.md  # Auth-specific patterns
 └── libs/
     └── crypto-lib/ (.git)
-        └── memory-bank/    # No patterns defined yet
+        └── .memory-bank/    # No patterns defined yet
 ```
 
 ## Pattern Resolution
@@ -24,18 +24,18 @@ platform/ (.git)
 - Uses its own `shared/conventions.md`
 
 ### For `auth-service/` (Child with patterns)
-- **Conventions**: Inherits from `platform/memory-bank/shared/conventions.md`
+- **Conventions**: Inherits from `platform/.memory-bank/shared/conventions.md`
 - **Patterns**: Uses its own `context/systemPatterns.md` (child-first)
-- Parent patterns available at: `../../memory-bank/shared/patterns.md`
+- Parent patterns available at: `../../.memory-bank/shared/patterns.md`
 
 ### For `crypto-lib/` (Child without patterns)
-- **Conventions**: Inherits from `platform/memory-bank/shared/conventions.md`
-- **Patterns**: Inherits from `platform/memory-bank/shared/patterns.md`
+- **Conventions**: Inherits from `platform/.memory-bank/shared/conventions.md`
+- **Patterns**: Inherits from `platform/.memory-bank/shared/patterns.md`
 - When it creates its own patterns, they will override parent patterns
 
 ## hierarchy.json Example
 
-In `auth-service/memory-bank/hierarchy.json`:
+In `auth-service/.memory-bank/hierarchy.json`:
 ```json
 {
   "version": "2.1",
@@ -46,7 +46,7 @@ In `auth-service/memory-bank/hierarchy.json`:
   },
   "parent": {
     "path": "../..",
-    "memory_bank_path": "../../memory-bank",
+    "memory_bank_path": "../../.memory-bank",
     "relationship": "subdirectory",
     "inherit_conventions": true,
     "inherit_patterns": "if_not_exists"
@@ -57,8 +57,8 @@ In `auth-service/memory-bank/hierarchy.json`:
     "override_in_child": ["project_patterns"]
   },
   "references": {
-    "parent_patterns": "../../memory-bank/shared/patterns.md",
-    "parent_conventions": "../../memory-bank/shared/conventions.md"
+    "parent_patterns": "../../.memory-bank/shared/patterns.md",
+    "parent_conventions": "../../.memory-bank/shared/conventions.md"
   }
 }
 ```
@@ -69,17 +69,17 @@ When running `@VAN` in `auth-service/`:
 ```
 Hierarchical project structure detected:
 - Current: auth-service
-- Parent: ../.. (has memory-bank: yes)
-- Inheriting conventions from: ../../memory-bank/shared/conventions.md
+- Parent: ../.. (has .memory-bank: yes)
+- Inheriting conventions from: ../../.memory-bank/shared/conventions.md
 - Using local patterns from: ./context/systemPatterns.md
 
-Note: Parent patterns available at ../../memory-bank/shared/patterns.md
+Note: Parent patterns available at ../../.memory-bank/shared/patterns.md
 Consider referencing them in your systemPatterns.md if relevant.
 ```
 
 ## memory-bank-ignore Example
 
-In `platform/memory-bank-ignore`:
+In `platform/.memory-bank-ignore`:
 ```
 # Exclude experimental projects
 experimental/

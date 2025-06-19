@@ -36,8 +36,8 @@ verify_installation() {
 
 # Detect existing setup type
 detect_existing_setup() {
-    if [ -d "memory-bank" ]; then
-        if [ -d "memory-bank/shared" ]; then
+    if [ -d ".memory-bank" ]; then
+        if [ -d ".memory-bank/shared" ]; then
             echo -e "${CYAN}Detected existing multi-project Memory Bank${NC}"
             SETUP_TYPE="multi"
             return 0
@@ -70,14 +70,14 @@ choose_setup_type() {
                         echo -e "${RED}Project name cannot be empty.${NC}"
                         exit 1
                     fi
-                    if [ -d "memory-bank/$PROJECT_NAME" ]; then
+                    if [ -d ".memory-bank/$PROJECT_NAME" ]; then
                         echo -e "${RED}Project '$PROJECT_NAME' already exists.${NC}"
                         exit 1
                     fi
                     ;;
                 2)
-                    echo "Backing up existing memory-bank to memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
-                    mv memory-bank "memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+                    echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+                    mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
                     choose_new_setup_type
                     ;;
                 *)
@@ -91,8 +91,8 @@ choose_setup_type() {
             read -p "Do you want to reinitialize? This will backup existing files. (y/N): " -n 1 -r
             echo ""
             if [[ $REPLY =~ ^[Yy]$ ]]; then
-                echo "Backing up existing memory-bank to memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
-                mv memory-bank "memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+                echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+                mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
                 choose_new_setup_type
             else
                 echo "Setup cancelled."
@@ -133,9 +133,9 @@ create_structure() {
     
     if [ "$SETUP_TYPE" = "multi" ]; then
         # Multi-project structure
-        mkdir -p memory-bank/shared
-        mkdir -p memory-bank/custom_modes
-        mkdir -p memory-bank/scripts
+        mkdir -p .memory-bank/shared
+        mkdir -p .memory-bank/custom_modes
+        mkdir -p .memory-bank/scripts
         
         # Create shared files
         create_shared_files
@@ -146,16 +146,16 @@ create_structure() {
         fi
     else
         # Single-project structure
-        mkdir -p memory-bank/custom_modes
-        mkdir -p memory-bank/context
-        mkdir -p memory-bank/active
-        mkdir -p memory-bank/technical
-        mkdir -p memory-bank/decisions
-        mkdir -p memory-bank/qa
-        mkdir -p memory-bank/scripts
+        mkdir -p .memory-bank/custom_modes
+        mkdir -p .memory-bank/context
+        mkdir -p .memory-bank/active
+        mkdir -p .memory-bank/technical
+        mkdir -p .memory-bank/decisions
+        mkdir -p .memory-bank/qa
+        mkdir -p .memory-bank/scripts
         
         # Copy context templates
-        copy_context_templates "memory-bank/context"
+        copy_context_templates ".memory-bank/context"
     fi
     
     echo -e "${GREEN}✓ Directory structure created${NC}"
@@ -166,14 +166,14 @@ create_project_structure() {
     local project="$1"
     echo -e "${YELLOW}Creating structure for project: $project${NC}"
     
-    mkdir -p "memory-bank/$project/context"
-    mkdir -p "memory-bank/$project/active"
-    mkdir -p "memory-bank/$project/technical"
-    mkdir -p "memory-bank/$project/decisions"
-    mkdir -p "memory-bank/$project/qa"
+    mkdir -p ".memory-bank/$project/context"
+    mkdir -p ".memory-bank/$project/active"
+    mkdir -p ".memory-bank/$project/technical"
+    mkdir -p ".memory-bank/$project/decisions"
+    mkdir -p ".memory-bank/$project/qa"
     
     # Copy context templates
-    copy_context_templates "memory-bank/$project/context"
+    copy_context_templates ".memory-bank/$project/context"
     
     # Create project-specific templates
     create_templates_for_project "$project"
@@ -184,7 +184,7 @@ create_shared_files() {
     echo -e "${YELLOW}Creating shared files...${NC}"
     
     # patterns.md
-    cat > memory-bank/shared/patterns.md << 'EOF'
+    cat > .memory-bank/shared/patterns.md << 'EOF'
 # Shared Patterns
 
 Patterns that are reusable across multiple projects.
@@ -213,7 +213,7 @@ Patterns that are reusable across multiple projects.
 EOF
 
     # conventions.md
-    cat > memory-bank/shared/conventions.md << 'EOF'
+    cat > .memory-bank/shared/conventions.md << 'EOF'
 # Shared Conventions
 
 Global coding standards and conventions for all projects.
@@ -252,7 +252,7 @@ copy_mode_files() {
     echo -e "${YELLOW}Installing mode instruction files...${NC}"
     
     # Copy all mode instruction files
-    cp "$TEMPLATE_DIR/memory-bank/custom_modes/"*.md memory-bank/custom_modes/
+    cp "$TEMPLATE_DIR/.memory-bank/custom_modes/"*.md .memory-bank/custom_modes/
     
     echo -e "${GREEN}✓ Mode instruction files installed${NC}"
 }
@@ -321,7 +321,7 @@ copy_context_templates() {
 # Create templates for single project
 create_single_project_templates() {
     # Create tasks.md
-    cat > memory-bank/active/tasks.md << 'EOF'
+    cat > .memory-bank/active/tasks.md << 'EOF'
 # Memory Bank Tasks
 
 > **Central Source of Truth for Task Tracking**
@@ -355,7 +355,7 @@ To be created by PLAN mode.
 EOF
 
     # Create activeContext.md
-    cat > memory-bank/active/activeContext.md << 'EOF'
+    cat > .memory-bank/active/activeContext.md << 'EOF'
 # Active Context
 
 ## Current Focus
@@ -376,7 +376,7 @@ Project initialized but not yet analyzed.
 EOF
 
     # Create progress.md
-    cat > memory-bank/active/progress.md << 'EOF'
+    cat > .memory-bank/active/progress.md << 'EOF'
 # Progress Tracking
 
 ## Project Status
@@ -397,7 +397,7 @@ No workflows initiated yet.
 EOF
 
     # Create initial log file in decisions
-    cat > memory-bank/decisions/log.md << 'EOF'
+    cat > .memory-bank/decisions/log.md << 'EOF'
 # Decision Log
 
 ## Project Decisions
@@ -414,7 +414,7 @@ To be populated during IMPLEMENT mode.
 EOF
 
     # Create validation results template
-    cat > memory-bank/qa/validation-results.md << 'EOF'
+    cat > .memory-bank/qa/validation-results.md << 'EOF'
 # Validation Results
 
 ## Quality Assurance Results
@@ -439,7 +439,7 @@ create_templates_for_project() {
     echo -e "${YELLOW}Creating templates for project: $project${NC}"
     
     # Create tasks.md
-    cat > "memory-bank/$project/active/tasks.md" << EOF
+    cat > ".memory-bank/$project/active/tasks.md" << EOF
 # Memory Bank Tasks - $project
 
 > **Central Source of Truth for Task Tracking**
@@ -473,7 +473,7 @@ To be created by PLAN mode.
 EOF
 
     # Create activeContext.md
-    cat > "memory-bank/$project/active/activeContext.md" << EOF
+    cat > ".memory-bank/$project/active/activeContext.md" << EOF
 # Active Context - $project
 
 ## Current Focus
@@ -495,7 +495,7 @@ Project initialized but not yet analyzed.
 EOF
 
     # Create progress.md
-    cat > "memory-bank/$project/active/progress.md" << EOF
+    cat > ".memory-bank/$project/active/progress.md" << EOF
 # Progress Tracking - $project
 
 ## Project Status
@@ -517,7 +517,7 @@ No workflows initiated yet.
 EOF
 
     # Create initial log file in decisions
-    cat > "memory-bank/$project/decisions/log.md" << EOF
+    cat > ".memory-bank/$project/decisions/log.md" << EOF
 # Decision Log - $project
 
 ## Project Decisions
@@ -535,7 +535,7 @@ To be populated during IMPLEMENT mode.
 EOF
 
     # Create validation results template
-    cat > "memory-bank/$project/qa/validation-results.md" << EOF
+    cat > ".memory-bank/$project/qa/validation-results.md" << EOF
 # Validation Results - $project
 
 ## Quality Assurance Results
@@ -558,27 +558,27 @@ copy_scripts() {
     echo -e "${YELLOW}Installing automation scripts...${NC}"
     
     # Copy automation scripts
-    if [ -f "$TEMPLATE_DIR/memory-bank/scripts/auto-update.py" ]; then
-        cp "$TEMPLATE_DIR/memory-bank/scripts/auto-update.py" memory-bank/scripts/
+    if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" .memory-bank/scripts/
         echo "  ✓ Copied auto-update.py"
     fi
     
     # Copy hierarchy scripts for hierarchical projects
-    if [ -f "$TEMPLATE_DIR/memory-bank/scripts/setup-hierarchy.sh" ]; then
-        cp "$TEMPLATE_DIR/memory-bank/scripts/setup-hierarchy.sh" memory-bank/scripts/
-        chmod +x memory-bank/scripts/setup-hierarchy.sh
+    if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/setup-hierarchy.sh" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/scripts/setup-hierarchy.sh" .memory-bank/scripts/
+        chmod +x .memory-bank/scripts/setup-hierarchy.sh
         echo "  ✓ Copied setup-hierarchy.sh"
     fi
     
-    if [ -f "$TEMPLATE_DIR/memory-bank/scripts/detect-hierarchy.py" ]; then
-        cp "$TEMPLATE_DIR/memory-bank/scripts/detect-hierarchy.py" memory-bank/scripts/
-        chmod +x memory-bank/scripts/detect-hierarchy.py
+    if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/detect-hierarchy.py" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/scripts/detect-hierarchy.py" .memory-bank/scripts/
+        chmod +x .memory-bank/scripts/detect-hierarchy.py
         echo "  ✓ Copied detect-hierarchy.py"
     fi
     
-    if [ -f "$TEMPLATE_DIR/memory-bank/scripts/auto-setup-hierarchy.py" ]; then
-        cp "$TEMPLATE_DIR/memory-bank/scripts/auto-setup-hierarchy.py" memory-bank/scripts/
-        chmod +x memory-bank/scripts/auto-setup-hierarchy.py
+    if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/auto-setup-hierarchy.py" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/scripts/auto-setup-hierarchy.py" .memory-bank/scripts/
+        chmod +x .memory-bank/scripts/auto-setup-hierarchy.py
         echo "  ✓ Copied auto-setup-hierarchy.py"
     fi
     
@@ -600,10 +600,10 @@ create_starter_prompt() {
     chmod +x ./setup-memory-bank.sh
     echo -e "${CYAN}✓ Copied setup-memory-bank.sh to project root${NC}"
     
-    # Copy memory-bank-ignore template if hierarchical structure detected
-    if [ -f "$TEMPLATE_DIR/templates/memory-bank-ignore" ]; then
-        cp "$TEMPLATE_DIR/templates/memory-bank-ignore" ./
-        echo -e "${CYAN}✓ Created memory-bank-ignore for hierarchy control${NC}"
+    # Copy .memory-bank-ignore template if hierarchical structure detected
+    if [ -f "$TEMPLATE_DIR/templates/.memory-bank-ignore" ]; then
+        cp "$TEMPLATE_DIR/templates/.memory-bank-ignore" ./
+        echo -e "${CYAN}✓ Created .memory-bank-ignore for hierarchy control${NC}"
     fi
     
     echo -e "${GREEN}✓ Starter prompt and quick reference created${NC}"
@@ -652,8 +652,8 @@ detect_hierarchy() {
                 echo -e "${CYAN}Using local setup script for hierarchical setup...${NC}"
                 echo ""
                 # The hierarchy script will use this local copy
-                if [ -f "memory-bank/scripts/setup-hierarchy.sh" ]; then
-                    bash "memory-bank/scripts/setup-hierarchy.sh"
+                if [ -f ".memory-bank/scripts/setup-hierarchy.sh" ]; then
+                    bash ".memory-bank/scripts/setup-hierarchy.sh"
                 else
                     echo -e "${YELLOW}Running basic hierarchical setup...${NC}"
                     find . -name ".git" -type d -not -path "*/node_modules/*" -not -path "*/.git/*" | while read gitdir; do
@@ -665,13 +665,13 @@ detect_hierarchy() {
                     done
                 fi
                 exit 0
-            elif [ -f "memory-bank/scripts/setup-hierarchy.sh" ]; then
+            elif [ -f ".memory-bank/scripts/setup-hierarchy.sh" ]; then
                 echo -e "${CYAN}Launching automated hierarchical setup...${NC}"
-                bash "memory-bank/scripts/setup-hierarchy.sh"
+                bash ".memory-bank/scripts/setup-hierarchy.sh"
                 exit 0
-            elif [ -f "$TEMPLATE_DIR/memory-bank/scripts/setup-hierarchy.sh" ]; then
+            elif [ -f "$TEMPLATE_DIR/.memory-bank/scripts/setup-hierarchy.sh" ]; then
                 echo -e "${CYAN}Launching automated hierarchical setup...${NC}"
-                bash "$TEMPLATE_DIR/memory-bank/scripts/setup-hierarchy.sh"
+                bash "$TEMPLATE_DIR/.memory-bank/scripts/setup-hierarchy.sh"
                 exit 0
             else
                 echo -e "${YELLOW}Please complete the current setup first.${NC}"
@@ -717,25 +717,25 @@ update_templates_for_project_type() {
     # Add project-specific patterns to technical folder
     case $project_type in
         "javascript")
-            echo "# JavaScript Project Patterns" > memory-bank/technical/javascript-patterns.md
-            echo "" >> memory-bank/technical/javascript-patterns.md
-            echo "- Review package.json dependencies" >> memory-bank/technical/javascript-patterns.md
-            echo "- Consider npm scripts and build process" >> memory-bank/technical/javascript-patterns.md
-            echo "- Check for TypeScript configuration" >> memory-bank/technical/javascript-patterns.md
+            echo "# JavaScript Project Patterns" > .memory-bank/technical/javascript-patterns.md
+            echo "" >> .memory-bank/technical/javascript-patterns.md
+            echo "- Review package.json dependencies" >> .memory-bank/technical/javascript-patterns.md
+            echo "- Consider npm scripts and build process" >> .memory-bank/technical/javascript-patterns.md
+            echo "- Check for TypeScript configuration" >> .memory-bank/technical/javascript-patterns.md
             ;;
         "python")
-            echo "# Python Project Patterns" > memory-bank/technical/python-patterns.md
-            echo "" >> memory-bank/technical/python-patterns.md
-            echo "- Review requirements and virtual environment" >> memory-bank/technical/python-patterns.md
-            echo "- Consider testing framework (pytest, unittest)" >> memory-bank/technical/python-patterns.md
-            echo "- Check for type hints and docstrings" >> memory-bank/technical/python-patterns.md
+            echo "# Python Project Patterns" > .memory-bank/technical/python-patterns.md
+            echo "" >> .memory-bank/technical/python-patterns.md
+            echo "- Review requirements and virtual environment" >> .memory-bank/technical/python-patterns.md
+            echo "- Consider testing framework (pytest, unittest)" >> .memory-bank/technical/python-patterns.md
+            echo "- Check for type hints and docstrings" >> .memory-bank/technical/python-patterns.md
             ;;
         "rust")
-            echo "# Rust Project Patterns" > memory-bank/technical/rust-patterns.md
-            echo "" >> memory-bank/technical/rust-patterns.md
-            echo "- Review Cargo.toml dependencies" >> memory-bank/technical/rust-patterns.md
-            echo "- Consider Rust testing and documentation patterns" >> memory-bank/technical/rust-patterns.md
-            echo "- Check for clippy and fmt configuration" >> memory-bank/technical/rust-patterns.md
+            echo "# Rust Project Patterns" > .memory-bank/technical/rust-patterns.md
+            echo "" >> .memory-bank/technical/rust-patterns.md
+            echo "- Review Cargo.toml dependencies" >> .memory-bank/technical/rust-patterns.md
+            echo "- Consider Rust testing and documentation patterns" >> .memory-bank/technical/rust-patterns.md
+            echo "- Check for clippy and fmt configuration" >> .memory-bank/technical/rust-patterns.md
             ;;
     esac
 }
@@ -759,10 +759,10 @@ show_next_steps() {
         echo ""
         echo -e "${BLUE}Multi-Project Commands:${NC}"
         echo "  setup-memory-bank.sh --add-project    - Add a new project"
-        echo "  python memory-bank/scripts/auto-update.py --list-projects"
+        echo "  python .memory-bank/scripts/auto-update.py --list-projects"
         echo ""
         echo -e "${BLUE}When using automation:${NC}"
-        echo "  python memory-bank/scripts/auto-update.py --health-check --project-name <name>"
+        echo "  python .memory-bank/scripts/auto-update.py --health-check --project-name <name>"
     fi
     
     echo ""
@@ -777,15 +777,15 @@ show_next_steps() {
     echo "  starter-prompt.md            - Initialization instructions"
     
     if [ "$SETUP_TYPE" = "multi" ]; then
-        echo "  memory-bank/shared/          - Cross-project patterns and conventions"
+        echo "  .memory-bank/shared/          - Cross-project patterns and conventions"
         if [ -n "$PROJECT_NAME" ]; then
-            echo "  memory-bank/$PROJECT_NAME/   - Project-specific memory bank"
+            echo "  .memory-bank/$PROJECT_NAME/   - Project-specific memory bank"
         fi
     else
-        echo "  memory-bank/context/         - Foundation files (4 context files)"
-        echo "  memory-bank/active/          - Current work tracking"
-        echo "  memory-bank/technical/       - Deep implementation docs"
-        echo "  memory-bank/decisions/       - Design decisions and rationale"
+        echo "  .memory-bank/context/         - Foundation files (4 context files)"
+        echo "  .memory-bank/active/          - Current work tracking"
+        echo "  .memory-bank/technical/       - Deep implementation docs"
+        echo "  .memory-bank/decisions/       - Design decisions and rationale"
     fi
     
     echo ""
@@ -820,7 +820,7 @@ main() {
 
 # Add project to existing multi-project setup
 add_project() {
-    if [ ! -d "memory-bank/shared" ]; then
+    if [ ! -d ".memory-bank/shared" ]; then
         echo -e "${RED}Error: This is not a multi-project Memory Bank.${NC}"
         echo "Current directory must contain a multi-project Memory Bank setup."
         exit 1
@@ -832,7 +832,7 @@ add_project() {
         exit 1
     fi
     
-    if [ -d "memory-bank/$PROJECT_NAME" ]; then
+    if [ -d ".memory-bank/$PROJECT_NAME" ]; then
         echo -e "${RED}Project '$PROJECT_NAME' already exists.${NC}"
         exit 1
     fi
@@ -866,9 +866,9 @@ case "${1:-}" in
     --single)
         SETUP_TYPE="single"
         verify_installation
-        if [ -d "memory-bank" ]; then
-            echo "Backing up existing memory-bank to memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
-            mv memory-bank "memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+        if [ -d ".memory-bank" ]; then
+            echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+            mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
         fi
         create_structure
         copy_mode_files
@@ -882,9 +882,9 @@ case "${1:-}" in
     --multi)
         SETUP_TYPE="multi"
         verify_installation
-        if [ -d "memory-bank" ]; then
-            echo "Backing up existing memory-bank to memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
-            mv memory-bank "memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+        if [ -d ".memory-bank" ]; then
+            echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+            mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
         fi
         create_structure
         copy_mode_files

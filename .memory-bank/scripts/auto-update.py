@@ -26,7 +26,7 @@ import ast
 class MemoryBankAutomation:
     def __init__(self, project_root=".", project_name=None):
         self.project_root = Path(project_root)
-        self.memory_bank = self.project_root / "memory-bank"
+        self.memory_bank = self.project_root / ".memory-bank"
         self.project_name = project_name
         self.is_multi_project = False
         self.project_path = self.memory_bank
@@ -37,7 +37,7 @@ class MemoryBankAutomation:
     def detect_structure(self):
         """Detect if this is a single or multi-project repository"""
         if not self.memory_bank.exists():
-            raise FileNotFoundError("Memory bank not found. Run @VAN mode first to initialize.")
+            raise FileNotFoundError("Memory Bank not found. Run @VAN mode first to initialize.")
         
         # Check for shared folder to determine multi-project
         shared_path = self.memory_bank / "shared"
@@ -721,7 +721,7 @@ For detailed task descriptions:
     
     # Handle list-projects separately
     if args.list_projects:
-        memory_bank = Path(args.project_root) / "memory-bank"
+        memory_bank = Path(args.project_root) / ".memory-bank"
         if memory_bank.exists():
             shared_path = memory_bank / "shared"
             if shared_path.exists():
@@ -731,7 +731,7 @@ For detailed task descriptions:
             else:
                 print("This is a single-project repository")
         else:
-            print("Memory bank not found")
+            print("Memory Bank not found")
         return
     
     automation = MemoryBankAutomation(args.project_root, args.project_name)

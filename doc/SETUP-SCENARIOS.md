@@ -21,7 +21,7 @@ setup-memory-bank.sh --single
 **Result**:
 ```
 my-project/
-├── memory-bank/
+├── .memory-bank/
 │   ├── context/
 │   ├── active/
 │   └── ...
@@ -48,7 +48,7 @@ setup-memory-bank.sh --add-project
 **Result**:
 ```
 my-workspace/
-├── memory-bank/
+├── .memory-bank/
 │   ├── shared/
 │   ├── frontend/
 │   │   ├── context/
@@ -86,12 +86,12 @@ setup-memory-bank.sh --single
 **Result**:
 ```
 platform/
-├── memory-bank/        # Platform's memory bank
+├── .memory-bank/        # Platform's memory bank
 ├── services/
 │   ├── auth/
-│   │   └── memory-bank/  # Auth's memory bank
+│   │   └── .memory-bank/  # Auth's memory bank
 │   └── api/
-│       └── memory-bank/  # API's memory bank
+│       └── .memory-bank/  # API's memory bank
 ```
 
 ## Decision Tree

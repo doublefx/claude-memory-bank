@@ -28,13 +28,13 @@ setup-memory-bank.sh --add-project
 ### Automation
 ```bash
 # Single-project
-python memory-bank/scripts/auto-update.py --all
-python memory-bank/scripts/auto-update.py --health-check
-python memory-bank/scripts/auto-update.py --validate-structure
+python .memory-bank/scripts/auto-update.py --all
+python .memory-bank/scripts/auto-update.py --health-check
+python .memory-bank/scripts/auto-update.py --validate-structure
 
 # Multi-project
-python memory-bank/scripts/auto-update.py --list-projects
-python memory-bank/scripts/auto-update.py --all --project-name api-service
+python .memory-bank/scripts/auto-update.py --list-projects
+python .memory-bank/scripts/auto-update.py --all --project-name api-service
 ```
 
 ## 📋 Complexity Levels
@@ -49,7 +49,7 @@ python memory-bank/scripts/auto-update.py --all --project-name api-service
 
 ### Single-Project
 ```
-memory-bank/
+.memory-bank/
 ├── context/          # Foundation files
 ├── active/           # Current work
 ├── technical/        # Deep docs
@@ -61,7 +61,7 @@ memory-bank/
 
 ### Multi-Project
 ```
-memory-bank/
+.memory-bank/
 ├── shared/          # Cross-project
 ├── project-a/       # Full structure
 ├── project-b/       # Full structure
@@ -130,13 +130,13 @@ memory-bank/
 claude-memory-status
 
 # Project health
-python memory-bank/scripts/auto-update.py --health-check
+python .memory-bank/scripts/auto-update.py --health-check
 
 # Structure validation
-python memory-bank/scripts/auto-update.py --validate-structure
+python .memory-bank/scripts/auto-update.py --validate-structure
 
 # List all tasks
-python memory-bank/scripts/auto-update.py --list-tasks
+python .memory-bank/scripts/auto-update.py --list-tasks
 ```
 
 ---

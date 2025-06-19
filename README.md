@@ -174,7 +174,7 @@ The `cmb-setup` command points to the script inside `claude-memory-bank/`.
 project/
 ├── CLAUDE.md                    # Claude Code configuration
 ├── starter-prompt.md            # Initialization guide
-├── memory-bank/
+├── .memory-bank/
 │   ├── custom_modes/            # Mode instruction files
 │   │   ├── van_instructions.md
 │   │   ├── plan_instructions.md
@@ -203,7 +203,7 @@ project/
 monorepo/
 ├── CLAUDE.md                    # Claude Code configuration
 ├── starter-prompt.md            # Initialization guide
-├── memory-bank/
+├── .memory-bank/
 │   ├── custom_modes/            # Mode instruction files
 │   ├── shared/                  # Cross-project resources
 │   │   ├── patterns.md          # Reusable patterns
@@ -307,53 +307,53 @@ Validation & Learning:
 #### Single-Project Commands
 ```bash
 # Check context health
-python memory-bank/scripts/auto-update.py --health-check
+python .memory-bank/scripts/auto-update.py --health-check
 
 # Auto-detect code patterns
-python memory-bank/scripts/auto-update.py --scan-patterns
+python .memory-bank/scripts/auto-update.py --scan-patterns
 
 # Extract decisions from git history  
-python memory-bank/scripts/auto-update.py --extract-decisions
+python .memory-bank/scripts/auto-update.py --extract-decisions
 
 # List available tasks
-python memory-bank/scripts/auto-update.py --list-tasks
+python .memory-bank/scripts/auto-update.py --list-tasks
 
 # Run all automation
-python memory-bank/scripts/auto-update.py --all
+python .memory-bank/scripts/auto-update.py --all
 ```
 
 #### Hierarchical Project Analysis
 ```bash
 # Detect nested repositories
-python memory-bank/scripts/detect-hierarchy.py
+python .memory-bank/scripts/detect-hierarchy.py
 
 # Save hierarchy map
-python memory-bank/scripts/detect-hierarchy.py --save
+python .memory-bank/scripts/detect-hierarchy.py --save
 
 # Output JSON structure
-python memory-bank/scripts/detect-hierarchy.py --json
+python .memory-bank/scripts/detect-hierarchy.py --json
 ```
 
 #### Automated Hierarchical Setup
 ```bash
 # After initial setup in root, auto-setup all nested repos
-python memory-bank/scripts/auto-setup-hierarchy.py
+python .memory-bank/scripts/auto-setup-hierarchy.py
 
 # Or use the bash version if available
-bash memory-bank/scripts/setup-hierarchy.sh
+bash .memory-bank/scripts/setup-hierarchy.sh
 ```
 
 #### Multi-Project Commands
 ```bash
 # List all projects
-python memory-bank/scripts/auto-update.py --list-projects
+python .memory-bank/scripts/auto-update.py --list-projects
 
 # Project-specific operations
-python memory-bank/scripts/auto-update.py --health-check --project-name api-service
-python memory-bank/scripts/auto-update.py --scan-patterns --project-name web-app
+python .memory-bank/scripts/auto-update.py --health-check --project-name api-service
+python .memory-bank/scripts/auto-update.py --scan-patterns --project-name web-app
 
 # Run all for specific project
-python memory-bank/scripts/auto-update.py --all --project-name mobile-app
+python .memory-bank/scripts/auto-update.py --all --project-name mobile-app
 ```
 
 ### 🔄 Cross-Project Learning
@@ -472,15 +472,15 @@ Add these entries to your project's `.gitignore` to exclude Memory Bank temporar
 
 ```gitignore
 # Memory Bank temporary files
-memory-bank/**/*.tmp
-memory-bank/**/*.bak
-memory-bank/**/*.swp
-memory-bank/**/.DS_Store
-memory-bank/**/~*
-memory-bank/**/#*#
+.memory-bank/**/*.tmp
+.memory-bank/**/*.bak
+.memory-bank/**/*.swp
+.memory-bank/**/.DS_Store
+.memory-bank/**/~*
+.memory-bank/**/#*#
 ```
 
-**Note**: DO NOT ignore the entire `memory-bank/` directory, as it contains important context and documentation that should be version controlled.
+**Note**: DO NOT ignore the entire `.memory-bank/` directory, as it contains important context and documentation that should be version controlled.
 
 ## 🔧 Troubleshooting
 
@@ -537,9 +537,9 @@ setup-memory-bank.sh --add-project
 ## 📖 Documentation
 
 - **[Starter Guide](starter-prompt.md)**: Quick start instructions
-- **[Mode Instructions](memory-bank/custom_modes/)**: Detailed mode documentation
+- **[Mode Instructions](.memory-bank/custom_modes/)**: Detailed mode documentation
 - **[Configuration](CLAUDE.md)**: Complete Claude Code configuration
-- **[Automation](memory-bank/scripts/)**: Automation and enhancement tools
+- **[Automation](.memory-bank/scripts/)**: Automation and enhancement tools
 
 ## 🙏 Acknowledgments
 
