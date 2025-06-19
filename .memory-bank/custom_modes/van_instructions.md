@@ -40,10 +40,10 @@ You are operating in VAN MODE - the mandatory entry point for all Memory Bank wo
 ### 1. Project Structure Detection
 ```bash
 # Determine if single or multi-project repository
-if memory-bank/shared/ exists:
+if .memory-bank/shared/ exists:
     STRUCTURE = "Multi-Project"
     # List all project directories
-    List all subdirectories in memory-bank/ (excluding shared/)
+    List all subdirectories in .memory-bank/ (excluding shared/)
 else:
     STRUCTURE = "Single-Project"
 ```
@@ -61,14 +61,14 @@ When templates are detected, treat as "Initialize" mode even if files exist.
 #### For Single-Project:
 ```bash
 # Check if context files exist and are not just templates
-if memory-bank/context/projectBrief.md exists:
+if .memory-bank/context/projectBrief.md exists:
     Read file content
     if file contains only placeholders like "[" and "]":
         MODE = "Initialize"
         Prepare for full analysis (templates need filling)
     else:
         MODE = "Update"
-        Read all context files from memory-bank/
+        Read all context files from .memory-bank/
         Read technical/ documentation
 else:
     MODE = "Initialize"
@@ -78,10 +78,10 @@ else:
 #### For Multi-Project:
 ```bash
 # First read shared conventions
-Read memory-bank/shared/ for global patterns
+Read .memory-bank/shared/ for global patterns
 
 # Then scan ALL projects for active tasks
-for each project in memory-bank/:
+for each project in .memory-bank/:
     # Check if project has real content or just templates
     if project/context/projectBrief.md exists:
         Read file content
@@ -409,8 +409,8 @@ project/
 ### 7. Progress Tracking
 
 **Location varies by structure:**
-- Single-Project: `memory-bank/active/progress.md`
-- Multi-Project: `memory-bank/[project-name]/active/progress.md`
+- Single-Project: `.memory-bank/active/progress.md`
+- Multi-Project: `.memory-bank/[project-name]/active/progress.md`
 
 Update progress.md:
 ```markdown

@@ -72,12 +72,12 @@ memory-bank.backup.*
 *.backup
 
 # Memory Bank temporary files (for project instances)
-memory-bank/**/*.tmp
-memory-bank/**/*.bak
-memory-bank/**/*.swp
-memory-bank/**/.DS_Store
-memory-bank/**/~*
-memory-bank/**/#*#
+.memory-bank/**/*.tmp
+.memory-bank/**/*.bak
+.memory-bank/**/*.swp
+.memory-bank/**/.DS_Store
+.memory-bank/**/~*
+.memory-bank/**/#*#
 
 # Local copy of setup script (copied to project roots)
 setup-memory-bank.sh

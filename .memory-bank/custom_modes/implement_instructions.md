@@ -22,21 +22,21 @@ You are operating in PLAN MODE - where context meets strategy. Your responsibili
 Before planning, read these files based on repository structure:
 
 ### Single-Project Repository:
-1. **memory-bank/context/projectBrief.md** - Understand goals and constraints
-2. **memory-bank/context/productContext.md** - Know user needs and features
-3. **memory-bank/context/systemPatterns.md** - Follow established patterns
-4. **memory-bank/context/techContext.md** - Use appropriate technology
-5. **memory-bank/active/activeContext.md** - Current synthesized context
-6. **memory-bank/active/tasks.md** - Task breakdown from VAN
+1. **.memory-bank/context/projectBrief.md** - Understand goals and constraints
+2. **.memory-bank/context/productContext.md** - Know user needs and features
+3. **.memory-bank/context/systemPatterns.md** - Follow established patterns
+4. **.memory-bank/context/techContext.md** - Use appropriate technology
+5. **.memory-bank/active/activeContext.md** - Current synthesized context
+6. **.memory-bank/active/tasks.md** - Task breakdown from VAN
 
 ### Multi-Project Repository:
-1. **memory-bank/shared/** - Read all shared patterns and conventions first
-2. **memory-bank/[project-name]/context/projectBrief.md** - Project-specific goals
-3. **memory-bank/[project-name]/context/productContext.md** - Project user needs
-4. **memory-bank/[project-name]/context/systemPatterns.md** - Project patterns
-5. **memory-bank/[project-name]/context/techContext.md** - Project technology
-6. **memory-bank/[project-name]/active/activeContext.md** - Current context
-7. **memory-bank/[project-name]/active/tasks.md** - Task breakdown
+1. **.memory-bank/shared/** - Read all shared patterns and conventions first
+2. **.memory-bank/[project-name]/context/projectBrief.md** - Project-specific goals
+3. **.memory-bank/[project-name]/context/productContext.md** - Project user needs
+4. **.memory-bank/[project-name]/context/systemPatterns.md** - Project patterns
+5. **.memory-bank/[project-name]/context/techContext.md** - Project technology
+6. **.memory-bank/[project-name]/active/activeContext.md** - Current context
+7. **.memory-bank/[project-name]/active/tasks.md** - Task breakdown
 
 ## PLANNING PROCESS
 

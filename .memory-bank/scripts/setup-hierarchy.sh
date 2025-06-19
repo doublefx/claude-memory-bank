@@ -152,8 +152,8 @@ if [ "$repo" != "." ]; then
     cd "$repo"
 fi
 
-# Check if memory-bank already exists
-if [ -d "memory-bank" ]; then
+# Check if .memory-bank already exists
+if [ -d ".memory-bank" ]; then
     echo -e "${CYAN}Memory Bank already exists in $repo, skipping...${NC}"
     exit 0
 fi
@@ -186,7 +186,7 @@ if [ "$repo" != "." ]; then
     parent_path="${parent_path%/}"
     
     # Create hierarchy.json
-    cat > memory-bank/hierarchy.json << EOF
+    cat > .memory-bank/hierarchy.json << EOF
 {
   "version": "2.1",
   "current_project": {
@@ -196,7 +196,7 @@ if [ "$repo" != "." ]; then
   },
   "parent": {
     "path": "$parent_path",
-    "memory_bank_path": "$parent_path/memory-bank",
+    "memory_bank_path": "$parent_path/.memory-bank",
     "relationship": "subdirectory",
     "inherit_conventions": true,
     "inherit_patterns": "if_not_exists"
@@ -207,8 +207,8 @@ if [ "$repo" != "." ]; then
     "override_in_child": ["project_patterns", "technical_patterns"]
   },
   "references": {
-    "parent_patterns": "$parent_path/memory-bank/shared/patterns.md",
-    "parent_conventions": "$parent_path/memory-bank/shared/conventions.md"
+    "parent_patterns": "$parent_path/.memory-bank/shared/patterns.md",
+    "parent_conventions": "$parent_path/.memory-bank/shared/conventions.md"
   }
 }
 EOF
@@ -244,7 +244,7 @@ fi
 
 echo ""
 echo -e "${BLUE}Next Steps:${NC}"
-echo "1. Review each project's context files in memory-bank/context/"
+echo "1. Review each project's context files in .memory-bank/context/"
 echo "2. Update project-specific information in:"
 echo "   - projectBrief.md"
 echo "   - productContext.md"

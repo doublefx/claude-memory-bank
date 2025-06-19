@@ -19,13 +19,13 @@ You are operating in PLAN MODE - responsible for creating detailed implementatio
 
 ```
 ✅ MANDATORY CHECKLIST - ALL MUST BE COMPLETED:
-□ Read memory-bank/tasks.md to understand VAN assessment
+□ Read .memory-bank/tasks.md to understand VAN assessment
 □ Analyze codebase structure and dependencies
 □ Create detailed implementation plan
 □ Identify components requiring creative phases (Level 3-4)
 □ Document challenges and risk mitigation
-□ Update memory-bank/tasks.md with implementation plan
-□ Update memory-bank/activeContext.md and progress.md
+□ Update .memory-bank/tasks.md with implementation plan
+□ Update .memory-bank/activeContext.md and progress.md
 □ Recommend next mode (CREATIVE or IMPLEMENT)
 ```
 

@@ -12,44 +12,44 @@ Use `.git` directories as project boundary markers:
 # Find all git repositories in the tree
 find . -name ".git" -type d | while read gitdir; do
     project_root=$(dirname "$gitdir")
-    # Check if project has its own memory-bank
+    # Check if project has its own .memory-bank
 done[HIERARCHY-EXAMPLE.md](HIERARCHY-EXAMPLE.md)[HIERARCHY-EXAMPLE.md](HIERARCHY-EXAMPLE.md)
 ```
 
 ### Memory Bank Location Strategies
 
 #### Strategy 1: Distributed Memory Banks (Recommended)
-Each git repository maintains its own `memory-bank/`:
+Each git repository maintains its own `.memory-bank/`:
 ```
 platform/ (.git)
-├── memory-bank/          # Platform-level memory bank
+├── .memory-bank/          # Platform-level memory bank
 │   ├── context/
 │   ├── active/
 │   └── links/             # References to child projects
-│       ├── services.link  # -> ../services/memory-bank
-│       └── libs.link      # -> ../libs/*/memory-bank
+│       ├── services.link  # -> ../services/.memory-bank
+│       └── libs.link      # -> ../libs/*/.memory-bank
 ├── services/ (.git)
-│   └── memory-bank/      # Services-level memory bank
+│   └── .memory-bank/      # Services-level memory bank
 │       ├── shared/
 │       ├── api/
 │       └── worker/
 └── libs/
     ├── lib-a/ (.git)
-    │   └── memory-bank/  # Library-specific memory bank
+    │   └── .memory-bank/  # Library-specific memory bank
     └── lib-b/ (.git)
-        └── memory-bank/
+        └── .memory-bank/
 ```
 
 #### Strategy 2: Centralized with Links
-Single memory-bank at root with symbolic links:
+Single .memory-bank at root with symbolic links:
 ```
 platform/ (.git)
-├── memory-bank/
+├── .memory-bank/
 │   ├── platform/          # Root project context
-│   ├── services/          # Link to services/memory-bank
+│   ├── services/          # Link to services/.memory-bank
 │   └── libs/
-│       ├── lib-a/         # Link to libs/lib-a/memory-bank
-│       └── lib-b/         # Link to libs/lib-b/memory-bank
+│       ├── lib-a/         # Link to libs/lib-a/.memory-bank
+│       └── lib-b/         # Link to libs/lib-b/.memory-bank
 ```
 
 ## Implementation Changes
@@ -74,8 +74,8 @@ detect_hierarchy() {
         
         echo ""
         echo "Setup options:"
-        echo "1) Distributed - Each project gets its own memory-bank"
-        echo "2) Centralized - Single memory-bank with links"
+        echo "1) Distributed - Each project gets its own .memory-bank"
+        echo "2) Centralized - Single .memory-bank with links"
         echo "3) Custom - Choose per project"
         read -p "Choose approach [1]: " approach
     fi
@@ -86,14 +86,14 @@ setup_hierarchical() {
     
     case $approach in
         "distributed")
-            # Create memory-bank in each git repo
+            # Create .memory-bank in each git repo
             find . -name ".git" -type d | while read gitdir; do
                 local proj_root=$(dirname "$gitdir")
                 (cd "$proj_root" && setup-memory-bank.sh --auto)
             done
             ;;
         "centralized")
-            # Create central memory-bank with links
+            # Create central .memory-bank with links
             create_central_hierarchy
             ;;
     esac
@@ -108,9 +108,9 @@ VAN mode needs to understand hierarchical relationships:
 ## Hierarchical Project Detection
 
 ### On Startup:
-1. Check current directory for memory-bank
-2. Search upward for parent memory-bank
-3. Search downward for child memory-bank
+1. Check current directory for .memory-bank
+2. Search upward for parent .memory-bank
+3. Search downward for child .memory-bank
 4. Build project hierarchy map
 
 ### Context Loading:
@@ -122,8 +122,8 @@ VAN mode needs to understand hierarchical relationships:
 ```
 
 ### Cross-Project References:
-- Use relative paths: `../parent/memory-bank/shared/patterns.md`
-- Or links: `./links/parent-patterns.md -> ../parent/memory-bank/shared/patterns.md`
+- Use relative paths: `../parent/.memory-bank/shared/patterns.md`
+- Or links: `./links/parent-patterns.md -> ../parent/.memory-bank/shared/patterns.md`
 ```
 
 ### 3. Auto-Update Script Changes
@@ -143,14 +143,14 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
             "siblings": []
         }
         
-        # Find parent with memory-bank
+        # Find parent with .memory-bank
         current = Path(self.project_root).parent
         while current != current.parent:
-            if (current / "memory-bank").exists():
+            if (current / ".memory-bank").exists():
                 hierarchy["parent"] = current
                 break
             if (current / ".git").exists():
-                # Parent project without memory-bank
+                # Parent project without .memory-bank
                 hierarchy["parent"] = current
                 break
             current = current.parent
@@ -159,7 +159,7 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
         for git_dir in Path(self.project_root).rglob(".git"):
             if git_dir.is_dir() and git_dir.parent != Path(self.project_root):
                 child_root = git_dir.parent
-                if (child_root / "memory-bank").exists():
+                if (child_root / ".memory-bank").exists():
                     hierarchy["children"].append({
                         "path": child_root,
                         "has_memory_bank": True
@@ -173,7 +173,7 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
         
         # Parent patterns (inherited)
         if self.hierarchy["parent"]:
-            parent_patterns = self.hierarchy["parent"] / "memory-bank/shared/patterns.md"
+            parent_patterns = self.hierarchy["parent"] / ".memory-bank/shared/patterns.md"
             if parent_patterns.exists():
                 patterns["inherited"] = self.read_patterns(parent_patterns)
         
@@ -184,7 +184,7 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
         patterns["children"] = {}
         for child in self.hierarchy["children"]:
             if child["has_memory_bank"]:
-                child_patterns = child["path"] / "memory-bank/context/systemPatterns.md"
+                child_patterns = child["path"] / ".memory-bank/context/systemPatterns.md"
                 if child_patterns.exists():
                     patterns["children"][child["path"].name] = self.read_patterns(child_patterns)
         
@@ -194,7 +194,7 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
 ### 4. New Directory Structure
 
 ```
-memory-bank/
+.memory-bank/
 ├── hierarchy/                    # Hierarchical relationship info
 │   ├── map.json                 # Project hierarchy map
 │   ├── parent.link -> ../..     # Link to parent project

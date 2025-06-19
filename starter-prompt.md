@@ -9,7 +9,7 @@
 Copy this message to Claude Code to initialize the Memory Bank system:
 
 ```
-I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from memory-bank/custom_modes/ to understand the context-driven workflow.
+I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from .memory-bank/custom_modes/ to understand the context-driven workflow.
 
 The system supports both single-project and multi-project repositories. It will automatically detect the structure and adapt its behavior. The system uses 4 modes (VAN, PLAN, IMPLEMENT, REFLECT) with context files as the foundation.
 
@@ -103,7 +103,7 @@ The Memory Bank system automatically adapts to your repository type:
 
 ### Single-Project Repository
 ```
-memory-bank/
+.memory-bank/
 ├── context/                 # Foundation files
 │   ├── projectBrief.md     # Created/updated by VAN
 │   ├── productContext.md   # Business perspective
@@ -122,7 +122,7 @@ memory-bank/
 
 ### Multi-Project Repository
 ```
-memory-bank/
+.memory-bank/
 ├── shared/                 # Cross-project resources
 │   ├── patterns.md        # Reusable patterns
 │   └── conventions.md     # Global standards
@@ -139,7 +139,7 @@ memory-bank/
 ```
 
 **Key Differences**:
-- Single: All files in root memory-bank/
+- Single: All files in root .memory-bank/
 - Multi: Each project isolated, shared patterns centralized
 - Multi: VAN mode scans all projects for active tasks
 
@@ -241,14 +241,14 @@ Claude: Loading auth-service context and resuming OAuth2 implementation...
 
 **Single-Project**:
 ```bash
-python memory-bank/scripts/auto-update.py --health-check
-python memory-bank/scripts/auto-update.py --list-tasks
+python .memory-bank/scripts/auto-update.py --health-check
+python .memory-bank/scripts/auto-update.py --list-tasks
 ```
 
 **Multi-Project**:
 ```bash
-python memory-bank/scripts/auto-update.py --list-projects
-python memory-bank/scripts/auto-update.py --health-check --project-name api-service
+python .memory-bank/scripts/auto-update.py --list-projects
+python .memory-bank/scripts/auto-update.py --health-check --project-name api-service
 ```
 
 ---

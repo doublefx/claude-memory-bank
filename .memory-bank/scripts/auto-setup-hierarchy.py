@@ -73,7 +73,7 @@ class HierarchicalSetup:
         
     def check_existing_setup(self, repo: Path) -> bool:
         """Check if Memory Bank already exists"""
-        return (repo / "memory-bank").exists() or (repo / "memory-bank").exists()
+        return (repo / ".memory-bank").exists()
         
     def create_hierarchy_json(self, repo: Path, parent: Path):
         """Create hierarchy.json linking to parent"""
@@ -92,7 +92,7 @@ class HierarchicalSetup:
             },
             "parent": {
                 "path": rel_path,
-                "memory_bank_path": f"{rel_path}/memory-bank",
+                "memory_bank_path": f"{rel_path}/.memory-bank",
                 "relationship": "subdirectory",
                 "inherit_conventions": True,
                 "inherit_patterns": "if_not_exists"
@@ -103,13 +103,13 @@ class HierarchicalSetup:
                 "override_in_child": ["project_patterns", "technical_patterns"]
             },
             "references": {
-                "parent_patterns": f"{rel_path}/memory-bank/shared/patterns.md",
-                "parent_conventions": f"{rel_path}/memory-bank/shared/conventions.md"
+                "parent_patterns": f"{rel_path}/.memory-bank/shared/patterns.md",
+                "parent_conventions": f"{rel_path}/.memory-bank/shared/conventions.md"
             }
         }
         
         import json
-        hierarchy_path = repo / "memory-bank" / "hierarchy.json"
+        hierarchy_path = repo / ".memory-bank" / "hierarchy.json"
         with open(hierarchy_path, 'w') as f:
             json.dump(hierarchy, f, indent=2)
             

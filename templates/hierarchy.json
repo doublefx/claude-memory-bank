@@ -7,7 +7,7 @@
   },
   "parent": {
     "path": "[../relative/path/to/parent]",
-    "memory_bank_path": "[../parent/memory-bank]",
+    "memory_bank_path": "[../parent/.memory-bank]",
     "relationship": "[submodule|subdirectory|sibling]",
     "inherit_conventions": true,
     "inherit_patterns": "if_not_exists"
@@ -17,7 +17,7 @@
       "path": "[relative/path/to/child]",
       "name": "[Child Project Name]",
       "has_memory_bank": false,
-      "memory_bank_path": "[./child/memory-bank]",
+      "memory_bank_path": "[./child/.memory-bank]",
       "relationship": "[submodule|subdirectory]"
     }
   ],
@@ -27,8 +27,8 @@
     "override_in_child": ["project_patterns", "technical_patterns"]
   },
   "references": {
-    "parent_patterns": "../parent/memory-bank/shared/patterns.md",
-    "parent_conventions": "../parent/memory-bank/shared/conventions.md",
+    "parent_patterns": "../parent/.memory-bank/shared/patterns.md",
+    "parent_conventions": "../parent/.memory-bank/shared/conventions.md",
     "sibling_projects": []
   }
 }

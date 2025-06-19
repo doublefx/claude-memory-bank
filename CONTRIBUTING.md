@@ -48,7 +48,7 @@ When contributing, please ensure that:
    ../setup-memory-bank.sh
    
    # Verify structure
-   ls -la memory-bank/
+   ls -la .memory-bank/
    ```
 
 2. **Test mode instructions**:
@@ -58,7 +58,7 @@ When contributing, please ensure that:
 
 3. **Test automation scripts**:
    ```bash
-   python memory-bank/scripts/auto-update.py --help
+   python .memory-bank/scripts/auto-update.py --help
    ```
 
 ## 📋 Contribution Guidelines
