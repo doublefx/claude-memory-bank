@@ -1,0 +1,26 @@
+# Memory Bank Ignore File
+# Directories listed here will be excluded from hierarchical scanning
+# One pattern per line, supports basic glob patterns
+
+# Common directories to ignore
+node_modules/
+.git/
+dist/
+build/
+coverage/
+.next/
+.nuxt/
+vendor/
+
+# Memory Bank setup script (local copy)
+setup-memory-bank.sh
+
+# Example: Exclude specific child projects
+# experimental/
+# deprecated/
+# third-party/
+
+# Example: Exclude by pattern
+# test-*
+# temp-*
+# *.tmp/
