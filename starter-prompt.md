@@ -10,11 +10,8 @@ Copy this message to Claude Code to initialize the Memory Bank system:
 
 ```
 I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from .memory-bank/custom_modes/ to understand the context-driven workflow.
-
 The system supports both single-project and multi-project repositories. It will automatically detect the structure and adapt its behavior. The system uses 4 modes (VAN, PLAN, IMPLEMENT, REFLECT) with context files as the foundation.
-
 For multi-project repos: The system will scan for active tasks across all projects and help me choose which to continue or start new work.
-
 Start with @VAN mode to detect project structure, create/update context files, and assess task complexity.
 ```
 
@@ -236,6 +233,47 @@ Claude: Loading auth-service context and resuming OAuth2 implementation...
 3. Let VAN mode detect structure and create context
 4. Follow the workflow based on complexity
 5. Watch your context evolve with each task
+
+## Migrating from v1.x to v2.0
+
+Memory Bank v2.0 introduces a breaking change by using hidden directories (`.memory-bank/`) instead of visible ones (`memory-bank/`). This provides a cleaner project structure. The migration is **automatic** when you run the setup script.
+
+### What Happens During Migration
+
+When the setup script detects a v1.x installation (`memory-bank/` directory exists):
+
+1. **Automatic Detection**: The script detects your existing v1.x Memory Bank
+2. **User Confirmation**: You'll be prompted to proceed with migration
+3. **Backup Creation**: Creates `memory-bank.backup.YYYYMMDD_HHMMSS`
+4. **Directory Migration**: Renames `memory-bank/` to `.memory-bank/`
+5. **File Updates**: 
+   - Updates CLAUDE.md, QUICK-REFERENCE.md, and starter-prompt.md to v2.0
+   - Replaces all scripts with v2.0 versions
+   - Updates all mode instructions to latest versions
+   - Copies documentation to `.memory-bank/doc/`
+6. **Context Preservation**: All your existing context, tasks, and progress files are preserved
+
+### Manual Migration (if needed)
+
+If automatic migration doesn't trigger, you can migrate manually:
+
+```bash
+# 1. Create backup
+cp -r memory-bank memory-bank.backup.$(date +%Y%m%d_%H%M%S)
+
+# 2. Rename directory
+mv memory-bank .memory-bank
+
+# 3. Run setup to update files
+./setup-memory-bank.sh --single  # or --multi for multi-project
+```
+
+### Post-Migration Notes
+
+- **Path Updates**: Update any custom scripts that reference `memory-bank/` to use `.memory-bank/`
+- **Git**: The `.memory-bank/` directory is git-ignored by default
+- **Compatibility**: v2.0 is not backward compatible with v1.x
+- **Benefits**: Hidden directory keeps your project root cleaner
 
 ### Automation Tools
 

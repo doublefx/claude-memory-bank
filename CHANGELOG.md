@@ -5,17 +5,19 @@ All notable changes to Claude Memory Bank will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2025-06-20
 
 ### Changed
 - **BREAKING**: Redesigned as Memory Bank Hybrid System v2.0 - Context-Driven Workflow
 - **BREAKING**: Changed folder name from `memory-bank` to `.memory-bank` (hidden) for cleaner project structure
+- **BREAKING**: V1 to V2 migration now automatically handles ALL subdirectories in hierarchical projects
 - Simplified from 6 modes to 4 modes (VAN, PLAN, IMPLEMENT, REFLECT)
 - Shifted focus to context-first development with persistent context files
 - Reduced complexity levels from 4 to 3 for streamlined workflow routing
 - PLAN mode now incorporates design exploration for Level 3 tasks (previously CREATIVE mode)
 - Enhanced multi-project support with automatic active task detection
 - Improved project structure detection for single vs multi-project repositories
+- Migration output formatting changed from bullet points to hyphens for better compatibility
 
 ### Added
 - Context persistence as primary feature - context files created once and updated continuously
@@ -23,11 +25,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smart project switching in multi-project repositories
 - Support for hierarchical project setup automation (non-interactive mode)
 - Enhanced error recovery mechanisms for missing or stale context
+- Automated v1.x to v2.0 migration that processes all subdirectories in one operation
+- Comprehensive test suite with 7 scenarios covering all setup options
+- Migration preserves hierarchy.json files during the upgrade process
+- Local copy of setup-memory-bank.sh for --add-project functionality
 
 ### Fixed
 - Fixed arithmetic operation bug in setup-hierarchy.sh causing script exit with `set -e` when incrementing from 0
 - Fixed hierarchy scripts (setup-hierarchy.sh, detect-hierarchy.py, auto-setup-hierarchy.py) not being copied during setup
 - Fixed setup-hierarchy.sh only processing root repository instead of all sub-projects
+- Fixed v1 to v2 migration subshell variable scoping issues
+- Fixed echo/printf handling for reliable newline output in migration function
+- Fixed directory navigation in nested structures using absolute paths
+- Fixed template path references from `memory-bank/` to `.memory-bank/`
 
 ### Removed
 - Removed ARCHIVE mode (knowledge preservation now continuous through context updates)

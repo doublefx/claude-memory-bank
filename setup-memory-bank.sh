@@ -26,12 +26,167 @@ echo ""
 
 # Verify installation
 verify_installation() {
-    if [ ! -d "$INSTALL_DIR/claude-memory-bank" ]; then
+    if [ ! -d "$TEMPLATE_DIR" ] || [ ! -f "$TEMPLATE_DIR/CLAUDE.md" ]; then
         echo -e "${RED}Error: Claude Memory Bank not installed globally.${NC}"
         echo "Please run the global installer first:"
         echo "curl -sSL https://repo-url/install.sh | bash"
         exit 1
     fi
+}
+
+# Migrate from v1.x to v2.0
+migrate_old_version() {
+    # Check for v1.x installations in current directory and all subdirectories
+    local found_v1_dirs=""
+    local migration_count=0
+    
+    # Find all memory-bank directories (v1.x)
+    while IFS= read -r -d '' dir; do
+        local parent_dir=$(dirname "$dir")
+        if [ ! -d "$parent_dir/.memory-bank" ]; then
+            found_v1_dirs="$found_v1_dirs$parent_dir\n"
+            migration_count=$((migration_count + 1))
+        fi
+    done < <(find . -name "memory-bank" -type d -not -path "*/.*" -not -path "*/node_modules/*" -print0)
+    
+    if [ $migration_count -eq 0 ]; then
+        return 0
+    fi
+    
+    echo ""
+    echo -e "${YELLOW}=====================================================${NC}"
+    echo -e "${YELLOW}Detected v1.x Memory Bank installation(s)${NC}"
+    echo -e "${YELLOW}=====================================================${NC}"
+    echo ""
+    echo -e "${CYAN}Memory Bank v2.0 uses hidden directories (.memory-bank/)${NC}"
+    echo -e "${CYAN}for a cleaner project structure.${NC}"
+    echo ""
+    
+    if [ $migration_count -gt 1 ]; then
+        echo -e "${YELLOW}Found $migration_count v1.x installations:${NC}"
+        # Use printf instead of echo -e to handle newlines properly
+        printf "%s\n" "$found_v1_dirs" | while IFS= read -r dir; do
+            [ -n "$dir" ] && echo "  - $dir"
+        done
+        echo ""
+        echo -e "${CYAN}This migration will automatically update ALL directories.${NC}"
+    else
+        echo -e "${YELLOW}Found v1.x installation in: $(printf "%s" "$found_v1_dirs" | head -n1)${NC}"
+    fi
+    
+    echo ""
+    echo -e "${YELLOW}This migration will:${NC}"
+    echo "  1. Create backups of all memory-bank/ directories"
+    echo "  2. Rename all memory-bank/ to .memory-bank/"
+    echo "  3. Update scripts to latest v2.0 versions"
+    echo "  4. Update mode instructions to v2.0"
+    echo "  5. Preserve all your context and work files"
+    if [ $migration_count -gt 1 ]; then
+        echo "  6. Process all $migration_count directories automatically"
+    fi
+    echo ""
+    
+    read -p "Proceed with migration? (y/N): " -n 1 -r
+    echo ""
+    
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "${RED}Migration cancelled. Exiting.${NC}"
+        exit 1
+    fi
+    
+    # Save TEMPLATE_DIR to pass to subshell
+    local template_dir_copy="$TEMPLATE_DIR"
+    
+    # Perform migration for each found directory
+    echo -e "$found_v1_dirs" | while read dir; do
+        [ -z "$dir" ] && continue
+        
+        echo ""
+        echo -e "${BLUE}Migrating: $dir${NC}"
+        echo -e "${BLUE}─────────────────────────────────────${NC}"
+        
+        # Get absolute path and change to target directory
+        local original_dir=$(pwd)
+        local target_dir=$(cd "$dir" && pwd)
+        cd "$target_dir" || continue
+        
+        if [ -d "memory-bank" ] && [ ! -d ".memory-bank" ]; then
+            # Create backup
+            local backup_name="memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
+            echo -e "${CYAN}Creating backup: $backup_name${NC}"
+            cp -r memory-bank "$backup_name"
+            echo -e "${GREEN}✓ Backup created${NC}"
+            
+            # Migrate directory
+            echo -e "${CYAN}Migrating directory structure...${NC}"
+            mv memory-bank .memory-bank
+            echo -e "${GREEN}✓ Migrated memory-bank/ to .memory-bank/${NC}"
+            
+            # Update root configuration files
+            echo -e "${CYAN}Updating configuration files...${NC}"
+            cp "$template_dir_copy/CLAUDE.md" ./ 2>/dev/null || true
+            cp "$template_dir_copy/QUICK-REFERENCE.md" ./ 2>/dev/null || true
+            cp "$template_dir_copy/starter-prompt.md" ./ 2>/dev/null || true
+            # Replace old setup script if it exists
+            if [ -f "./setup-memory-bank.sh" ]; then
+                cp "$template_dir_copy/setup-memory-bank.sh" ./ 2>/dev/null || true
+                chmod +x ./setup-memory-bank.sh
+            fi
+            echo -e "${GREEN}✓ Configuration files updated${NC}"
+            
+            # Update scripts - remove old ones and copy only required v2.0 scripts
+            echo -e "${CYAN}Updating scripts to v2.0...${NC}"
+            if [ -d ".memory-bank/scripts" ]; then
+                # Remove all old scripts first
+                rm -f .memory-bank/scripts/*
+                # Copy only the required v2.0 scripts
+                cp "$template_dir_copy/.memory-bank/scripts/auto-update.py" .memory-bank/scripts/ 2>/dev/null || true
+                cp "$template_dir_copy/.memory-bank/scripts/detect-hierarchy.py" .memory-bank/scripts/ 2>/dev/null || true
+                cp "$template_dir_copy/.memory-bank/scripts/setup-hierarchy.sh" .memory-bank/scripts/ 2>/dev/null || true
+                cp "$template_dir_copy/.memory-bank/scripts/auto-setup-hierarchy.py" .memory-bank/scripts/ 2>/dev/null || true
+                echo -e "${GREEN}✓ Scripts updated to latest version${NC}"
+            fi
+            
+            # Update mode instructions - replace all with v2.0 versions
+            echo -e "${CYAN}Updating mode instructions...${NC}"
+            if [ -d ".memory-bank/custom_modes" ]; then
+                rm -f .memory-bank/custom_modes/*
+                cp "$template_dir_copy/.memory-bank/custom_modes/"*.md .memory-bank/custom_modes/
+                echo -e "${GREEN}✓ Mode instructions updated${NC}"
+            fi
+            
+            # Copy documentation to .memory-bank
+            echo -e "${CYAN}Migrating documentation...${NC}"
+            if [ -d "$template_dir_copy/doc" ]; then
+                mkdir -p .memory-bank/doc
+                cp -r "$template_dir_copy/doc/"* .memory-bank/doc/ 2>/dev/null || true
+                echo -e "${GREEN}✓ Documentation migrated to .memory-bank/doc${NC}"
+            fi
+            
+            echo -e "${GREEN}✓ Migration complete for $dir${NC}"
+        fi
+        
+        # Return to original directory
+        cd "$original_dir"
+    done
+    
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║     All Migrations Complete! 🎉        ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "${CYAN}All v1.x installations have been migrated to v2.0${NC}"
+    echo -e "${CYAN}Backups created with .backup.$(date +%Y%m%d_%H%M%S) suffix${NC}"
+    echo ""
+    echo -e "${YELLOW}⚠️  Important Notes:${NC}"
+    echo "• This is a breaking change in v2.0"
+    echo "• Update any custom scripts that reference 'memory-bank/'"
+    echo "• Use '.memory-bank/' in all path references"
+    echo "• All subdirectories have been automatically migrated"
+    echo ""
+    
+    # Small pause to let user read the migration info
+    sleep 2
 }
 
 # Detect existing setup type
@@ -582,6 +737,14 @@ copy_scripts() {
         echo "  ✓ Copied auto-setup-hierarchy.py"
     fi
     
+    # Copy setup script locally for easy access
+    local setup_script_source="$TEMPLATE_DIR/setup-memory-bank.sh"
+    if [ -f "$setup_script_source" ]; then
+        cp "$setup_script_source" ./
+        chmod +x ./setup-memory-bank.sh
+        echo "  ✓ Copied setup-memory-bank.sh locally for --add-project"
+    fi
+    
     echo -e "${GREEN}✓ Automation scripts installed${NC}"
 }
 
@@ -594,11 +757,6 @@ create_starter_prompt() {
     
     # Copy quick reference card
     cp "$TEMPLATE_DIR/QUICK-REFERENCE.md" ./
-    
-    # Copy setup script to project root for easy access
-    cp "$0" ./setup-memory-bank.sh
-    chmod +x ./setup-memory-bank.sh
-    echo -e "${CYAN}✓ Copied setup-memory-bank.sh to project root${NC}"
     
     # Copy .memory-bank-ignore template if hierarchical structure detected
     if [ -f "$TEMPLATE_DIR/templates/.memory-bank-ignore" ]; then
@@ -758,7 +916,7 @@ show_next_steps() {
     if [ "$SETUP_TYPE" = "multi" ]; then
         echo ""
         echo -e "${BLUE}Multi-Project Commands:${NC}"
-        echo "  setup-memory-bank.sh --add-project    - Add a new project"
+        echo "  setup-memory-bank.sh --add-project <project-folder> - Add a new project from the sub-tree"
         echo "  python .memory-bank/scripts/auto-update.py --list-projects"
         echo ""
         echo -e "${BLUE}When using automation:${NC}"
@@ -796,6 +954,7 @@ show_next_steps() {
 # Main setup process
 main() {
     verify_installation
+    migrate_old_version
     detect_hierarchy
     choose_setup_type
     create_structure
@@ -866,6 +1025,7 @@ case "${1:-}" in
     --single)
         SETUP_TYPE="single"
         verify_installation
+        migrate_old_version
         if [ -d ".memory-bank" ]; then
             echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
             mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
@@ -882,6 +1042,7 @@ case "${1:-}" in
     --multi)
         SETUP_TYPE="multi"
         verify_installation
+        migrate_old_version
         if [ -d ".memory-bank" ]; then
             echo "Backing up existing .memory-bank to .memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
             mv .memory-bank ".memory-bank.backup.$(date +%Y%m%d_%H%M%S)"
