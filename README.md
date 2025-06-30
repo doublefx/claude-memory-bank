@@ -1,9 +1,20 @@
 # Claude Memory Bank
 
-> **Memory Bank System v2.1.0 - Enhanced Context-Driven Workflow**  
+> **Memory Bank System v2.2.0 - Enhanced Context-Driven Workflow**  
 > Based on original methodology by [@vanzan01](https://github.com/vanzan01/cursor-memory-bank)  
 > Supports both single-project and multi-project repositories  
 > Combines context preservation with streamlined workflow (5 modes)
+
+## 🚨 Breaking Change in v2.2.0
+
+**Slash commands have moved to user level!** 
+- Old: `/project:ask`, `/project:van`, etc.
+- New: `/user:memory-bank:ask`, `/user:memory-bank:van`, etc.
+
+To migrate:
+1. Run the installer: `curl -sSL https://raw.githubusercontent.com/doublefx/claude-memory-bank/main/install.sh | bash`
+2. Old project commands will be automatically cleaned up
+3. Update any scripts/aliases using the old command format
 
 A context-driven development system for Claude Code that automatically adapts to your repository structure. Whether you're working on a single project or managing multiple projects in a monorepo, the Memory Bank system provides persistent context and structured workflows.
 
@@ -140,13 +151,13 @@ setup-memory-bank.sh --multi
 #### Using Slash Commands (Recommended)
 ```bash
 # Initialize Memory Bank system
-/project:memory-bank
+/user:memory-bank:activate
 
 # Explore and ask questions
-/project:ask
+/user:memory-bank:ask
 
 # Start a new task
-/project:van
+/user:memory-bank:van
 ```
 
 #### Using @ Commands (Direct)
@@ -258,7 +269,7 @@ monorepo/
 
 ### 💬 ASK Mode - Explore & Discuss
 **Purpose**: Conversational exploration without implementation  
-**Entry**: `/project:ask` or `@ASK` (Optional starting point)  
+**Entry**: `/user:memory-bank:ask` or `@ASK` (Optional starting point)  
 **Output**: Understanding and guidance, routes to appropriate mode
 
 ```markdown
@@ -278,7 +289,7 @@ Perfect for:
 
 ### 🔍 VAN Mode - Initialization & Assessment
 **Purpose**: Structure detection, project analysis and complexity assessment  
-**Entry**: `/project:van` or `@VAN` (Required for actual work)  
+**Entry**: `/user:memory-bank:van` or `@VAN` (Required for actual work)  
 **Output**: Context files, tasks.md with complexity level and routing
 
 ```markdown
@@ -304,7 +315,7 @@ Multi-Project Features:
 
 ### 📋 PLAN Mode - Strategy & Design
 **Purpose**: Context-informed implementation strategy  
-**Entry**: `/project:plan` or `@PLAN` (after VAN for Level 2-3)  
+**Entry**: `/user:memory-bank:plan` or `@PLAN` (after VAN for Level 2-3)  
 **Output**: Implementation plan with integrated design exploration
 
 ```markdown
@@ -331,7 +342,7 @@ Context Foundation:
 
 ### ⚒️ IMPLEMENT Mode - Build & Test
 **Purpose**: Execute implementation following context and plan  
-**Entry**: `/project:implement` or `@IMPLEMENT` (after VAN for Level 1, after PLAN for Level 2-3)  
+**Entry**: `/user:memory-bank:implement` or `@IMPLEMENT` (after VAN for Level 1, after PLAN for Level 2-3)  
 **Output**: Working implementation with comprehensive testing
 
 ```markdown
@@ -343,7 +354,7 @@ Implementation Approach:
 
 ### 🔍 REFLECT Mode - Validate & Learn
 **Purpose**: Quality validation and context updates  
-**Entry**: `/project:reflect` or `@REFLECT` (after IMPLEMENT)  
+**Entry**: `/user:memory-bank:reflect` or `@REFLECT` (after IMPLEMENT)  
 **Output**: Validation results and updated context files
 
 ```markdown
@@ -608,7 +619,7 @@ setup-memory-bank.sh --add-project
 
 #### **1. ASK Mode - Conversational Exploration**
 - 5th workflow mode for read-only exploration
-- Entry via `/project:ask` or `@ASK`
+- Entry via `/user:memory-bank:ask` or `@ASK`
 - Perfect for:
   - New users learning the system
   - Exploring "what if" scenarios  
@@ -619,12 +630,12 @@ setup-memory-bank.sh --add-project
 
 #### **2. Claude Code Terminal Integration**
 - **Slash Commands** in `.claude/commands/`:
-  - `/project:memory-bank` - Universal initialization
-  - `/project:van` - Initialize & assess
-  - `/project:plan` - Strategy & design
-  - `/project:implement` - Build & test
-  - `/project:reflect` - Validate & learn
-  - `/project:ask` - Explore & discuss
+  - `/user:memory-bank:activate` - Universal initialization
+  - `/user:memory-bank:van` - Initialize & assess
+  - `/user:memory-bank:plan` - Strategy & design
+  - `/user:memory-bank:implement` - Build & test
+  - `/user:memory-bank:reflect` - Validate & learn
+  - `/user:memory-bank:ask` - Explore & discuss
 - All commands versioned as v2.1.0
 - Seamless integration with Claude Code Terminal
 
@@ -674,6 +685,91 @@ setup-memory-bank.sh --add-project
 - **Distributed Setup**: Each repository maintains its own Memory Bank
 - **Pattern Inheritance**: Child projects can reference parent patterns
 - **No Breaking Changes**: Fully backward compatible with v2.0
+
+## 🗑️ Uninstalling Memory Bank
+
+### Complete Uninstall
+To completely remove Memory Bank from your system and all projects:
+
+```bash
+# Preview what will be removed
+claude-memory-uninstall --dry-run
+
+# Complete uninstall with confirmation
+claude-memory-uninstall
+
+# Or use the short alias
+cmb-uninstall
+```
+
+### Partial Uninstall Options
+
+```bash
+# Remove only system-level installation (keep project files)
+claude-memory-uninstall --system-only
+
+# Remove only from current project (keep system installation)
+claude-memory-uninstall --project-only
+
+# Remove infrastructure but preserve knowledge/context files
+claude-memory-uninstall --keep-knowledge
+
+# Skip confirmation prompts
+claude-memory-uninstall --force
+
+# Create backup before removal
+claude-memory-uninstall --backup
+```
+
+### Keep Knowledge Option
+
+The `--keep-knowledge` option removes Memory Bank infrastructure while preserving your valuable context:
+
+**What's Removed:**
+- `.memory-bank/custom_modes/` - Mode instructions
+- `.memory-bank/scripts/` - Automation scripts
+- `.memory-bank/templates/` - Templates
+- `.memory-bank/.env` - Environment file
+- Root files: `CLAUDE.md`, `QUICK-REFERENCE.md`, etc.
+
+**What's Preserved:**
+- `.memory-bank/context/` - Your project context files
+- `.memory-bank/active/` - Active work and progress
+- `.memory-bank/decisions/` - Decision logs
+
+This is perfect when you want to remove Memory Bank functionality but keep all the knowledge and documentation you've built up.
+
+### What Gets Removed
+
+**System-level:**
+- Global installation directory (`~/.claude-memory-bank/`)
+- Global commands (`claude-memory-setup`, `claude-memory-update`, etc.)
+- Slash commands (`~/.claude/commands/memory-bank/`)
+- Shell configuration entries (PATH and aliases)
+
+**Project-level:**
+- `.memory-bank/` directory and all contents
+- `CLAUDE.md`, `QUICK-REFERENCE.md`, `starter-prompt.md`
+- Local `setup-memory-bank.sh` script
+- Old migration backup directories (`.memory-bank.backup.*`)
+- Note: Fresh backups created with `--backup` are preserved
+
+### Manual Cleanup (if needed)
+
+If you prefer manual removal or the uninstall command is unavailable:
+
+```bash
+# Remove system files
+rm -rf ~/.claude-memory-bank
+rm -f ~/.local/bin/claude-memory-*
+rm -rf ~/.claude/commands/memory-bank
+
+# Remove from current project
+rm -rf .memory-bank CLAUDE.md QUICK-REFERENCE.md starter-prompt.md setup-memory-bank.sh
+
+# Clean shell configuration
+# Edit ~/.bashrc or ~/.zshrc and remove Claude Memory Bank sections
+```
 
 ## 📄 License
 

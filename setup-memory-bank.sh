@@ -332,14 +332,6 @@ create_project_structure() {
     
     # Create project-specific templates
     create_templates_for_project "$project"
-    
-    # Copy Claude slash commands to each project (v2.1.0 fix)
-    if [ -d "$TEMPLATE_DIR/.claude/commands" ]; then
-        echo -e "${YELLOW}Installing slash commands for project: $project${NC}"
-        mkdir -p ".memory-bank/$project/.claude/commands"
-        cp "$TEMPLATE_DIR/.claude/commands/"*.md ".memory-bank/$project/.claude/commands/" 2>/dev/null || true
-        echo "  ✓ Copied Claude slash commands to $project"
-    fi
 }
 
 # Create shared files for multi-project
@@ -480,8 +472,8 @@ copy_context_templates() {
         echo "   ✓ Created progress.md from template"
     fi
     
-    if [ ! -f "$active_dir/temp-files.md" ] && [ -f "$TEMPLATE_DIR/templates/temp-files.md" ]; then
-        cp "$TEMPLATE_DIR/templates/temp-files.md" "$active_dir/"
+    if [ ! -f "$active_dir/temp-files.md" ] && [ -f "$TEMPLATE_DIR/.memory-bank/active/temp-files.md" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/active/temp-files.md" "$active_dir/"
         echo "   ✓ Created temp-files.md from template"
     fi
 }
@@ -564,7 +556,6 @@ No workflows initiated yet.
 *Last updated: Setup*
 EOF
 
-
     # Create initial log file in decisions
     cat > .memory-bank/decisions/log.md << 'EOF'
 # Decision Log
@@ -597,6 +588,21 @@ To be measured and recorded here.
 
 ---
 *This file tracks quality assurance and validation results.*
+EOF
+
+    # Create .env file for initialization tracking
+    cat > .memory-bank/.env << 'EOF'
+# Claude Memory Bank Environment Variables
+# This file tracks initialization state to optimize performance
+
+# Set to true after successful first initialization
+MEMORY_BANK_INITIALIZED=false
+
+# Version of the Memory Bank system
+MEMORY_BANK_VERSION=2.2.0
+
+# Date of initialization (will be set by VAN mode)
+INITIALIZATION_DATE=
 EOF
 
     echo -e "${GREEN}✓ Template files created${NC}"
@@ -638,7 +644,7 @@ To be created by PLAN mode.
 
 ---
 *Project: $project*
-*Memory Bank System v2.1.0*
+*Memory Bank System v2.0*
 EOF
 
     # Create activeContext.md
@@ -685,7 +691,6 @@ No workflows initiated yet.
 *Last updated: Setup*
 EOF
 
-
     # Create initial log file in decisions
     cat > ".memory-bank/$project/decisions/log.md" << EOF
 # Decision Log - $project
@@ -721,6 +726,21 @@ To be measured and recorded here.
 *Project: $project*
 *This file tracks quality assurance and validation results.*
 EOF
+
+    # Create .env file for project initialization tracking
+    cat > ".memory-bank/$project/.env" << 'EOF'
+# Claude Memory Bank Environment Variables
+# This file tracks initialization state to optimize performance
+
+# Set to true after successful first initialization
+MEMORY_BANK_INITIALIZED=false
+
+# Version of the Memory Bank system
+MEMORY_BANK_VERSION=2.2.0
+
+# Date of initialization (will be set by VAN mode)
+INITIALIZATION_DATE=
+EOF
 }
 
 # Copy automation scripts
@@ -731,13 +751,6 @@ copy_scripts() {
     if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" ]; then
         cp "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" .memory-bank/scripts/
         echo "  ✓ Copied auto-update.py"
-    fi
-    
-    # Copy Claude slash commands
-    if [ -d "$TEMPLATE_DIR/.claude/commands" ]; then
-        mkdir -p .claude/commands
-        cp "$TEMPLATE_DIR/.claude/commands/"*.md .claude/commands/ 2>/dev/null || true
-        echo "  ✓ Copied Claude slash commands"
     fi
     
     # Copy hierarchy scripts for hierarchical projects

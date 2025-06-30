@@ -117,7 +117,7 @@ ASK mode provides safe exploration across project boundaries:
 5. **Intelligent Routing**: Suggests appropriate project for implementation
 
 Example:
-User: /project:ask How do authentication patterns work across projects?
+User: /user:memory-bank:ask How do authentication patterns work across projects?
 Claude: [Explores parent patterns, current implementation, and child variations]
 ```
 
@@ -231,14 +231,14 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
 #### Slash Commands for Hierarchical Projects
 ```bash
 # Initialize with hierarchy awareness
-/project:memory-bank --hierarchical
+/user:memory-bank:activate --hierarchical
 
 # Explore across projects
-/project:ask --include-parent
-/project:ask --scan-children
+/user:memory-bank:ask --include-parent
+/user:memory-bank:ask --scan-children
 
 # Work within hierarchy
-/project:van --project services/auth
+/user:memory-bank:van --project services/auth
 /project:plan --inherit-patterns
 /project:reflect --promote-patterns
 ```

@@ -11,7 +11,7 @@
 
 Simply type this command in Claude Code:
 ```
-/project:memory-bank
+/user:memory-bank:activate
 ```
 
 This will initialize the Memory Bank system and read all configuration files.
@@ -29,7 +29,7 @@ The system now includes 5 modes (v2.1.0):
 - IMPLEMENT: Build with continuous progress tracking and temp file monitoring
 - REFLECT: Validate, capture learnings, and clean up temporary files
 
-Start with /project:ask if you have questions, or /project:van to begin working on a task.
+Start with /user:memory-bank:ask if you have questions, or /user:memory-bank:van to begin working on a task.
 ```
 
 ## System Overview
@@ -67,15 +67,15 @@ flowchart TD
 4. **Minimal Ceremony**: Streamlined from 6 to 5 modes (including ASK)
 5. **Explore First**: ASK mode allows safe exploration before commitment (v2.1.0)
 
-## Mode Commands (v2.1.0)
+## Mode Commands (v2.2.0)
 
 ### Slash Commands (Recommended - NEW!)
-- `/project:memory-bank` - Initialize Memory Bank system (universal entry)
-- `/project:ask` - Explore and ask questions (READ-ONLY mode)
-- `/project:van` - Start a new task or detect existing tasks
-- `/project:plan` - Create implementation strategy (Level 2-3)
-- `/project:implement` - Build the solution with progress tracking
-- `/project:reflect` - Validate, learn, and clean up temp files
+- `/user:memory-bank:activate` - Initialize Memory Bank system (universal entry)
+- `/user:memory-bank:ask` - Explore and ask questions (READ-ONLY mode)
+- `/user:memory-bank:van` - Start a new task or detect existing tasks
+- `/user:memory-bank:plan` - Create implementation strategy (Level 2-3)
+- `/user:memory-bank:implement` - Build the solution with progress tracking
+- `/user:memory-bank:reflect` - Validate, learn, and clean up temp files
 
 ### Direct @ Commands
 - `@ASK` - **Explore & Discuss** (v2.1.0 - No implementation, READ-ONLY exploration)
@@ -177,7 +177,7 @@ The Memory Bank system automatically adapts to your repository type:
 ### NEW: Exploration with ASK Mode
 
 ```
-User: /project:ask How does the authentication system work?
+User: /user:memory-bank:ask How does the authentication system work?
 
 Claude: Let me explore the authentication system for you.
 [Uses Read/Grep tools to examine auth code]
@@ -367,4 +367,4 @@ python .memory-bank/scripts/auto-update.py --health-check --project-name api-ser
 - Knowledge compounds over time
 - Seamless project switching in multi-project
 
-Ready to start? Use `/project:memory-bank` to initialize, then `/project:ask` to explore or `/project:van` to begin work!
+Ready to start? Use `/user:memory-bank:activate` to initialize, then `/user:memory-bank:ask` to explore or `/user:memory-bank:van` to begin work!

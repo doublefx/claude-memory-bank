@@ -5,18 +5,56 @@ All notable changes to Claude Memory Bank will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-06-30
+
+### Breaking Changes
+- **Slash Commands Moved to User Level**: All slash commands now use user-level namespace
+  - Old: `/project:ask`, `/project:van`, etc.
+  - New: `/user:memory-bank:ask`, `/user:memory-bank:van`, etc.
+  - Commands now installed at `~/.claude/commands/memory-bank/`
+  - Run installer to add: `curl -sSL https://raw.githubusercontent.com/doublefx/claude-memory-bank/main/install.sh | bash`
+
+### Added
+- **.env Optimization**: Dramatically reduced token usage in VAN mode
+  - Added `.memory-bank/.env` file to track initialization state
+  - VAN mode now checks .env instead of analyzing all context files
+  - 90%+ reduction in token usage for initialization checks
+  - Backward compatible - handles missing .env files gracefully
+- **Comprehensive Uninstall Command**: Safe removal of Memory Bank
+  - New `claude-memory-uninstall` command with multiple options
+  - `cmb-uninstall` alias for convenience
+  - Dry-run mode to preview changes before deletion
+  - Options for system-only, project-only, or complete removal
+  - `--keep-knowledge` option to preserve context while removing infrastructure
+  - Backup functionality to preserve data before removal
+  - Automatic shell configuration cleanup
+
+### Changed
+- Renamed `memory-bank.md` command to `activate.md` for clarity
+- Updated install.sh to manage user-level slash commands
+- Updated setup-memory-bank.sh to clean up old project-level commands
+- Commands are now updated automatically when running `claude-memory-update`
+- VAN mode instructions simplified with .env optimization
+- sync-from-project.sh now creates .env for existing installations
+
+### Migration Guide
+1. Run the installer to get new user-level commands
+2. Old project-level commands will be automatically cleaned up by setup script
+3. Update any scripts/docs that reference old command paths
+
 ## [2.1.0] - 2025-06-30
 
 ### Added
 - **ASK Mode**: New 5th mode for read-only conversational exploration
   - Safe space for questions and requirements clarification
   - No file modifications allowed
-  - Accessible via `@ASK` or `/project:ask`
+  - Accessible via `@ASK` or `/project:ask` (now `/user:memory-bank:ask` in v2.2)
   - Guides users to appropriate workflow mode when ready
 - **Claude Code Terminal Integration**: Full slash command support
   - Six slash commands in `.claude/commands/` directory
   - `/project:ask`, `/project:van`, `/project:plan`, `/project:implement`, `/project:reflect`
   - `/project:memory-bank` to force CLAUDE.md reading
+  - (All moved to user-level namespace in v2.2)
   - Each command maps to corresponding @ mode
 - **Temporary File Tracking System**: New `temp-files.md` in active directory
   - Table format for tracking transient resources

@@ -43,18 +43,16 @@ You are operating in VAN MODE - the mandatory entry point for all Memory Bank wo
 ```
 ⚠️ STOP! Before proceeding with ANY other steps, you MUST complete this validation:
 
-1. Check if .memory-bank/context/ directory exists
-2. If it exists, read ALL four context files:
-   - projectBrief.md
-   - productContext.md  
-   - systemPatterns.md
-   - techContext.md
-3. For each file, count placeholder markers: [], {}, [Description], [Date], etc.
-4. Calculate template score: (placeholder_count / total_words) * 100
-5. If ANY file has template score > 20%, FORCE Initialize mode
-6. Log this check with timestamp in progress.md
+1. Check if .memory-bank/.env file exists:
+   - If exists, read MEMORY_BANK_INITIALIZED value
+   - If MEMORY_BANK_INITIALIZED=true, MODE = "Update" (skip to step 3)
+   - If MEMORY_BANK_INITIALIZED=false or .env missing, MODE = "Initialize"
+   
+2. If MODE = "Initialize", prepare to create/populate all context files
 
-⛔ BREAKING: Skipping this check will corrupt the entire workflow
+3. Log this check with timestamp in progress.md
+
+⛔ BREAKING: This simplified check dramatically reduces token usage
 ```
 
 ### 1. Project Structure Detection
@@ -76,17 +74,11 @@ After pre-flight validation, you MUST output this EXACT format:
 VAN_MODE_DETECTION_RESULT:
   timestamp: [ISO-8601 timestamp]
   structure_type: [Single-Project/Multi-Project]
-  files_checked:
-    - projectBrief.md: [exists/missing]
-    - productContext.md: [exists/missing]
-    - systemPatterns.md: [exists/missing]
-    - techContext.md: [exists/missing]
-  template_analysis:
-    total_placeholders_found: [number]
-    template_score: [percentage]
-    sample_placeholders: ["list of found placeholders"]
+  env_check:
+    - .env_exists: [true/false]
+    - initialized_flag: [true/false/not-found]
   mode_selected: [Initialize/Update]
-  reason: "[Specific evidence for mode selection]"
+  reason: "[Based on .env check or missing .env]"
   
 PROCEEDING IN: [INITIALIZE/UPDATE] MODE
 ```
@@ -99,19 +91,13 @@ Based on the Mode Detection result from Step 2, proceed with the appropriate che
 
 #### For Single-Project:
 ```bash
-# Check if context files exist and are not just templates
-if .memory-bank/context/projectBrief.md exists:
-    Read file content
-    if file contains only placeholders like "[" and "]":
-        MODE = "Initialize"
-        Prepare for full analysis (templates need filling)
-    else:
-        MODE = "Update"
-        Read all context files from .memory-bank/
-        Read technical/ documentation
-else:
-    MODE = "Initialize"
-    Prepare for full analysis
+if MODE = "Initialize":
+    # Prepare for full project analysis
+    # Will create/populate all context files
+elif MODE = "Update":
+    # Read all context files from .memory-bank/
+    # Read technical/ documentation
+    # Continue with existing context
 ```
 
 #### For Multi-Project:
@@ -580,6 +566,11 @@ Before exiting VAN mode, you MUST complete:
 - Determine complexity level (1-3)
 
 - Select next mode based on complexity
+
+- **CRITICAL**: If MODE was "Initialize", update .env file:
+  - Set MEMORY_BANK_INITIALIZED=true
+  - Set INITIALIZATION_DATE to current date
+  - This prevents future expensive template checking
 
 ⚠️ FAILURE TO UPDATE = BROKEN WORKFLOW
 The Memory Bank system depends on these updates for continuity across sessions.

@@ -28,12 +28,12 @@ setup-memory-bank.sh --add-project
 
 ### Claude Code Terminal Commands (v2.1.0)
 ```
-/project:ask         # Enter ASK mode for exploration
-/project:van         # Initialize Memory Bank
-/project:plan        # Create implementation strategy
-/project:implement   # Execute the plan
-/project:reflect     # Validate and learn
-/project:memory-bank # Force CLAUDE.md reading
+/user:memory-bank:ask       # Enter ASK mode for exploration
+/user:memory-bank:van       # Initialize Memory Bank
+/user:memory-bank:plan      # Create implementation strategy
+/user:memory-bank:implement # Execute the plan
+/user:memory-bank:reflect   # Validate and learn
+/user:memory-bank:activate  # Force CLAUDE.md reading
 ```
 
 ### Automation

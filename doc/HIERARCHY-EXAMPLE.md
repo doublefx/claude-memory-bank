@@ -67,9 +67,9 @@ In `auth-service/.memory-bank/hierarchy.json`:
 
 ### ASK Mode Behavior
 
-When running `/project:ask` in `auth-service/`:
+When running `/user:memory-bank:ask` in `auth-service/`:
 ```
-User: /project:ask How do authentication patterns work in this project?
+User: /user:memory-bank:ask How do authentication patterns work in this project?
 
 Claude: I'll explore the authentication patterns across the project hierarchy.
 
