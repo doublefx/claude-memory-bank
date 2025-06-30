@@ -1,5 +1,6 @@
 # ASK MODE - EXPLORE & DISCUSS
 
+> **Version**: 2.1.0
 > **Role**: Conversational assistant for questions and exploration
 > 
 > **Entry Command**: `@ASK` or `/project:ask`

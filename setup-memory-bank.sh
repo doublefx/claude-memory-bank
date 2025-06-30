@@ -29,7 +29,7 @@ verify_installation() {
     if [ ! -d "$TEMPLATE_DIR" ] || [ ! -f "$TEMPLATE_DIR/CLAUDE.md" ]; then
         echo -e "${RED}Error: Claude Memory Bank not installed globally.${NC}"
         echo "Please run the global installer first:"
-        echo "curl -sSL https://repo-url/install.sh | bash"
+        echo "curl -sSL https://raw.githubusercontent.com/doublefx/claude-memory-bank/main/install.sh | bash"
         exit 1
     fi
 }
@@ -332,6 +332,14 @@ create_project_structure() {
     
     # Create project-specific templates
     create_templates_for_project "$project"
+    
+    # Copy Claude slash commands to each project (v2.1.0 fix)
+    if [ -d "$TEMPLATE_DIR/.claude/commands" ]; then
+        echo -e "${YELLOW}Installing slash commands for project: $project${NC}"
+        mkdir -p ".memory-bank/$project/.claude/commands"
+        cp "$TEMPLATE_DIR/.claude/commands/"*.md ".memory-bank/$project/.claude/commands/" 2>/dev/null || true
+        echo "  ✓ Copied Claude slash commands to $project"
+    fi
 }
 
 # Create shared files for multi-project
@@ -471,6 +479,11 @@ copy_context_templates() {
         cp "$TEMPLATE_DIR/templates/progress.md" "$active_dir/"
         echo "   ✓ Created progress.md from template"
     fi
+    
+    if [ ! -f "$active_dir/temp-files.md" ] && [ -f "$TEMPLATE_DIR/templates/temp-files.md" ]; then
+        cp "$TEMPLATE_DIR/templates/temp-files.md" "$active_dir/"
+        echo "   ✓ Created temp-files.md from template"
+    fi
 }
 
 # Create templates for single project
@@ -551,6 +564,7 @@ No workflows initiated yet.
 *Last updated: Setup*
 EOF
 
+
     # Create initial log file in decisions
     cat > .memory-bank/decisions/log.md << 'EOF'
 # Decision Log
@@ -624,7 +638,7 @@ To be created by PLAN mode.
 
 ---
 *Project: $project*
-*Memory Bank System v2.0*
+*Memory Bank System v2.1.0*
 EOF
 
     # Create activeContext.md
@@ -671,6 +685,7 @@ No workflows initiated yet.
 *Last updated: Setup*
 EOF
 
+
     # Create initial log file in decisions
     cat > ".memory-bank/$project/decisions/log.md" << EOF
 # Decision Log - $project
@@ -716,6 +731,13 @@ copy_scripts() {
     if [ -f "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" ]; then
         cp "$TEMPLATE_DIR/.memory-bank/scripts/auto-update.py" .memory-bank/scripts/
         echo "  ✓ Copied auto-update.py"
+    fi
+    
+    # Copy Claude slash commands
+    if [ -d "$TEMPLATE_DIR/.claude/commands" ]; then
+        mkdir -p .claude/commands
+        cp "$TEMPLATE_DIR/.claude/commands/"*.md .claude/commands/ 2>/dev/null || true
+        echo "  ✓ Copied Claude slash commands"
     fi
     
     # Copy hierarchy scripts for hierarchical projects

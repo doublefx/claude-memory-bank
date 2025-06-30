@@ -1,5 +1,6 @@
 # PLAN MODE - DETAILED IMPLEMENTATION PLANNING
 
+> **Version**: 2.1.0
 > **Role**: Create comprehensive implementation plan based on VAN mode complexity assessment
 >
 > **Entry Command**: `@PLAN`
@@ -19,22 +20,72 @@ You are operating in PLAN MODE - responsible for creating detailed implementatio
 
 ```
 ✅ MANDATORY CHECKLIST - ALL MUST BE COMPLETED:
-□ Read .memory-bank/tasks.md to understand VAN assessment
-□ Analyze codebase structure and dependencies
-□ Create detailed implementation plan
-□ Identify components requiring creative phases (Level 3-4)
-□ Document challenges and risk mitigation
-□ Update .memory-bank/tasks.md with implementation plan
-□ Update .memory-bank/activeContext.md and progress.md
-□ Recommend next mode (CREATIVE or IMPLEMENT)
+- Read .memory-bank/tasks.md to understand VAN assessment
+- Analyze codebase structure and dependencies
+- Create detailed implementation plan
+- Identify components requiring creative phases (Level 3-4)
+- Document challenges and risk mitigation
+- Update .memory-bank/tasks.md with implementation plan
+- Update .memory-bank/activeContext.md and progress.md
+- Recommend next mode (CREATIVE or IMPLEMENT)
 ```
+
+## PRE-FLIGHT VALIDATION (STEP 0 - MANDATORY)
+
+### 0. Pre-flight Context Validation (MANDATORY - CANNOT SKIP)
+
+```
+⚠️ STOP! Before proceeding with ANY planning, you MUST complete this validation:
+
+1. Check if .memory-bank/active/tasks.md exists
+2. Read tasks.md and verify:
+   - At least one task is present
+   - Task has complexity level assigned (1-4)
+   - Task status is "pending" or "in_progress"
+3. Verify VAN mode completion markers in progress.md
+4. Check context files exist and are not just templates:
+   - activeContext.md (not empty)
+   - ../context/systemPatterns.md (has actual patterns)
+   - ../context/techContext.md (has technical details)
+5. If ANY prerequisite missing:
+   - STOP immediately
+   - Return to @VAN mode to properly initialize
+   - DO NOT proceed with planning
+
+⛔ BREAKING: Planning without VAN completion corrupts workflow integrity
+```
+
+### 1. Planning Mode Declaration (MANDATORY)
+
+After pre-flight validation, you MUST output this EXACT format:
+
+```yaml
+PLAN_MODE_VERIFICATION:
+  timestamp: [ISO-8601 timestamp]
+  van_mode_completed: [true/false]
+  tasks_md_status:
+    exists: [true/false]
+    task_count: [number]
+    complexity_levels: [list of levels found]
+    pending_tasks: [count]
+  context_files_status:
+    activeContext: [complete/partial/missing]
+    systemPatterns: [complete/partial/missing]
+    techContext: [complete/partial/missing]
+  validation_result: [PROCEED/ABORT]
+  reason: "[specific evidence for decision]"
+
+PROCEEDING WITH PLANNING / ABORTING - RETURNING TO VAN MODE
+```
+
+**DO NOT CONTINUE** without this verification output.
 
 ## ENTRY VERIFICATION
 
-Before starting PLAN mode, verify:
-- VAN mode has been completed
-- tasks.md exists with complexity level assessment
-- Complexity level is 2, 3, or 4 (Level 1 skips PLAN)
+After successful pre-flight validation:
+- Confirm VAN mode has been completed
+- Verify tasks.md exists with complexity level assessment
+- Ensure complexity level is 2, 3, or 4 (Level 1 skips PLAN)
 
 ## COMPLEXITY-SPECIFIC PLANNING
 
@@ -165,6 +216,11 @@ graph TD
 
 ## STEP-BY-STEP PROCESS
 
+### 0. Pre-flight Validation (MANDATORY FIRST STEP)
+- Complete all pre-flight checks as specified above
+- Output PLAN_MODE_VERIFICATION yaml
+- Abort if validation fails
+
 ### 1. Context Loading
 - Read memory-bank/tasks.md for VAN assessment
 - Understand complexity level and initial task breakdown
@@ -201,15 +257,59 @@ Before exiting PLAN mode, verify:
 
 ```
 ✅ EXIT CRITERIA - ALL MUST BE MET:
-□ Implementation plan addresses all VAN tasks
-□ All affected components identified
-□ Creative phase components flagged (Level 3-4)
-□ Challenges and mitigations documented
-□ Implementation steps are specific and actionable
-□ Testing strategy defined
-□ Next mode recommendation with clear reasoning
-□ All memory bank files updated
+- Implementation plan addresses all VAN tasks
+- All affected components identified
+- Creative phase components flagged (Level 3-4)
+- Challenges and mitigations documented
+- Implementation steps are specific and actionable
+- Testing strategy defined
+- Next mode recommendation with clear reasoning
+- All memory bank files updated
 ```
+
+## 🚨 MANDATORY ACTIONS - DO NOT SKIP
+
+Before exiting PLAN mode, you MUST complete ALL of these:
+
+```
+⛔ CRITICAL: Skipping ANY of these steps will corrupt the workflow
+```
+
+### Required Updates:
+
+1. **Update tasks.md** ✅ MANDATORY:
+   - Detailed implementation plan with specific steps
+   - Subtasks breakdown (if applicable)
+   - Status: "in_progress" 
+   - Updated complexity assessment if changed
+   - Implementation phases clearly defined
+  
+2. **Create/update decisions/log.md** ✅ MANDATORY:
+   - All design decisions made during planning
+   - Alternatives considered and why rejected
+   - Rationale for chosen approaches
+   - Risk assessments and mitigations
+  
+3. **Update activeContext.md** ✅ MANDATORY:
+   - Complete plan summary
+   - Key design decisions highlighted
+   - Mode: PLAN
+   - Critical implementation notes
+   
+4. **Update progress.md** ✅ MANDATORY:
+   - Log PLAN mode completion
+   - Note any blockers identified
+   - Record time spent in planning
+  
+5. **Verify plan completeness** ✅ MANDATORY:
+   - All VAN tasks addressed
+   - Implementation steps are actionable
+   - Dependencies clearly mapped
+   - Testing strategy defined
+
+⚠️ FAILURE TO UPDATE = LOST PLANNING WORK
+⛔ Your planning efforts will be COMPLETELY LOST without proper documentation.
+🚫 DO NOT exit PLAN mode without completing ALL mandatory updates.
 
 ## MODE TRANSITION RECOMMENDATIONS
 

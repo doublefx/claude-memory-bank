@@ -1,5 +1,6 @@
 # REFLECT MODE - VALIDATE & LEARN (HYBRID)
 
+> **Version**: 2.1.0
 > **Role**: Ensure quality and capture learnings for context evolution
 >
 > **Entry Command**: `@REFLECT`
@@ -17,9 +18,62 @@ You are operating in REFLECT MODE - where implementation meets validation. Your 
 5. **Success Documentation**: Record what worked well
 6. **Improvement Areas**: Identify future enhancements
 
+## PRE-FLIGHT VALIDATION (STEP 0 - MANDATORY)
+
+### 0. Pre-flight Implementation Validation (MANDATORY - CANNOT SKIP)
+
+```
+⚠️ STOP! Before proceeding with ANY reflection, you MUST complete this validation:
+
+1. Check .memory-bank/active/progress.md exists
+2. Verify progress.md shows:
+   - IMPLEMENT mode was entered
+   - Implementation tasks were logged
+   - No critical errors blocking reflection
+3. Check .memory-bank/active/tasks.md for task status
+4. Verify temp-files.md exists (if temporary files were created)
+5. Confirm code changes were actually made:
+   - Review git status or file modifications
+   - Ensure implementation matches task requirements
+6. If implementation NOT complete:
+   - STOP immediately
+   - Return to @IMPLEMENT mode to complete work
+   - DO NOT proceed with reflection
+
+⛔ BREAKING: Reflecting without implementation corrupts quality assurance
+```
+
+### 1. Reflection Mode Declaration (MANDATORY)
+
+After pre-flight validation, you MUST output this EXACT format:
+
+```yaml
+REFLECT_MODE_VERIFICATION:
+  timestamp: [ISO-8601 timestamp]
+  implement_mode_completed: [true/false]
+  progress_md_status:
+    shows_implementation: [true/false]
+    last_mode: [IMPLEMENT/other]
+    tasks_completed: [count]
+  temp_files_status:
+    temp_files_md_exists: [true/false]
+    entries_count: [number]
+    cleanup_required: [true/false]
+  code_changes_detected: [true/false]
+  test_environment:
+    test_command_available: [true/false]
+    previous_test_results: [found/not_found]
+  validation_result: [PROCEED/ABORT]
+  reason: "[specific evidence for decision]"
+
+PROCEEDING WITH REFLECTION / ABORTING - RETURNING TO IMPLEMENT MODE
+```
+
+**DO NOT CONTINUE** without this verification output.
+
 ## INPUTS TO READ
 
-Before reflecting, review based on repository structure:
+After successful pre-flight validation, review based on repository structure:
 
 ### Single-Project Repository:
 1. **memory-bank/active/tasks.md** - Original requirements and plan
@@ -37,6 +91,11 @@ Before reflecting, review based on repository structure:
 6. **Code changes** - Review implementation in project directory
 
 ## REFLECTION PROCESS
+
+### 0. Complete Pre-flight Validation (MANDATORY FIRST STEP)
+- Execute all pre-flight checks as specified above
+- Output REFLECT_MODE_VERIFICATION yaml
+- Abort if validation fails
 
 ### 1. Requirements Validation
 
@@ -164,18 +223,18 @@ Evaluate code quality:
 
 ```
 ✅ CODE QUALITY CHECK
-□ Follows established patterns
-□ Maintains consistency
-□ Proper error handling
-□ Adequate documentation
-□ No code smells
+- Follows established patterns
+- Maintains consistency
+- Proper error handling
+- Adequate documentation
+- No code smells
 
 ✅ ARCHITECTURE CHECK
-□ Aligns with system design
-□ Scalable approach
-□ Maintainable structure
-□ Clear separation of concerns
-□ Reusable components
+- Aligns with system design
+- Scalable approach
+- Maintainable structure
+- Clear separation of concerns
+- Reusable components
 ```
 
 ### 6. Archive Decision
@@ -203,29 +262,108 @@ Determine if archiving needed:
 
 **Important**: Always evaluate if learnings should be promoted to shared/
 
+## 🚨 MANDATORY ACTIONS - DO NOT SKIP
+
+Before exiting REFLECT mode, you MUST complete ALL of these:
+
+```
+⛔ CRITICAL: Skipping ANY of these steps will lose valuable learnings and leave artifacts
+```
+
+### Required Actions:
+
+1. **Create/update validation-results.md** ✅ MANDATORY:
+   - Complete test results summary with metrics
+   - Document what worked well (be specific)
+   - Detail challenges encountered and resolutions
+   - Capture lessons learned for future work
+   - Include performance metrics if relevant
+  
+2. **Update ALL relevant context files** ✅ MANDATORY:
+   - systemPatterns.md: Add new patterns discovered
+   - techContext.md: Document technical insights
+   - productContext.md: Note user impact insights
+   - projectBrief.md: Update if scope changed
+   
+3. **Clean ALL temporary files** ✅ MANDATORY:
+   - Open temp-files.md and review EVERY entry
+   - Delete all temporary test directories
+   - Remove any backup files no longer needed
+   - Clean up test data files
+   - Remove debug logs
+  
+4. **Update temp-files.md** ✅ MANDATORY:
+   - Remove entries for ALL cleaned files
+   - Verify table is empty or only permanent items remain
+   - Add cleanup timestamp
+   - If files remain, document why they're kept
+  
+5. **Update task status in tasks.md** ✅ MANDATORY:
+   - Change status to "completed"
+   - Add completion date and time
+   - Note final complexity level
+   - List any follow-up tasks identified
+   - Record total time spent
+
+6. **Final progress.md update** ✅ MANDATORY:
+   - Log REFLECT mode completion
+   - Summarize key achievements
+   - Note any technical debt created
+   - Record performance improvements
+
+```
+⚠️ FAILURE TO COMPLETE ALL STEPS = CRITICAL WORKFLOW VIOLATION
+⛔ Knowledge will be PERMANENTLY LOST without proper documentation
+🚫 Temporary files left behind will accumulate and cause issues
+❌ DO NOT exit REFLECT mode until ALL mandatory actions are verified complete
+```
+
 ## COMPLETION CHECKLIST
 
+Before declaring REFLECT mode complete, verify EVERY item:
+
 ```
+✅ PRE-FLIGHT VALIDATION
+- REFLECT_MODE_VERIFICATION yaml output complete
+- Implementation confirmed via progress.md
+- Code changes verified
+
 ✅ VALIDATION COMPLETE
-□ All requirements verified
-□ Tests passing
-□ Quality standards met
-□ Performance acceptable
-□ Security validated
+- All requirements verified against tasks.md
+- Tests executed and passing
+- Quality standards met
+- Performance metrics recorded
+- Security validated if applicable
 
 ✅ LEARNINGS CAPTURED
-□ Successes documented
-□ Challenges recorded
-□ Patterns identified
-□ Improvements noted
-□ Recommendations made
+- validation-results.md created/updated
+- Successes documented with specifics
+- Challenges recorded with resolutions
+- New patterns identified and documented
+- Improvements noted for future work
+- Recommendations made and recorded
 
 ✅ CONTEXT UPDATED
-□ New patterns added
-□ Technical insights captured
-□ Product understanding refined
-□ Project constraints updated
+- systemPatterns.md: New patterns added
+- techContext.md: Technical insights captured
+- productContext.md: User impact refined
+- projectBrief.md: Constraints updated if needed
+- decisions/log.md: Validation outcomes recorded
+
+✅ CLEANUP COMPLETE
+- temp-files.md reviewed line by line
+- ALL temporary files deleted
+- temp-files.md cleared of removed entries
+- No artifacts left behind
+
+✅ TASK FINALIZATION
+- tasks.md: Status = "completed"
+- tasks.md: Completion date added
+- progress.md: Final update logged
+- Follow-up tasks documented if any
 ```
+
+⛔ DO NOT exit until ALL checkboxes can be marked complete!
 
 ## MODE TRANSITION
 

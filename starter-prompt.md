@@ -1,18 +1,35 @@
-# Claude Memory Bank - System Starter v2.0
+# Claude Memory Bank - System Starter v2.1.0
 
-> **Memory Bank System v2.0** - Generic Context-Driven Workflow  
+> **Memory Bank System v2.1.0** - Enhanced Context-Driven Workflow  
 > Supports both single-project and multi-project repositories  
-> Original methodology by @vanzan01, enhanced for flexible project structures
+> Original methodology by @vanzan01, enhanced with conversational exploration  
+> Now includes ASK mode for safe exploration before implementation
 
 ## Quick Start
 
-Copy this message to Claude Code to initialize the Memory Bank system:
+### Using Slash Commands (Recommended)
 
+Simply type this command in Claude Code:
+```
+/project:memory-bank
+```
+
+This will initialize the Memory Bank system and read all configuration files.
+
+### Alternative: Direct Message
+
+Copy this message to Claude Code:
 ```
 I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from .memory-bank/custom_modes/ to understand the context-driven workflow.
-The system supports both single-project and multi-project repositories. It will automatically detect the structure and adapt its behavior. The system uses 4 modes (VAN, PLAN, IMPLEMENT, REFLECT) with context files as the foundation.
-For multi-project repos: The system will scan for active tasks across all projects and help me choose which to continue or start new work.
-Start with @VAN mode to detect project structure, create/update context files, and assess task complexity.
+
+The system now includes 5 modes (v2.1.0):
+- ASK: Conversational exploration without implementation (READ-ONLY)
+- VAN: Initialize and assess tasks with complexity routing
+- PLAN: Create implementation strategies with design exploration
+- IMPLEMENT: Build with continuous progress tracking and temp file monitoring
+- REFLECT: Validate, capture learnings, and clean up temporary files
+
+Start with /project:ask if you have questions, or /project:van to begin working on a task.
 ```
 
 ## System Overview
@@ -27,11 +44,14 @@ flowchart TD
         PB --> TC[⚙️ techContext.md]
     end
     
-    subgraph "Workflow"
-        VAN[🔍 VAN] --> PLAN[📋 PLAN]
-        VAN --> IMPLEMENT[⚒️ IMPLEMENT]
+    subgraph "Workflow v2.1.0"
+        ASK[💬 ASK] -.->|Ready to implement| VAN[🔍 VAN]
+        VAN -->|Level 1| IMPLEMENT[⚒️ IMPLEMENT]
+        VAN -->|Level 2-3| PLAN[📋 PLAN]
         PLAN --> IMPLEMENT
         IMPLEMENT --> REFLECT[✅ REFLECT]
+        REFLECT -->|New task| VAN
+        ASK -.->|Questions anytime| ASK
     end
     
     PC --> AC[💡 activeContext.md]
@@ -44,15 +64,25 @@ flowchart TD
 1. **Context First**: All work begins with understanding through context files
 2. **Adaptive Workflow**: Only use modes that add value (3 complexity levels)
 3. **Living Documentation**: Context evolves with each task
-4. **Minimal Ceremony**: Streamlined from 6 to 4 modes
+4. **Minimal Ceremony**: Streamlined from 6 to 5 modes (including ASK)
+5. **Explore First**: ASK mode allows safe exploration before commitment (v2.1.0)
 
-## Mode Commands
+## Mode Commands (v2.1.0)
 
-### Primary Workflow
-- `@VAN` - **Initialize & Assess** (Always first - creates/updates context)
-- `@PLAN` - **Strategy & Design** (Level 2-3 tasks)
-- `@IMPLEMENT` - **Build & Test** (Execute with context awareness)
-- `@REFLECT` - **Validate & Learn** (Update context with insights)
+### Slash Commands (Recommended - NEW!)
+- `/project:memory-bank` - Initialize Memory Bank system (universal entry)
+- `/project:ask` - Explore and ask questions (READ-ONLY mode)
+- `/project:van` - Start a new task or detect existing tasks
+- `/project:plan` - Create implementation strategy (Level 2-3)
+- `/project:implement` - Build the solution with progress tracking
+- `/project:reflect` - Validate, learn, and clean up temp files
+
+### Direct @ Commands
+- `@ASK` - **Explore & Discuss** (v2.1.0 - No implementation, READ-ONLY exploration)
+- `@VAN` - **Initialize & Assess** (Creates/updates context, detects active tasks)
+- `@PLAN` - **Strategy & Design** (Level 2-3 tasks with design exploration)
+- `@IMPLEMENT` - **Build & Test** (Execute with temp file tracking)
+- `@REFLECT` - **Validate & Learn** (Clean up temp files, update patterns)
 
 ### Context Files Created by VAN
 - **projectBrief.md** - Project overview, goals, constraints
@@ -109,7 +139,8 @@ The Memory Bank system automatically adapts to your repository type:
 ├── active/                  # Current work
 │   ├── activeContext.md    # Synthesized context
 │   ├── tasks.md           # Task breakdown
-│   └── progress.md        # Progress tracking
+│   ├── progress.md        # Progress tracking
+│   └── temp-files.md      # Temporary files tracking (v2.1.0)
 ├── technical/              # Deep implementation docs
 ├── decisions/              # Design decisions
 │   └── log.md             # Decision history
@@ -126,6 +157,7 @@ The Memory Bank system automatically adapts to your repository type:
 ├── api-service/           # Each project has full structure
 │   ├── context/
 │   ├── active/
+│   │   └── temp-files.md      # Project-specific temp tracking (v2.1.0)
 │   ├── technical/
 │   ├── decisions/
 │   └── qa/
@@ -140,7 +172,28 @@ The Memory Bank system automatically adapts to your repository type:
 - Multi: Each project isolated, shared patterns centralized
 - Multi: VAN mode scans all projects for active tasks
 
-## Example Usage
+## Example Usage (v2.1.0)
+
+### NEW: Exploration with ASK Mode
+
+```
+User: /project:ask How does the authentication system work?
+
+Claude: Let me explore the authentication system for you.
+[Uses Read/Grep tools to examine auth code]
+
+The authentication uses JWT tokens with refresh token rotation. The main components are:
+- AuthMiddleware: Validates tokens on protected routes
+- AuthService: Handles login/logout/refresh logic
+- Token storage: Uses secure HTTP-only cookies
+
+Would you like to modify the authentication system?
+
+User: Yes, I need to add role-based access control
+
+Claude: That's a good enhancement. Based on the existing patterns, this would be a Level 2 task.
+Shall we switch to @VAN mode to properly initialize this work?
+```
 
 ### Single-Project Repository
 
@@ -234,7 +287,22 @@ Claude: Loading auth-service context and resuming OAuth2 implementation...
 4. Follow the workflow based on complexity
 5. Watch your context evolve with each task
 
-## Migrating from v1.x to v2.0
+## What's New in v2.1.0
+
+### Key Features
+1. **ASK Mode**: New 5th mode for safe, read-only exploration
+2. **Slash Commands**: Full Claude Code Terminal integration
+3. **Temp File Tracking**: `active/temp-files.md` prevents accumulation
+4. **Enhanced Enforcement**: MANDATORY ACTIONS in all modes
+5. **Better Routing**: ASK mode intelligently suggests next steps
+
+### v2.1.0 Workflow Improvements
+- **Entry Flexibility**: Can start with ASK or VAN
+- **Exploration First**: Ask questions before committing to changes
+- **Cleanup Automation**: REFLECT mode includes temp file cleanup
+- **Version Tracking**: All components versioned as v2.1.0
+
+## Migrating from v1.x to v2.x
 
 Memory Bank v2.0 introduces a breaking change by using hidden directories (`.memory-bank/`) instead of visible ones (`memory-bank/`). This provides a cleaner project structure. The migration is **automatic** when you run the setup script.
 
@@ -299,4 +367,4 @@ python .memory-bank/scripts/auto-update.py --health-check --project-name api-ser
 - Knowledge compounds over time
 - Seamless project switching in multi-project
 
-Ready to start? Use the initialization message above and begin with @VAN!
+Ready to start? Use `/project:memory-bank` to initialize, then `/project:ask` to explore or `/project:van` to begin work!

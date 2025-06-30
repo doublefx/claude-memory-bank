@@ -1,4 +1,4 @@
-# Hierarchical Project Support for Memory Bank v2.1
+# Hierarchical Project Support for Memory Bank v2.1.0
 
 ## Overview
 
@@ -25,6 +25,7 @@ platform/ (.git)
 ├── .memory-bank/          # Platform-level memory bank
 │   ├── context/
 │   ├── active/
+│   │   └── temp-files.md  # Temp file tracking (v2.1.0)
 │   └── links/             # References to child projects
 │       ├── services.link  # -> ../services/.memory-bank
 │       └── libs.link      # -> ../libs/*/.memory-bank
@@ -100,7 +101,27 @@ setup_hierarchical() {
 }
 ```
 
-### 2. VAN Mode Updates
+### 2. Workflow Mode Updates (v2.1.0)
+
+#### ASK Mode in Hierarchical Projects
+
+ASK mode provides safe exploration across project boundaries:
+
+```markdown
+## Hierarchical ASK Mode Behavior
+
+1. **Project Discovery**: Shows project hierarchy when asked
+2. **Cross-Project Exploration**: Can read patterns from parent/child projects
+3. **Context Awareness**: Understands inheritance relationships
+4. **Safe Navigation**: Read-only across all project boundaries
+5. **Intelligent Routing**: Suggests appropriate project for implementation
+
+Example:
+User: /project:ask How do authentication patterns work across projects?
+Claude: [Explores parent patterns, current implementation, and child variations]
+```
+
+#### VAN Mode Updates
 
 VAN mode needs to understand hierarchical relationships:
 
@@ -205,17 +226,37 @@ class HierarchicalMemoryBank(MemoryBankAutomation):
 └── [standard structure]
 ```
 
-### 5. Cross-Project Commands
+### 5. Cross-Project Commands (v2.1.0)
 
+#### Slash Commands for Hierarchical Projects
+```bash
+# Initialize with hierarchy awareness
+/project:memory-bank --hierarchical
+
+# Explore across projects
+/project:ask --include-parent
+/project:ask --scan-children
+
+# Work within hierarchy
+/project:van --project services/auth
+/project:plan --inherit-patterns
+/project:reflect --promote-patterns
+```
+
+#### Python Commands
 ```bash
 # Navigate hierarchy
 python auto-update.py --show-hierarchy
 python auto-update.py --aggregate-patterns --include-children
 python auto-update.py --sync-from-parent
 python auto-update.py --promote-to-parent
+```
 
+#### Direct @ Commands
+```bash
 # Cross-project operations
-@VAN --scan-hierarchy     # Scan entire hierarchy
+@ASK --scan-hierarchy     # Explore entire hierarchy
+@VAN --scan-hierarchy     # Initialize with hierarchy awareness
 @PLAN --consider-parent   # Include parent context
 @REFLECT --share-upward   # Promote patterns to parent
 ```

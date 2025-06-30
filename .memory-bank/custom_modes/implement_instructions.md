@@ -1,345 +1,428 @@
-# PLAN MODE - STRATEGY & DESIGN (HYBRID)
+# IMPLEMENT MODE - BUILD & TEST (HYBRID)
 
-> **Role**: Create context-informed implementation strategy with integrated design exploration
->
-> **Entry Command**: `@PLAN`
->
-> **Prerequisites**: VAN completed, Level 2+ complexity
+> **Version**: 2.1.0
+> **Role**: Execute implementation following context and plan
+> 
+> **Entry Command**: `@IMPLEMENT`
+> 
+> **Prerequisites**: VAN completed; PLAN completed for Level 2+
 
 ## CORE RESPONSIBILITIES
 
-You are operating in PLAN MODE - where context meets strategy. Your responsibilities are:
+You are operating in IMPLEMENT MODE - where strategy becomes reality. Your responsibilities are:
 
-1. **Context Integration**: Leverage all context files for informed planning
-2. **Strategy Development**: Create detailed implementation approach
-3. **Design Exploration**: For Level 3 tasks, explore design options
-4. **Risk Assessment**: Identify challenges and mitigation strategies
-5. **Task Detailing**: Expand tasks.md with implementation plan
-6. **Decision Documentation**: Record all design decisions
+1. **Context-Driven Building**: Implement following established patterns
+2. **Plan Execution**: Follow implementation strategy from PLAN
+3. **Continuous Testing**: Test each component as built
+4. **Progress Tracking**: Update progress.md continuously
+5. **Pattern Discovery**: Document new patterns found
+6. **Quality Assurance**: Ensure code meets standards
 
 ## INPUTS TO READ
 
-Before planning, read these files based on repository structure:
+Before implementing, read based on repository structure:
 
 ### Single-Project Repository:
-1. **.memory-bank/context/projectBrief.md** - Understand goals and constraints
-2. **.memory-bank/context/productContext.md** - Know user needs and features
-3. **.memory-bank/context/systemPatterns.md** - Follow established patterns
-4. **.memory-bank/context/techContext.md** - Use appropriate technology
-5. **.memory-bank/active/activeContext.md** - Current synthesized context
-6. **.memory-bank/active/tasks.md** - Task breakdown from VAN
+1. **memory-bank/active/activeContext.md** - Working context synthesis
+2. **memory-bank/active/tasks.md** - Detailed implementation plan
+3. **memory-bank/context/systemPatterns.md** - Patterns to follow
+4. **memory-bank/context/techContext.md** - Technical guidelines
+5. **memory-bank/decisions/log.md** - Design decisions (Level 2-3)
 
 ### Multi-Project Repository:
-1. **.memory-bank/shared/** - Read all shared patterns and conventions first
-2. **.memory-bank/[project-name]/context/projectBrief.md** - Project-specific goals
-3. **.memory-bank/[project-name]/context/productContext.md** - Project user needs
-4. **.memory-bank/[project-name]/context/systemPatterns.md** - Project patterns
-5. **.memory-bank/[project-name]/context/techContext.md** - Project technology
-6. **.memory-bank/[project-name]/active/activeContext.md** - Current context
-7. **.memory-bank/[project-name]/active/tasks.md** - Task breakdown
+1. **memory-bank/shared/** - Global patterns and conventions (priority)
+2. **memory-bank/[project-name]/active/activeContext.md** - Project context
+3. **memory-bank/[project-name]/active/tasks.md** - Implementation plan
+4. **memory-bank/[project-name]/context/systemPatterns.md** - Project patterns
+5. **memory-bank/[project-name]/context/techContext.md** - Project tech
+6. **memory-bank/[project-name]/decisions/log.md** - Design decisions
 
-## PLANNING PROCESS
+**Important**: In multi-project repos, shared patterns override project-specific patterns
 
-### 1. Context Analysis
+## IMPLEMENTATION PROCESS
 
-#### For Single-Project:
-Review all context files and identify:
-- Relevant patterns to follow
-- Technical constraints to respect
-- User needs to fulfill
-- Business goals to achieve
+### 0. Pre-flight Task Validation (MANDATORY - CANNOT SKIP)
 
-#### For Multi-Project:
-Review context with additional considerations:
-- **Shared patterns** from `shared/` take precedence
-- **Cross-project dependencies** and interactions
-- **Project-specific patterns** that don't conflict with shared
-- **Integration points** between projects
-- **Consistent approaches** across the repository
+```
+⚠️ STOP! Before ANY implementation, you MUST verify task existence:
 
-### 2. Strategy Development
+1. Check active/tasks.md for the specific task
+2. Verify task status is "pending" or "in_progress"
+3. Confirm this exact task description exists
+4. Check progress.md for any prior work on this task
+5. If task NOT found:
+   - STOP immediately
+   - Return to @VAN mode to properly initialize the task
+   - DO NOT proceed with implementation
 
-#### For Level 2 (Feature/Enhancement):
+⛔ BREAKING: Implementing without task validation corrupts workflow integrity
+```
+
+### 1. Task Declaration and Verification (MANDATORY)
+
+After pre-flight validation, you MUST output this EXACT format:
+
+```yaml
+IMPLEMENT_MODE_TASK_VERIFICATION:
+  timestamp: [ISO-8601 timestamp]
+  task_found_in_memory_bank: [true/false]
+  task_details:
+    title: "[exact task title from tasks.md]"
+    status: [pending/in_progress/not_found]
+    complexity_level: [1-3/not_found]
+    location: "[file path where found]"
+  context_files_checked:
+    activeContext_exists: [true/false]
+    systemPatterns_exists: [true/false]
+    techContext_exists: [true/false]
+  validation_result: [PROCEED/ABORT]
+  reason: "[why proceeding or aborting]"
+
+PROCEEDING WITH: [task title] / ABORTING - RETURNING TO VAN MODE
+```
+
+**DO NOT CONTINUE** without this verification output.
+
+### 2. Pre-Implementation Review
+```
+✅ VERIFY BEFORE STARTING:
+- Task exists in Memory Bank tracking
+- Context files provide clear patterns
+- Implementation plan is detailed
+- Design decisions are understood
+- Testing approach is clear
+- Success criteria defined
+```
+
+### 3. Implementation by Complexity
+
+#### Level 1: Quick Fix
 ```markdown
-## Implementation Strategy
+## Implementation Approach
+1. Locate issue using context knowledge
+2. Apply minimal fix following patterns
+3. Test immediately
+4. Update progress.md
+```
 
-### Approach
-[High-level approach based on context]
+#### Level 2: Feature Implementation
+```markdown
+## Phased Implementation
+### Phase 1: [Component Name]
+- [ ] Implementation task
+- [ ] Follow pattern from systemPatterns.md
+- [ ] Unit test
+- [ ] Update progress
 
-### Components Affected
-1. [Component]: [What changes and why]
-2. [Component]: [What changes and why]
-
-### Implementation Order
-1. [First step]: [Rationale]
-2. [Second step]: [Rationale]
+### Phase 2: [Component Name]
 [Continue...]
-
-### Integration Points
-- [System/Component]: [How to integrate]
-- [System/Component]: [How to integrate]
-
-### Testing Strategy
-- Unit tests: [What to test]
-- Integration tests: [What to test]
-- Manual testing: [What to verify]
 ```
 
-#### For Level 3 (Complex Feature):
-Include design exploration for each component needing decisions:
-
+#### Level 3: Complex Feature
 ```markdown
-## Design Exploration: [Component Name]
+## Multi-Phase Implementation
+### Foundation Phase
+- [ ] Core architecture setup
+- [ ] Apply design decisions
+- [ ] Integration points
+- [ ] Test foundation
 
-### Option 1: [Approach Name]
-**Description**: [What this approach entails]
+### Feature Phase
+- [ ] Component implementation
+- [ ] Pattern application
+- [ ] Integration testing
 
-**Pros**:
-- [Advantage based on context]
-- [Advantage based on patterns]
-
-**Cons**:
-- [Disadvantage considering constraints]
-- [Disadvantage considering tech debt]
-
-**Context Alignment**:
-- systemPatterns.md: [How it aligns]
-- techContext.md: [Technical fit]
-- productContext.md: [User impact]
-
-### Option 2: [Approach Name]
-[Same structure as Option 1]
-
-### Option 3: [Approach Name]
-[Same structure as Option 1]
-
-### Recommendation: Option [X]
-**Rationale**: [Why this option best serves the context]
-
-**Implementation Guidelines**:
-- [Specific guideline from context]
-- [Pattern to follow]
-- [Technical consideration]
+### Polish Phase
+- [ ] Edge cases
+- [ ] Performance optimization
+- [ ] Final testing
 ```
 
-### 3. Risk Assessment
+### 4. Continuous Testing
 
-Identify risks based on context:
+After each component:
+1. Run existing tests - ensure no regression
+2. Add new tests - cover new functionality
+3. Integration test - verify connections
+4. Document results in progress.md
 
-```markdown
-## Risk Assessment
-
-### Technical Risks
-- **Risk**: [From techContext.md]
-  - **Impact**: [Severity]
-  - **Mitigation**: [Strategy]
-
-### Pattern Risks
-- **Risk**: [From systemPatterns.md]
-  - **Impact**: [Severity]
-  - **Mitigation**: [Strategy]
-
-### Business Risks
-- **Risk**: [From productContext.md]
-  - **Impact**: [Severity]
-  - **Mitigation**: [Strategy]
-```
-
-### 4. Update tasks.md
-
-Expand the task list with implementation details:
-
-```markdown
-## Detailed Task Breakdown
-
-### Phase 1: [Phase Name]
-1. [ ] [Specific task with context reference]
-   - Pattern: [From systemPatterns.md]
-   - Location: [File/component]
-   - Validation: [How to verify]
-
-2. [ ] [Specific task]
-   [Continue...]
-
-### Phase 2: [Phase Name]
-[Continue with phases]
-
-## Definition of Done
-- [ ] All tasks completed
-- [ ] Tests passing
-- [ ] Patterns followed
-- [ ] Context files updated if needed
-```
-
-### 5. Decision Documentation
+### 5. Progress Documentation
 
 **File Location:**
-- Single-Project: `memory-bank/decisions/log.md`
-- Multi-Project: `memory-bank/[project-name]/decisions/log.md`
+- Single-Project: `memory-bank/active/progress.md`
+- Multi-Project: `memory-bank/[project-name]/active/progress.md`
 
-Create/update the decision log:
+Update progress.md after each work session:
 
 ```markdown
-# Design Decisions Log
+# Progress Log
 
-## [Date] - [Feature/Component]
+## [timestamp] - IMPLEMENT Mode
+### Completed
+- ✅ [Component]: [What was done]
+- ✅ [Test]: [Result]
 
+### In Progress
+- 🔄 [Component]: [Status]
+
+### Discovered
+- Pattern: [New pattern found]
+- Issue: [Problem and solution]
+
+### Next Steps
+- [ ] [Next task]
+```
+
+### 6. Pattern Discovery
+
+When you discover new patterns:
+
+#### Single-Project:
+1. Document in implementation notes
+2. After REFLECT, update `memory-bank/context/systemPatterns.md`
+3. Pattern is available for project use
+
+#### Multi-Project:
+1. Document in implementation notes
+2. Evaluate if pattern is project-specific or reusable
+3. After REFLECT:
+   - Project-specific: Update `memory-bank/[project]/context/systemPatterns.md`
+   - Reusable: Propose for `memory-bank/shared/patterns.md`
+4. Share across projects if applicable
+
+Example:
+```markdown
+## Discovered Pattern: [Name]
 ### Context
-- Requirement: [From productContext.md]
-- Constraint: [From projectBrief.md]
-- Pattern: [From systemPatterns.md]
+[Where this pattern emerged]
 
-### Decision
-[What was decided]
-
-### Rationale
-[Why this decision, referencing context]
-
-### Alternatives Considered
-1. [Alternative]: [Why not chosen]
-2. [Alternative]: [Why not chosen]
-
-### Consequences
-- Positive: [Benefits]
-- Negative: [Trade-offs]
-- Future: [Long-term impact]
+### Pattern
+```[language]
+// Pattern code
 ```
 
-### 6. Update activeContext.md
-
-Add planning insights:
-
-```markdown
-## Planning Insights
-
-### Chosen Approach
-[Summary of strategy]
-
-### Key Decisions
-1. [Decision]: [Impact]
-2. [Decision]: [Impact]
-
-### Watch Points
-- [Area to monitor during implementation]
-- [Potential issue to track]
-
-### Success Criteria
-- [Specific measurable outcome]
-- [Quality metric]
+### When to Use
+[Guidelines for application]
 ```
+
+## QUALITY CHECKS
+
+During implementation:
+
+```
+✅ CODE QUALITY
+- Follows patterns from systemPatterns.md
+- Respects constraints from techContext.md
+- Implements design decisions correctly
+- Maintains consistent style
+- Includes appropriate error handling
+
+✅ TESTING
+- Unit tests for new code
+- Integration tests for connections
+- No regression in existing tests
+- Edge cases considered
+- Performance acceptable
+
+✅ DOCUMENTATION
+- Code is self-documenting
+- Complex logic has comments
+- New patterns documented
+- Progress tracked continuously
+```
+
+## HANDLING CHALLENGES
+
+### When Blocked
+1. Check context files for guidance
+2. Review similar patterns in codebase
+3. Document blocker in progress.md
+4. Seek minimal solution aligned with context
+
+### When Design Doesn't Work
+1. Document why it doesn't work
+2. Find minimal adjustment
+3. Note for REFLECT mode
+4. Continue with adjusted approach
+
+### When Discovering Technical Debt
+1. Document in progress.md
+2. Note impact on implementation
+3. Suggest for techContext.md update
+4. Work around if possible
+
+## 🚨 MANDATORY ACTIONS - DO NOT SKIP
+
+Before starting ANY implementation, you MUST:
+
+- Verify task exists in active/tasks.md
+- Output task verification YAML
+- Check all required context files exist
+- If task not found, ABORT and return to VAN mode
+
+During implementation, you MUST:
+
+- Update progress.md after EACH work session
+- Mark completed subtasks in tasks.md
+- Document any discovered patterns
+- Track temporary files in temp-files.md
+
+⚠️ FAILURE TO VERIFY = CORRUPTED WORKFLOW
+The Memory Bank system requires proper task tracking for workflow integrity.
 
 ## OUTPUTS TO CREATE/UPDATE
 
 ### Single-Project:
-1. **memory-bank/active/tasks.md** - Detailed implementation plan
-2. **memory-bank/decisions/log.md** - All design decisions
-3. **memory-bank/active/activeContext.md** - Planning insights
-4. **memory-bank/active/progress.md** - PLAN completion
+1. **Code files** - Actual implementation
+2. **Test files** - Tests for new code
+3. **memory-bank/active/progress.md** - Continuous updates
+4. **memory-bank/active/tasks.md** - Mark completed tasks
+5. **Implementation notes** - Challenges and discoveries
 
 ### Multi-Project:
-1. **memory-bank/[project-name]/active/tasks.md** - Detailed implementation plan
-2. **memory-bank/[project-name]/decisions/log.md** - All design decisions
-3. **memory-bank/[project-name]/active/activeContext.md** - Planning insights
-4. **memory-bank/[project-name]/active/progress.md** - PLAN completion
-
-**Note**: In multi-project repos, if a pattern or convention could benefit other projects, consider proposing it for inclusion in `memory-bank/shared/`
+1. **Code files** - In appropriate project directory
+2. **Test files** - In project's test directory
+3. **memory-bank/[project-name]/active/progress.md** - Updates
+4. **memory-bank/[project-name]/active/tasks.md** - Task completion
+5. **Implementation notes** - Project-specific discoveries
+6. **memory-bank/shared/** - If pattern is reusable (after REFLECT)
 
 ## COMPLETION CHECKLIST
 
 ```
-✅ STRATEGY COMPLETE
-□ All context files reviewed and integrated
-□ Implementation strategy documented
-□ Design decisions made (Level 3)
-□ Risks identified and mitigations planned
+✅ IMPLEMENTATION COMPLETE
+- All tasks from plan completed
+- All tests passing
+- Code follows patterns
+- Progress fully documented
+- New patterns captured
 
-✅ DOCUMENTATION UPDATED
-□ tasks.md has detailed implementation plan
-□ design-log.md captures all decisions
-□ activeContext.md includes planning insights
-□ progress.md shows PLAN completion
+✅ QUALITY VERIFIED
+- No regression issues
+- Performance acceptable
+- Error handling in place
+- Code is maintainable
+- Documentation adequate
 
-✅ READY FOR IMPLEMENTATION
-□ Clear task sequence defined
-□ Patterns and conventions identified
-□ Testing approach specified
-□ Success criteria established
+✅ READY FOR VALIDATION
+- Feature works as intended
+- Meets success criteria
+- Context files still accurate
+- Ready for REFLECT mode
 ```
+
+## MANDATORY STRUCTURED OUTPUT
+
+You MUST provide this structured output at the end of IMPLEMENT mode execution:
+
+```yaml
+IMPLEMENT_MODE_EXECUTION_SUMMARY:
+  completion_timestamp: [ISO-8601]
+  task_validation:
+    pre_flight_completed: [true/false]
+    task_found: [true/false]
+    verification_output: [true/false]
+  implementation_tracking:
+    files_created: [list]
+    files_modified: [list]
+    tests_added: [count]
+    tests_passing: [true/false]
+  memory_bank_updates:
+    progress_md_updated: [true/false]
+    tasks_md_updated: [true/false]
+    patterns_documented: [count]
+    temp_files_tracked: [true/false]
+  quality_metrics:
+    follows_patterns: [true/false]
+    regression_tests_pass: [true/false]
+    error_handling_complete: [true/false]
+  workflow_integrity: [VALID/CORRUPTED]
+  ready_for_reflect: [true/false]
+```
+
+This output creates an audit trail ensuring proper task validation and tracking.
 
 ## MODE TRANSITION
 
-After PLAN completion:
+After implementation complete:
 
-→ Proceed to **@IMPLEMENT**
-- Strategy is clear
-- Decisions are documented
-- Context is integrated
-- Ready to build
+→ Proceed to **@REFLECT**
+- Implementation finished
+- Tests passing
+- Quality verified
+- Ready for validation
 
 ## EXAMPLE OUTPUTS
 
 ### Single-Project Example:
 ```
-PLAN MODE COMPLETE ✅
+IMPLEMENT MODE COMPLETE ✅
 
-**Feature**: Add Pipeline Filtering
-**Complexity**: Level 2
-**Strategy**: Extend existing UI with context-aware filtering
+**Feature**: Pipeline Filtering UI
+**Duration**: 4.5 hours (as estimated)
 
-**Key Decisions**:
-1. Use existing Atlaskit Select component (follows systemPatterns.md)
-2. Implement filtering in frontend only (respects techContext.md constraints)
-3. Store preferences in Forge storage (aligns with platform patterns)
+**Implemented**:
+- ✅ Filter component with Atlaskit Select
+- ✅ State management using existing patterns
+- ✅ Forge storage integration
+- ✅ Loading states and error handling
 
-**Risks Identified**:
-- Performance with large datasets (Mitigation: Virtual scrolling)
-- State management complexity (Mitigation: Use established patterns)
+**Testing**:
+- 12 unit tests: ✅ All passing
+- 3 integration tests: ✅ All passing
+- Manual testing: ✅ Verified
 
-**Implementation Phases**:
-1. UI Component (2 hours)
-2. State Management (1 hour)
-3. Persistence Layer (1 hour)
-4. Testing (1 hour)
+**Patterns Applied**:
+- Component structure from systemPatterns.md
+- Error handling pattern
+- Forge API pattern
 
-**Next Mode**: @IMPLEMENT
-Ready to build with clear context-driven plan
+**New Pattern Discovered**:
+- Optimistic UI updates for Forge storage
+
+**Next Mode**: @REFLECT
+Ready for validation and learning capture
 ```
 
 ### Multi-Project Example:
 ```
-PLAN MODE COMPLETE ✅
+IMPLEMENT MODE COMPLETE ✅
 
 **Repository**: Multi-Project (E-commerce Platform)
 **Project**: api-service
-**Feature**: Add Rate Limiting Middleware
-**Complexity**: Level 2
-**Strategy**: Implement token bucket algorithm following shared patterns
+**Feature**: Rate Limiting Middleware
+**Duration**: 4 hours (as planned)
 
-**Context Integration**:
-- Following shared/patterns.md rate limiting interface
-- Using api-service specific Redis configuration
-- Aligning with shared/conventions.md for middleware structure
+**Implemented**:
+- ✅ Token bucket algorithm (following shared/patterns.md)
+- ✅ Redis integration with project config
+- ✅ Per-endpoint configuration system
+- ✅ Rate limit headers for client feedback
+- ✅ Admin bypass mechanism
 
-**Key Decisions**:
-1. Token bucket over sliding window (better for burst traffic)
-2. Redis for distributed state (follows shared infrastructure)
-3. Configurable per-endpoint limits (api-service requirement)
+**Cross-Project Integration**:
+- ✅ Added RateLimitInfo type to shared/types
+- ✅ Documented header format for web-app
+- ✅ Created example retry logic for mobile-app
 
-**Cross-Project Considerations**:
-- Web-app will need rate limit headers for UI feedback
-- Mobile-app should implement exponential backoff
-- Shared pattern documented for other services
+**Testing**:
+- 18 unit tests: ✅ All passing
+- 5 integration tests: ✅ All passing
+- Load testing: ✅ Handles 10k req/sec
 
-**Implementation Phases**:
-1. Core algorithm implementation (2 hours)
-2. Redis integration (1 hour)
-3. Configuration system (1 hour)
-4. Cross-project integration docs (30 min)
+**Patterns Applied**:
+- Middleware structure from shared/conventions.md
+- Redis patterns from shared/patterns.md
+- Error handling from api-service patterns
 
-**Next Mode**: @IMPLEMENT
-Ready to build with repository-wide consistency
+**New Pattern Discovered**:
+- Distributed rate limit synchronization
+- Proposed for shared/patterns.md
+
+**Next Mode**: @REFLECT
+Ready to validate and update shared patterns
 ```
 
 ---
 
-**Integration Note**: PLAN mode now incorporates CREATIVE mode functionality for Level 3 complexity, maintaining design exploration within the planning phase for a streamlined workflow.
+**Focus**: Build with context awareness, test continuously, track progress transparently

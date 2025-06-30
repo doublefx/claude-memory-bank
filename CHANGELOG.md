@@ -5,6 +5,46 @@ All notable changes to Claude Memory Bank will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-06-30
+
+### Added
+- **ASK Mode**: New 5th mode for read-only conversational exploration
+  - Safe space for questions and requirements clarification
+  - No file modifications allowed
+  - Accessible via `@ASK` or `/project:ask`
+  - Guides users to appropriate workflow mode when ready
+- **Claude Code Terminal Integration**: Full slash command support
+  - Six slash commands in `.claude/commands/` directory
+  - `/project:ask`, `/project:van`, `/project:plan`, `/project:implement`, `/project:reflect`
+  - `/project:memory-bank` to force CLAUDE.md reading
+  - Each command maps to corresponding @ mode
+- **Temporary File Tracking System**: New `temp-files.md` in active directory
+  - Table format for tracking transient resources
+  - REFLECT mode integration for cleanup prompts
+  - Helps maintain clean project structure
+- **Test Enhancements**: Comprehensive v2.1.0 feature verification
+  - New `verify_v21_features()` function in test suite
+  - Tests for slash commands, ASK mode, and temp file tracking
+  - Conditional logic for multi-project test scenarios
+
+### Changed
+- Updated workflow from 4 modes to 5 modes (ASK → VAN → PLAN → IMPLEMENT → REFLECT)
+- Enhanced all mode instructions with mandatory update checkboxes
+- Improved QUICK-REFERENCE.md with new features and best practices
+- Updated version to 2.1.0 throughout all documentation
+
+### Fixed
+- **Sub-project slash commands**: Fixed bug where sub-projects in multi-repo setups didn't receive slash commands
+  - Updated `create_project_structure()` in setup-memory-bank.sh
+  - Now properly copies `.claude/commands/` to all sub-projects
+- **Test string matching**: Fixed grep pattern issues with `-F` flag for literal strings
+- **Multi-project test logic**: Skip root-level temp-files.md check for multi-root projects
+
+### Documentation
+- Updated Memory Bank context files (projectBrief.md, systemPatterns.md)
+- Enhanced technical documentation (architecture.md, implementation-guide.md, mode-specifications.md)
+- Added v2.1.0 patterns for test implementation and bug fixes
+
 ## [2.0.0] - 2025-06-20
 
 ### Changed

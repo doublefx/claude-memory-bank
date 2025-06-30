@@ -38,7 +38,7 @@ platform/ (.git)
 In `auth-service/.memory-bank/hierarchy.json`:
 ```json
 {
-  "version": "2.1",
+  "version": "2.1.0",
   "current_project": {
     "path": ".",
     "name": "auth-service",
@@ -63,7 +63,28 @@ In `auth-service/.memory-bank/hierarchy.json`:
 }
 ```
 
-## VAN Mode Behavior
+## Mode Behaviors in Hierarchical Projects (v2.1.0)
+
+### ASK Mode Behavior
+
+When running `/project:ask` in `auth-service/`:
+```
+User: /project:ask How do authentication patterns work in this project?
+
+Claude: I'll explore the authentication patterns across the project hierarchy.
+
+[Reads parent conventions and patterns]
+[Reads local auth-service patterns]
+
+Based on the hierarchy:
+- Platform defines base error handling and logging patterns
+- Auth-service extends these with JWT token patterns and OAuth2 flows
+- The service follows parent conventions but has specialized auth patterns
+
+Would you like to explore specific auth patterns or see how they differ from parent patterns?
+```
+
+### VAN Mode Behavior
 
 When running `@VAN` in `auth-service/`:
 ```

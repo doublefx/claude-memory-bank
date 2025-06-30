@@ -3,8 +3,8 @@
 > Track all temporary files, test directories, and other transient resources created during development.
 > Remove entries after cleaning up the files.
 
-| Date | Purpose | Path |
-|------|---------|------|
+| Date (Optional) | Purpose | Path |
+|-----------------|---------|------|
 | | | |
 
 ## Usage Instructions
@@ -16,8 +16,8 @@
 
 ## Examples
 
-| Date | Purpose | Path |
-|------|---------|------|
+| Date (Optional) | Purpose | Path |
+|-----------------|---------|------|
 | 2025-06-20 | Test directory for v1 migration | ./test/test-projects |
-| 2025-06-20 | Backup from migration | ./memory-bank-backup-20250620 |
+| | Backup from migration | ./memory-bank-backup-20250620 |
 | 2025-06-20 | Temporary test output | ./test-results.tmp |

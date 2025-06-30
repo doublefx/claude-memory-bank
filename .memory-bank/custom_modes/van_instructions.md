@@ -1,5 +1,6 @@
 # VAN MODE - INITIALIZE & ASSESS (HYBRID)
 
+> **Version**: 2.1.0
 > **Role**: Establish context foundation and assess task complexity
 >
 > **Entry Command**: `@VAN`
@@ -37,6 +38,25 @@ You are operating in VAN MODE - the mandatory entry point for all Memory Bank wo
 
 ## STEP-BY-STEP PROCESS
 
+### 0. Pre-flight Validation (MANDATORY - CANNOT SKIP)
+
+```
+⚠️ STOP! Before proceeding with ANY other steps, you MUST complete this validation:
+
+1. Check if .memory-bank/context/ directory exists
+2. If it exists, read ALL four context files:
+   - projectBrief.md
+   - productContext.md  
+   - systemPatterns.md
+   - techContext.md
+3. For each file, count placeholder markers: [], {}, [Description], [Date], etc.
+4. Calculate template score: (placeholder_count / total_words) * 100
+5. If ANY file has template score > 20%, FORCE Initialize mode
+6. Log this check with timestamp in progress.md
+
+⛔ BREAKING: Skipping this check will corrupt the entire workflow
+```
+
 ### 1. Project Structure Detection
 ```bash
 # Determine if single or multi-project repository
@@ -48,15 +68,34 @@ else:
     STRUCTURE = "Single-Project"
 ```
 
-### 2. Initial Context Check
+### 2. Mode Detection and Declaration (MANDATORY)
 
-**Template Detection**: Files are considered templates (needing initialization) if they:
-- Contain multiple placeholder markers like `[Description]`, `[Date]`, etc.
-- Have sections with only placeholder content
-- Lack project-specific information
-- Match the default template structure exactly
+After pre-flight validation, you MUST output this EXACT format:
 
-When templates are detected, treat as "Initialize" mode even if files exist.
+```yaml
+VAN_MODE_DETECTION_RESULT:
+  timestamp: [ISO-8601 timestamp]
+  structure_type: [Single-Project/Multi-Project]
+  files_checked:
+    - projectBrief.md: [exists/missing]
+    - productContext.md: [exists/missing]
+    - systemPatterns.md: [exists/missing]
+    - techContext.md: [exists/missing]
+  template_analysis:
+    total_placeholders_found: [number]
+    template_score: [percentage]
+    sample_placeholders: ["list of found placeholders"]
+  mode_selected: [Initialize/Update]
+  reason: "[Specific evidence for mode selection]"
+  
+PROCEEDING IN: [INITIALIZE/UPDATE] MODE
+```
+
+**DO NOT CONTINUE** without outputting this declaration.
+
+### 3. Context Check Implementation
+
+Based on the Mode Detection result from Step 2, proceed with the appropriate checks:
 
 #### For Single-Project:
 ```bash
@@ -109,7 +148,7 @@ if active tasks found:
 - Historical decisions in `decisions/`
 - Architecture diagrams in `images/`
 
-### 3. Project Analysis
+### 4. Project Analysis
 
 #### For Single-Project:
 - Examine complete project structure
@@ -126,7 +165,7 @@ if active tasks found:
 - Understand cross-project dependencies
 - Review project-specific technical documentation
 
-### 4. Context File Creation/Update
+### 5. Context File Creation/Update
 
 **Location varies by structure:**
 - Single-Project: `memory-bank/context/`
@@ -217,14 +256,13 @@ if active tasks found:
 - **Key Components**: [Major architectural pieces]
 
 ## Code Organization
-```
+
 project/
 ├── src/           # [Purpose]
 │   ├── backend/   # [Purpose]
 │   └── frontend/  # [Purpose]
 ├── tests/         # [Purpose]
 └── docs/          # [Purpose]
-```
 
 ## Coding Conventions
 ### Naming
@@ -325,7 +363,7 @@ project/
 - [Improvement]: [Benefit]
 ```
 
-### 5. Complexity Assessment
+### 6. Complexity Assessment
 
 #### Level 1: Quick Fix
 - Single file or configuration change
@@ -406,7 +444,7 @@ project/
 ## Next Mode: [IMPLEMENT or PLAN]
 ```
 
-### 7. Progress Tracking
+### 8. Progress Tracking and Output Requirements
 
 **Location varies by structure:**
 - Single-Project: `.memory-bank/active/progress.md`
@@ -417,11 +455,46 @@ Update progress.md:
 # Progress Log
 
 ## [timestamp] - VAN Mode Completed
+- Pre-flight validation: Completed
+- Mode detection: [Initialize/Update]
 - Context files: [Created/Updated]
 - Complexity assessed: Level [1-3]
 - Tasks defined: [count]
 - Next mode: [mode]
 ```
+
+### MANDATORY STRUCTURED OUTPUT
+
+You MUST provide this structured output at the end of VAN mode execution:
+
+```yaml
+VAN_MODE_EXECUTION_SUMMARY:
+  completion_timestamp: [ISO-8601]
+  pre_flight_validation:
+    completed: [true/false]
+    template_detection_result: [Initialize/Update]
+    evidence_logged: [true/false]
+  mode_detection:
+    declaration_output: [true/false]
+    mode_selected: [Initialize/Update]
+    timestamp_logged: [true/false]
+  context_operations:
+    files_created: [list of files]
+    files_updated: [list of files]
+    template_placeholders_replaced: [count]
+  task_management:
+    task_created: [true/false]
+    complexity_level: [1-3]
+    priority: [high/medium/low]
+    status: [pending/in_progress]
+  progress_tracking:
+    progress_md_updated: [true/false]
+    activeContext_created: [true/false]
+  next_mode: [IMPLEMENT/PLAN]
+  workflow_integrity: [VALID/CORRUPTED]
+```
+
+This output creates an audit trail ensuring all steps were followed correctly.
 
 ## COMPLETION CHECKLIST
 
@@ -429,21 +502,21 @@ Before exiting VAN mode, verify:
 
 ```
 ✅ CONTEXT FOUNDATION
-□ projectBrief.md exists and is current
-□ productContext.md captures user/business needs
-□ systemPatterns.md documents conventions
-□ techContext.md has technical details
+- projectBrief.md exists and is current
+- productContext.md captures user/business needs
+- systemPatterns.md documents conventions
+- techContext.md has technical details
 
 ✅ ACTIVE WORK
-□ activeContext.md synthesizes relevant context
-□ tasks.md has clear task breakdown
-□ progress.md updated with VAN completion
+- activeContext.md synthesizes relevant context
+- tasks.md has clear task breakdown
+- progress.md updated with VAN completion
 
 ✅ ASSESSMENT
-□ Complexity level determined (1-3)
-□ Workflow path identified
-□ Duration estimated
-□ Next mode recommended
+- Complexity level determined (1-3)
+- Workflow path identified
+- Duration estimated
+- Next mode recommended
 ```
 
 ## MULTI-PROJECT WORKFLOW
@@ -481,6 +554,35 @@ In multi-project repositories:
 - Shared patterns are read from `shared/` directory
 - Project selection determines which context to load
 - Context synthesis focuses on selected project
+
+## 🚨 MANDATORY ACTIONS - DO NOT SKIP
+
+Before exiting VAN mode, you MUST complete:
+
+- Create/update tasks.md with:
+  - Task description and title
+  - Complexity level (1-3) 
+  - Priority (high/medium/low)
+  - Status: "pending" or "in_progress"
+  - Created date
+  
+- Create/update all context files:
+  - projectBrief.md (if new or needs update)
+  - productContext.md (if new or needs update)
+  - systemPatterns.md (if new or needs update)
+  - techContext.md (if new or needs update)
+  
+- Create/update activeContext.md with:
+  - Current focus
+  - Mode: VAN
+  - Context synthesis from all files
+  
+- Determine complexity level (1-3)
+
+- Select next mode based on complexity
+
+⚠️ FAILURE TO UPDATE = BROKEN WORKFLOW
+The Memory Bank system depends on these updates for continuity across sessions.
 
 ## MODE TRANSITION
 

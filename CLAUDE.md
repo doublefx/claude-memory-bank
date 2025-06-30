@@ -1,6 +1,6 @@
 # Claude Code Memory Bank Configuration - Hybrid System
 
-> **Memory Bank System v2.0** - Context-Driven Workflow  
+> **Memory Bank System v2.1.0** - Context-Driven Workflow  
 > Original methodology by @vanzan01, hybrid design for optimal context + workflow balance  
 > Combines context preservation with structured development workflow
 
@@ -26,6 +26,7 @@ flowchart TD
     end
     
     subgraph "Workflow Modes"
+        ASK[💬 ASK: Explore]
         VAN[🔍 VAN: Initialize]
         PLAN[📋 PLAN: Strategy]
         IMPLEMENT[⚒️ IMPLEMENT: Build]
@@ -145,7 +146,21 @@ flowchart TD
 - **conventions.md** - Global coding standards
 - **architecture.md** - Overall system design
 
-## Workflow Modes (4 Simplified Modes)
+## Workflow Modes (5 Modes - Including ASK)
+
+### @ASK - Explore & Discuss
+**Purpose**: Conversational mode for questions and exploration  
+**Entry**: `@ASK` or `/project:ask`  
+**No Prerequisites**: Often the starting point for new users
+
+When `@ASK` is invoked:
+1. Enter read-only discussion mode
+2. Answer questions about code, architecture, or workflow
+3. Help clarify requirements through conversation
+4. Suggest appropriate workflow mode when ready to implement
+5. NO file modifications allowed
+
+**Key Constraint**: This is a READ-ONLY mode for exploration
 
 ### @VAN - Initialize & Assess
 **Purpose**: Establish context foundation and assess task complexity  
@@ -261,12 +276,14 @@ Only `shared/` contains cross-project resources.
 
 ```mermaid
 graph LR
-    VAN[VAN] -->|Level 1| IMPLEMENT[IMPLEMENT]
+    ASK[ASK] -->|Ready to start| VAN[VAN]
+    VAN -->|Level 1| IMPLEMENT[IMPLEMENT]
     VAN -->|Level 2-3| PLAN[PLAN]
     PLAN --> IMPLEMENT
     IMPLEMENT --> REFLECT[REFLECT]
     REFLECT -->|New task| VAN
     REFLECT -->|Complete| END[End]
+    ASK -.->|Questions anytime| ASK
 ```
 
 ## Error Recovery
@@ -292,7 +309,7 @@ If context seems outdated:
 ## Benefits of Hybrid Approach
 
 1. **Best of Both Worlds**: Context preservation + workflow structure
-2. **Reduced Complexity**: 4 modes instead of 6 in the Cursor approach
+2. **Reduced Complexity**: 5 modes (including ASK) vs 6 in original approach
 3. **Flexible Application**: Adapt to task needs
 4. **Living Documentation**: Context stays current
 5. **Multi-Project Support**: Scales from single to many projects
@@ -303,4 +320,4 @@ If context seems outdated:
 
 **Original Methodology**: @vanzan01 (cursor-memory-bank)  
 **Hybrid Design**: Optimized for context-driven development with workflow benefits  
-**Version**: 2.0 - Context-Driven Workflow System
+**Version**: 2.1.0 - Context-Driven Workflow System

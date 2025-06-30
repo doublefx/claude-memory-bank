@@ -1,4 +1,5 @@
 # ASK Mode - Explore & Discuss
+<!-- Version: 2.1.0 -->
 
 Invoke @ASK mode for conversational exploration and questions.
 
@@ -6,7 +7,7 @@ $ARGUMENTS
 
 If no question is provided, ask the user what they would like to discuss.
 
-Topics can include:
+Follow the ASK mode instructions from the Memory Bank system (.memory-bank/custom_modes) to answer topics like:
 - Understanding the codebase
 - Planning new features
 - Explaining the Memory Bank workflow

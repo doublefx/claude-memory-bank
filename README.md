@@ -1,9 +1,9 @@
 # Claude Memory Bank
 
-> **Memory Bank System v2.0 - Generic Context-Driven Workflow**  
+> **Memory Bank System v2.1.0 - Enhanced Context-Driven Workflow**  
 > Based on original methodology by [@vanzan01](https://github.com/vanzan01/cursor-memory-bank)  
 > Supports both single-project and multi-project repositories  
-> Combines context preservation with streamlined workflow (4 modes)
+> Combines context preservation with streamlined workflow (5 modes)
 
 A context-driven development system for Claude Code that automatically adapts to your repository structure. Whether you're working on a single project or managing multiple projects in a monorepo, the Memory Bank system provides persistent context and structured workflows.
 
@@ -15,12 +15,20 @@ flowchart TD
         PB --> TC[⚙️ techContext.md]
     end
     
-    subgraph "Workflow Modes"
-        VAN[🔍 VAN: Initialize] --> PLAN[📋 PLAN: Strategy]
-        VAN --> IMPLEMENT[⚒️ IMPLEMENT: Build]
-        PLAN --> IMPLEMENT
-        IMPLEMENT --> REFLECT[✅ REFLECT: Validate]
+    subgraph "Workflow Modes (v2.1.0)"
+        ASK[💬 ASK: Explore]
+        VAN[🔍 VAN: Initialize]
+        PLAN[📋 PLAN: Strategy]
+        IMPLEMENT[⚒️ IMPLEMENT: Build]
+        REFLECT[✅ REFLECT: Validate]
     end
+    
+    ASK -.->|Ready to start| VAN
+    VAN -->|Level 1| IMPLEMENT
+    VAN -->|Level 2-3| PLAN
+    PLAN --> IMPLEMENT
+    IMPLEMENT --> REFLECT
+    REFLECT -->|New task| VAN
     
     PC --> AC[💡 activeContext.md]
     SP --> AC
@@ -31,7 +39,7 @@ flowchart TD
 
 The Memory Bank v2.0 system evolves to support flexible project structures while maintaining workflow quality:
 
-- **4-Mode Workflow**: Simplified VAN → PLAN → IMPLEMENT → REFLECT progression
+- **5-Mode Workflow**: ASK (optional) → VAN → PLAN → IMPLEMENT → REFLECT progression
 - **Auto-Detection**: Automatically identifies single vs multi-project repositories
 - **Context First**: All work begins with understanding through context files
 - **Project Isolation**: Each project maintains independent context in multi-project
@@ -50,13 +58,14 @@ The original cursor-memory-bank used a comprehensive 6-mode workflow:
 - Mandatory ARCHIVE mode for Level 3-4 tasks
 - 4 complexity levels with rigid routing
 
-### Memory Bank v2.0 (4 Modes) - Why It's Better
+### Memory Bank v2.1.0 (5 Modes) - Why It's Better
 
-#### 1. **Reduced Complexity**
-- **From 6 to 4 modes**: Eliminated redundant steps
+#### 1. **Optimized Complexity**
+- **From 6 to 5 modes**: Eliminated redundant steps, added exploration
 - **CREATIVE merged into PLAN**: Design exploration happens where planning occurs
 - **ARCHIVE eliminated**: Context files serve as living documentation
-- **Result**: 33% fewer modes to navigate
+- **ASK mode added**: Conversational exploration before commitment
+- **Result**: Better entry point with exploration, while maintaining efficiency
 
 #### 2. **Context-Driven Development**
 - **4 Foundation Files**: `projectBrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`
@@ -127,10 +136,26 @@ setup-memory-bank.sh --multi
 ```
 
 ### Start Working
+
+#### Using Slash Commands (Recommended)
 ```bash
-# Start Claude Code and begin with VAN mode
+# Initialize Memory Bank system
+/project:memory-bank
+
+# Explore and ask questions
+/project:ask
+
+# Start a new task
+/project:van
+```
+
+#### Using @ Commands (Direct)
+```bash
+# Start with exploration
+@ASK
+
+# Or jump to task initialization
 @VAN
-# VAN will detect structure and guide you
 ```
 
 ## 📋 System Requirements
@@ -174,12 +199,21 @@ The `cmb-setup` command points to the script inside `claude-memory-bank/`.
 project/
 ├── CLAUDE.md                    # Claude Code configuration
 ├── starter-prompt.md            # Initialization guide
+├── .claude/                     # Claude Code Terminal integration
+│   └── commands/                # Slash commands (v2.1.0)
+│       ├── memory-bank.md
+│       ├── van.md
+│       ├── plan.md
+│       ├── implement.md
+│       ├── reflect.md
+│       └── ask.md
 ├── .memory-bank/
 │   ├── custom_modes/            # Mode instruction files
 │   │   ├── van_instructions.md
 │   │   ├── plan_instructions.md
 │   │   ├── implement_instructions.md
-│   │   └── reflect_instructions.md
+│   │   ├── reflect_instructions.md
+│   │   └── ask_instructions.md  # v2.1.0
 │   ├── context/                 # Foundation files
 │   │   ├── projectBrief.md
 │   │   ├── productContext.md
@@ -188,7 +222,8 @@ project/
 │   ├── active/                  # Current work
 │   │   ├── tasks.md
 │   │   ├── activeContext.md
-│   │   └── progress.md
+│   │   ├── progress.md
+│   │   └── temp-files.md        # v2.1.0
 │   ├── technical/               # Deep implementation docs
 │   ├── decisions/               # Design decisions
 │   │   └── log.md
@@ -221,9 +256,29 @@ monorepo/
 
 ## 🔧 Mode Detailed Documentation
 
+### 💬 ASK Mode - Explore & Discuss
+**Purpose**: Conversational exploration without implementation  
+**Entry**: `/project:ask` or `@ASK` (Optional starting point)  
+**Output**: Understanding and guidance, routes to appropriate mode
+
+```markdown
+Responsibilities:
+- Answer questions about code, architecture, or workflow
+- Explore potential approaches without implementing
+- Educate users on Memory Bank workflow
+- READ-ONLY mode - no file modifications
+- Suggest appropriate workflow mode when ready
+
+Perfect for:
+- New users learning the system
+- Exploring "what if" scenarios
+- Understanding existing code
+- Planning before committing to changes
+```
+
 ### 🔍 VAN Mode - Initialization & Assessment
 **Purpose**: Structure detection, project analysis and complexity assessment  
-**Entry**: `@VAN` (MANDATORY starting point)  
+**Entry**: `/project:van` or `@VAN` (Required for actual work)  
 **Output**: Context files, tasks.md with complexity level and routing
 
 ```markdown
@@ -249,7 +304,7 @@ Multi-Project Features:
 
 ### 📋 PLAN Mode - Strategy & Design
 **Purpose**: Context-informed implementation strategy  
-**Entry**: `@PLAN` (after VAN for Level 2-3)  
+**Entry**: `/project:plan` or `@PLAN` (after VAN for Level 2-3)  
 **Output**: Implementation plan with integrated design exploration
 
 ```markdown
@@ -276,7 +331,7 @@ Context Foundation:
 
 ### ⚒️ IMPLEMENT Mode - Build & Test
 **Purpose**: Execute implementation following context and plan  
-**Entry**: `@IMPLEMENT` (after VAN for Level 1, after PLAN for Level 2-3)  
+**Entry**: `/project:implement` or `@IMPLEMENT` (after VAN for Level 1, after PLAN for Level 2-3)  
 **Output**: Working implementation with comprehensive testing
 
 ```markdown
@@ -288,7 +343,7 @@ Implementation Approach:
 
 ### 🔍 REFLECT Mode - Validate & Learn
 **Purpose**: Quality validation and context updates  
-**Entry**: `@REFLECT` (after IMPLEMENT)  
+**Entry**: `/project:reflect` or `@REFLECT` (after IMPLEMENT)  
 **Output**: Validation results and updated context files
 
 ```markdown
@@ -547,14 +602,70 @@ setup-memory-bank.sh --add-project
 - **Anthropic**: Claude "Think" tool methodology integrated into PLAN mode
 - **Claude Code Team**: File-based configuration system that enables this adaptation
 
-## 🆕 What's New in v2.0
+## 🆕 What's New in v2.1.0
 
+### 🚀 v2.1.0 Features (Latest Release)
+
+#### **1. ASK Mode - Conversational Exploration**
+- 5th workflow mode for read-only exploration
+- Entry via `/project:ask` or `@ASK`
+- Perfect for:
+  - New users learning the system
+  - Exploring "what if" scenarios  
+  - Understanding existing code
+  - Planning before committing to changes
+- Intelligently routes to appropriate mode when ready
+- NO file modifications allowed
+
+#### **2. Claude Code Terminal Integration**
+- **Slash Commands** in `.claude/commands/`:
+  - `/project:memory-bank` - Universal initialization
+  - `/project:van` - Initialize & assess
+  - `/project:plan` - Strategy & design
+  - `/project:implement` - Build & test
+  - `/project:reflect` - Validate & learn
+  - `/project:ask` - Explore & discuss
+- All commands versioned as v2.1.0
+- Seamless integration with Claude Code Terminal
+
+#### **3. Temporary Files Tracking**
+- New `active/temp-files.md` for tracking transient resources
+- Table format: Date (optional) | Purpose | Path
+- Integrated with REFLECT mode for cleanup
+- Prevents accumulation of test files and temporary directories
+
+#### **4. Enhanced Workflow Enforcement**
+- **MANDATORY ACTIONS** sections in all modes
+- Clear checklists for required updates
+- Failure warnings for skipped Memory Bank updates
+- Ensures workflow integrity and documentation quality
+
+#### **5. Local Installation Sync**
+- `sync-from-project.sh` script for updating global installation
+- Preserves local modifications while updating core features
+- Easy upgrade path from v2.0 to v2.1.0
+
+#### **6. Improved Mode Features**
+- **VAN**: Enhanced multi-project detection, temp-files.md initialization
+- **PLAN**: Better design documentation requirements
+- **IMPLEMENT**: Enforced progress tracking and pattern discovery
+- **REFLECT**: Temporary file cleanup checklist, enhanced validation
+
+### ⚡ v2.0 Core Features
+
+### Core Features
 - **Structure Detection**: Automatically identifies repository type
 - **Multi-Project Support**: Manage multiple projects in one repo
 - **Active Task Scanning**: Find and resume work across projects
 - **Shared Patterns**: Cross-project knowledge sharing
 - **Enhanced Automation**: Project-aware scripts
 - **Simplified Setup**: Interactive or forced setup options
+- **Hidden Directory**: `.memory-bank` for cleaner project structure
+
+### Breaking Changes in v2.0
+- **Hidden Directory**: Changed from `memory-bank/` to `.memory-bank/`
+- **V1→V2 Migration**: Automated migration for all subdirectories
+- **Multi-Project**: New structure with `shared/` directory
 
 ### v2.1 Preview - Hierarchical Projects
 - **Nested Repository Detection**: Identifies git submodules and nested repos
@@ -572,9 +683,9 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ## 🎯 System Status
 
-**Version**: 2.0  
+**Version**: 2.1.0  
 **Status**: Production Ready  
-**Features**: Single & Multi-Project Support  
+**Features**: Single & Multi-Project Support, ASK Mode, Slash Commands  
 **Compatibility**: Claude Code (all versions)  
 **Methodology**: Context-driven with adaptive structure detection  
 

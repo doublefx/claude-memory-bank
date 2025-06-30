@@ -1,4 +1,4 @@
-# Claude Memory Bank v2.0 - Quick Reference
+# Claude Memory Bank v2.1.0 - Quick Reference
 
 ## 🚀 Quick Commands
 
@@ -19,10 +19,21 @@ setup-memory-bank.sh --add-project
 
 ### Workflow Modes
 ```
-@VAN      # Initialize & assess (ALWAYS FIRST)
-@PLAN     # Strategy & design (Level 2-3)
+@ASK       # Explore & discuss (READ-ONLY)
+@VAN       # Initialize & assess (ALWAYS FIRST)
+@PLAN      # Strategy & design (Level 2-3)
 @IMPLEMENT # Build & test
 @REFLECT   # Validate & learn
+```
+
+### Claude Code Terminal Commands (v2.1.0)
+```
+/project:ask         # Enter ASK mode for exploration
+/project:van         # Initialize Memory Bank
+/project:plan        # Create implementation strategy
+/project:implement   # Execute the plan
+/project:reflect     # Validate and learn
+/project:memory-bank # Force CLAUDE.md reading
 ```
 
 ### Automation
@@ -79,18 +90,28 @@ python .memory-bank/scripts/auto-update.py --all --project-name api-service
 
 ### Active Work
 - `activeContext.md` - Current synthesis
-- `tasks.md` - Task breakdown
+- `tasks.md` - Task breakdown  
 - `progress.md` - Progress tracking
+- `temp-files.md` - Temporary file tracking (v2.1.0)
 
 ## 💡 Best Practices
 
-1. **Always start with @VAN** - Creates/updates context
-2. **Skip modes when obvious** - Level 1 can skip PLAN
-3. **Update context continuously** - Living documentation
-4. **Use project-name in multi-repo** - Specify target project
-5. **Run --health-check weekly** - Monitor context freshness
+1. **Start with @ASK for exploration** - No changes, just discussion
+2. **Always run @VAN before work** - Creates/updates context
+3. **Skip modes when obvious** - Level 1 can skip PLAN
+4. **Update context continuously** - Living documentation
+5. **Track temp files** - Update temp-files.md during work
+6. **Use project-name in multi-repo** - Specify target project
+7. **Run --health-check weekly** - Monitor context freshness
 
 ## 🎯 Common Workflows
+
+### Exploration & Questions (NEW in v2.1.0)
+```
+1. @ASK                    # Enter conversational mode
+2. Discuss requirements    # No file changes
+3. @VAN when ready        # Start actual work
+```
 
 ### New Feature (Level 2)
 ```
@@ -140,5 +161,5 @@ python .memory-bank/scripts/auto-update.py --list-tasks
 ```
 
 ---
-*Memory Bank v2.0 - Generic Context-Driven Workflow*  
+*Memory Bank v2.1.0 - Context-Driven Workflow with ASK Mode*  
 *Original methodology by @vanzan01*
