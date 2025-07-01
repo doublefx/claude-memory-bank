@@ -33,7 +33,7 @@ setup-memory-bank.sh --add-project
 /user:memory-bank:plan      # Create implementation strategy
 /user:memory-bank:implement # Execute the plan
 /user:memory-bank:reflect   # Validate and learn
-/user:memory-bank:activate  # Force CLAUDE.md reading
+/user:memory-bank:activate  # Read BOOTSTRAP.md
 ```
 
 ### Automation

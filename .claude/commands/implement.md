@@ -1,4 +1,4 @@
-# IMPLEMENT Mode - Build & Test
+# Memory Bank: IMPLEMENT Mode - Build & Test
 <!-- Version: 2.1.0 -->
 
 Invoke @IMPLEMENT mode to execute the implementation plan.

@@ -117,7 +117,7 @@ Do you have nested .git directories?
 
 **Quick fix**:
 ```bash
-mkdir -p memory-bank/custom_modes memory-bank/scripts
+mkdir -p .memory-bank/custom_modes .memory-bank/scripts
 # Then copy mode files manually
 ```
 
@@ -137,4 +137,4 @@ When you have hierarchical repos, Memory Bank can:
 - Enable pattern inheritance (child overrides parent)
 - Respect `memory-bank-ignore` for exclusions
 
-Run `python memory-bank/scripts/detect-hierarchy.py` to analyze your structure!
+Run `python .memory-bank/scripts/detect-hierarchy.py` to analyze your structure!

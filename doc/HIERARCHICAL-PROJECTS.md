@@ -342,13 +342,11 @@ cd child-project && ../setup-memory-bank.sh --single
 
 The hierarchy scripts automatically prefer local copies of setup-memory-bank.sh for consistency.
 
-### About CLAUDE.md Files
-- **Root Level**: One CLAUDE.md at the workspace root is usually sufficient
-- **Sub-projects**: Only need their own CLAUDE.md if:
-  - Opened independently in Claude Code
-  - Have different coding standards
-  - Managed by different teams
-- **Recommendation**: Start with one CLAUDE.md at root, add more only if needed
+### About Bootstrap Files
+- **Memory Bank Bootstrap**: Each project has `.memory-bank/BOOTSTRAP.md` (internal)
+- **User's CLAUDE.md**: Users can have their own CLAUDE.md files for Claude Code configuration
+- **No Conflict**: Memory Bank no longer creates CLAUDE.md files
+- **Sub-projects**: Each gets its own `.memory-bank/BOOTSTRAP.md` automatically
 
 ## Design Decisions (Implemented)
 

@@ -1,4 +1,4 @@
-# PLAN Mode - Strategy & Design
+# Memory Bank: PLAN Mode - Strategy & Design
 <!-- Version: 2.1.0 -->
 
 Invoke @PLAN mode to create an implementation strategy for Level 2+ complexity tasks.

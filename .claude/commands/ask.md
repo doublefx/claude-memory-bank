@@ -1,4 +1,4 @@
-# ASK Mode - Explore & Discuss
+# Memory Bank: ASK Mode - Explore & Discuss
 <!-- Version: 2.1.0 -->
 
 Invoke @ASK mode for conversational exploration and questions.

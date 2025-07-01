@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# Sync Claude Memory Bank v2.2.0 from project to local installation
+# Sync Claude Memory Bank v2.3.0 from project to local installation
 # This script updates the local installation with the latest project files
 
 set -e
 
-echo "🔄 Syncing Claude Memory Bank v2.2.0 to local installation..."
+echo "🔄 Syncing Claude Memory Bank v2.3.0 to local installation..."
 
 # Get the directory where the script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Define project directory (the claude-memory-bank project)
-PROJECT_DIR="$SCRIPT_DIR/claude-memory-bank"
+# Define project directory (the script is IN the claude-memory-bank project)
+PROJECT_DIR="$SCRIPT_DIR"
 
-# Define local installation directory
-LOCAL_DIR="$HOME/.claude-memory-bank"
+# Define local installation directory (parent directory)
+LOCAL_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Check if project directory exists
 if [ ! -d "$PROJECT_DIR" ]; then
@@ -42,9 +42,9 @@ copy_file() {
     echo "  ✅ Updated: $(basename "$dest")"
 }
 
-# 1. Update CLAUDE.md
-echo -e "\n📄 Updating CLAUDE.md..."
-copy_file "$PROJECT_DIR/CLAUDE.md" "$LOCAL_DIR/CLAUDE.md"
+# 1. Update BOOTSTRAP.md
+echo -e "\n📄 Updating BOOTSTRAP.md..."
+copy_file "$PROJECT_DIR/.memory-bank/BOOTSTRAP.md" "$LOCAL_DIR/.memory-bank/BOOTSTRAP.md"
 
 # 2. Update starter-prompt.md
 echo -e "\n📄 Updating starter-prompt.md..."
@@ -113,7 +113,7 @@ if [ ! -f "$LOCAL_DIR/.memory-bank/.env" ]; then
 MEMORY_BANK_INITIALIZED=true
 
 # Version of the Memory Bank system
-MEMORY_BANK_VERSION=2.2.0
+MEMORY_BANK_VERSION=2.3.0
 
 # Date of initialization (will be set by VAN mode)
 INITIALIZATION_DATE=$(date +%Y-%m-%d)
@@ -125,16 +125,17 @@ fi
 
 # 7. Show version info
 echo -e "\n✨ Synchronization complete!"
-echo "📌 Local installation updated to v2.2.0"
+echo "📌 Local installation updated to v2.3.0"
 echo ""
-echo "🆕 New features in v2.2.0:"
+echo "🆕 New features in v2.3.0:"
+echo "  • Bootstrap moved to .memory-bank/BOOTSTRAP.md (no CLAUDE.md conflicts)"
 echo "  • User-level slash commands - cleaner project directories"
 echo "  • Commands at: ~/.claude/commands/memory-bank/"
 echo "  • Auto-update when running claude-memory-update"
 echo ""
-echo "🔄 Breaking changes in v2.2.0:"
-echo "  • Commands moved from /project:* to /user:memory-bank:*"
-echo "  • Example: /user:memory-bank:ask, /user:memory-bank:van"
+echo "🔄 Breaking changes in v2.3.0:"
+echo "  • CLAUDE.md removed - bootstrap now at .memory-bank/BOOTSTRAP.md"
+echo "  • Commands remain at /user:memory-bank:* (since v2.2.0)"
 echo ""
 echo "🚀 To use the new commands:"
 echo "  • Try: /user:memory-bank:ask to explore without implementing"

@@ -342,12 +342,17 @@ class MemoryBankAutomation:
                         if not file_path.exists():
                             validation_report["warnings"].append(f"Missing {file_name} in {dir_name}/")
         
-        # Check root files
-        root_files = ["../CLAUDE.md", "../starter-prompt.md"]
+        # Check root files (BOOTSTRAP.md is now internal at .memory-bank/)
+        root_files = ["../starter-prompt.md"]
         for file_name in root_files:
             file_path = self.memory_bank / file_name
             if not file_path.exists():
                 validation_report["warnings"].append(f"Missing {file_name}")
+        
+        # Check for BOOTSTRAP.md in .memory-bank
+        bootstrap_path = self.memory_bank / "BOOTSTRAP.md"
+        if not bootstrap_path.exists():
+            validation_report["errors"].append("Missing BOOTSTRAP.md in .memory-bank/")
         
         # Generate summary
         error_count = len(validation_report["errors"])

@@ -26,7 +26,7 @@ echo ""
 
 # Verify installation
 verify_installation() {
-    if [ ! -d "$TEMPLATE_DIR" ] || [ ! -f "$TEMPLATE_DIR/CLAUDE.md" ]; then
+    if [ ! -d "$TEMPLATE_DIR" ] || [ ! -f "$TEMPLATE_DIR/.memory-bank/BOOTSTRAP.md" ]; then
         echo -e "${RED}Error: Claude Memory Bank not installed globally.${NC}"
         echo "Please run the global installer first:"
         echo "curl -sSL https://raw.githubusercontent.com/doublefx/claude-memory-bank/main/install.sh | bash"
@@ -124,7 +124,7 @@ migrate_old_version() {
             
             # Update root configuration files
             echo -e "${CYAN}Updating configuration files...${NC}"
-            cp "$template_dir_copy/CLAUDE.md" ./ 2>/dev/null || true
+            # No longer copying CLAUDE.md - bootstrap is now internal
             cp "$template_dir_copy/QUICK-REFERENCE.md" ./ 2>/dev/null || true
             cp "$template_dir_copy/starter-prompt.md" ./ 2>/dev/null || true
             # Replace old setup script if it exists
@@ -409,18 +409,16 @@ copy_mode_files() {
     # Copy all mode instruction files
     cp "$TEMPLATE_DIR/.memory-bank/custom_modes/"*.md .memory-bank/custom_modes/
     
+    # Copy BOOTSTRAP.md to the .memory-bank directory
+    if [ -f "$TEMPLATE_DIR/.memory-bank/BOOTSTRAP.md" ]; then
+        cp "$TEMPLATE_DIR/.memory-bank/BOOTSTRAP.md" .memory-bank/
+        echo -e "${GREEN}✓ BOOTSTRAP.md installed${NC}"
+    fi
+    
     echo -e "${GREEN}✓ Mode instruction files installed${NC}"
 }
 
-# Create CLAUDE.md configuration
-create_claude_config() {
-    echo -e "${YELLOW}Creating Claude Code configuration...${NC}"
-    
-    # Copy the CLAUDE.md template
-    cp "$TEMPLATE_DIR/CLAUDE.md" ./
-    
-    echo -e "${GREEN}✓ Claude Code configuration created${NC}"
-}
+# Note: CLAUDE.md no longer created - bootstrap is now internal at .memory-bank/BOOTSTRAP.md
 
 # Create template files
 create_templates() {
@@ -599,7 +597,7 @@ EOF
 MEMORY_BANK_INITIALIZED=false
 
 # Version of the Memory Bank system
-MEMORY_BANK_VERSION=2.2.0
+MEMORY_BANK_VERSION=2.3.0
 
 # Date of initialization (will be set by VAN mode)
 INITIALIZATION_DATE=
@@ -736,7 +734,7 @@ EOF
 MEMORY_BANK_INITIALIZED=false
 
 # Version of the Memory Bank system
-MEMORY_BANK_VERSION=2.2.0
+MEMORY_BANK_VERSION=2.3.0
 
 # Date of initialization (will be set by VAN mode)
 INITIALIZATION_DATE=
@@ -945,7 +943,7 @@ show_next_steps() {
     echo ""
     echo -e "${BLUE}Next Steps:${NC}"
     echo "1. Review the starter-prompt.md file for initialization instructions"
-    echo "2. Start Claude Code and load the CLAUDE.md configuration"
+    echo "2. Start Claude Code and use /user:memory-bank:activate"
     echo "3. Use the @VAN command to begin your first workflow"
     
     if [ "$SETUP_TYPE" = "multi" ]; then
@@ -966,7 +964,7 @@ show_next_steps() {
     echo "  @REFLECT    - Validate and update context with learnings"
     echo ""
     echo -e "${BLUE}Key Files Created:${NC}"
-    echo "  CLAUDE.md                    - Claude Code configuration"
+    echo "  .memory-bank/BOOTSTRAP.md    - Memory Bank bootstrap (internal)"
     echo "  starter-prompt.md            - Initialization instructions"
     
     if [ "$SETUP_TYPE" = "multi" ]; then
@@ -999,7 +997,6 @@ main() {
         copy_mode_files
     fi
     
-    create_claude_config
     create_templates
     copy_scripts
     create_starter_prompt
@@ -1067,7 +1064,6 @@ case "${1:-}" in
         fi
         create_structure
         copy_mode_files
-        create_claude_config
         create_templates
         copy_scripts
         create_starter_prompt
@@ -1084,7 +1080,6 @@ case "${1:-}" in
         fi
         create_structure
         copy_mode_files
-        create_claude_config
         create_templates
         copy_scripts
         create_starter_prompt

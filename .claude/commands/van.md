@@ -1,4 +1,4 @@
-# VAN Mode - Initialize & Assess
+# Memory Bank: VAN Mode - Initialize & Assess
 <!-- Version: 2.1.0 -->
 
 Invoke @VAN mode to initialize a new task or assess the current project state.

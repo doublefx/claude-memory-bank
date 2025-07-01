@@ -179,8 +179,8 @@ Consider both project and shared updates:
 ### 4. Learning Documentation
 
 **File Location:**
-- Single-Project: `memory-bank/qa/validation-results.md`
-- Multi-Project: `memory-bank/[project-name]/qa/validation-results.md`
+- Single-Project: `.memory-bank/qa/validation-results.md`
+- Multi-Project: `.memory-bank/[project-name]/qa/validation-results.md`
 
 Create/update validation results:
 
@@ -248,17 +248,17 @@ Determine if archiving needed:
 ## OUTPUTS TO CREATE/UPDATE
 
 ### Single-Project:
-1. **memory-bank/qa/validation-results.md** - Test results and learnings
-2. **memory-bank/context/** - Updates based on discoveries
-3. **memory-bank/active/progress.md** - Mark REFLECT complete
-4. **memory-bank/decisions/log.md** - New architectural insights
+1. **.memory-bank/qa/validation-results.md** - Test results and learnings
+2. **.memory-bank/context/** - Updates based on discoveries
+3. **.memory-bank/active/progress.md** - Mark REFLECT complete
+4. **.memory-bank/decisions/log.md** - New architectural insights
 
 ### Multi-Project:
-1. **memory-bank/[project-name]/qa/validation-results.md** - Project results
-2. **memory-bank/[project-name]/context/** - Project-specific updates
-3. **memory-bank/shared/** - Cross-project patterns and conventions
-4. **memory-bank/[project-name]/active/progress.md** - Mark complete
-5. **memory-bank/[project-name]/decisions/log.md** - Project decisions
+1. **.memory-bank/[project-name]/qa/validation-results.md** - Project results
+2. **.memory-bank/[project-name]/context/** - Project-specific updates
+3. **.memory-bank/shared/** - Cross-project patterns and conventions
+4. **.memory-bank/[project-name]/active/progress.md** - Mark complete
+5. **.memory-bank/[project-name]/decisions/log.md** - Project decisions
 
 **Important**: Always evaluate if learnings should be promoted to shared/
 

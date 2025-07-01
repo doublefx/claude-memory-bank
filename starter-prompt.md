@@ -20,7 +20,7 @@ This will initialize the Memory Bank system and read all configuration files.
 
 Copy this message to Claude Code:
 ```
-I want to use the Claude Memory Bank system v2.0. Please read the CLAUDE.md configuration file and all mode instructions from .memory-bank/custom_modes/ to understand the context-driven workflow.
+I want to use the Claude Memory Bank system. Please use the /user:memory-bank:activate command to initialize the system and understand the context-driven workflow.
 
 The system now includes 5 modes (v2.1.0):
 - ASK: Conversational exploration without implementation (READ-ONLY)
@@ -67,7 +67,7 @@ flowchart TD
 4. **Minimal Ceremony**: Streamlined from 6 to 5 modes (including ASK)
 5. **Explore First**: ASK mode allows safe exploration before commitment (v2.1.0)
 
-## Mode Commands (v2.2.0)
+## Mode Commands (v2.3.0)
 
 ### Slash Commands (Recommended - NEW!)
 - `/user:memory-bank:activate` - Initialize Memory Bank system (universal entry)
@@ -315,7 +315,7 @@ When the setup script detects a v1.x installation (`memory-bank/` directory exis
 3. **Backup Creation**: Creates `memory-bank.backup.YYYYMMDD_HHMMSS`
 4. **Directory Migration**: Renames `memory-bank/` to `.memory-bank/`
 5. **File Updates**: 
-   - Updates CLAUDE.md, QUICK-REFERENCE.md, and starter-prompt.md to v2.0
+   - Updates QUICK-REFERENCE.md and starter-prompt.md
    - Replaces all scripts with v2.0 versions
    - Updates all mode instructions to latest versions
    - Copies documentation to `.memory-bank/doc/`

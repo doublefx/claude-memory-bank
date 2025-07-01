@@ -1,11 +1,18 @@
 # Claude Memory Bank
 
-> **Memory Bank System v2.2.0 - Enhanced Context-Driven Workflow**  
+> **Memory Bank System v2.3.0 - Enhanced Context-Driven Workflow**  
 > Based on original methodology by [@vanzan01](https://github.com/vanzan01/cursor-memory-bank)  
 > Supports both single-project and multi-project repositories  
 > Combines context preservation with streamlined workflow (5 modes)
 
-## 🚨 Breaking Change in v2.2.0
+## 🚨 Breaking Changes
+
+### v2.3.0
+- **CLAUDE.md Removed**: Bootstrap configuration moved to `.memory-bank/BOOTSTRAP.md`
+- **No User Impact**: File is internal and only accessed via slash commands
+- **Avoids Conflicts**: No longer conflicts with user's CLAUDE.md files
+
+### v2.2.0
 
 **Slash commands have moved to user level!** 
 - Old: `/project:ask`, `/project:van`, etc.
@@ -184,9 +191,9 @@ setup-memory-bank.sh --multi
 After installation, the file structure is:
 ```
 ~/.claude-memory-bank/
-├── claude-memory-bank/          # Git repository with templates
+├── claude-memory-bank/         # Git repository with templates
 │   ├── setup-memory-bank.sh    # The actual setup script
-│   ├── memory-bank/            # Template files
+│   ├── .memory-bank/           # Template files
 │   └── ...                     # Other template files
 └── (no files at root level)    # Commands are in ~/.local/bin/
 ```
@@ -211,7 +218,6 @@ The `cmb-setup` command points to the script inside `claude-memory-bank/`.
 #### Single-Project Structure
 ```
 project/
-├── CLAUDE.md                    # Claude Code configuration
 ├── starter-prompt.md            # Initialization guide
 ├── .claude/                     # Claude Code Terminal integration
 │   └── commands/                # Slash commands (v2.1.0)
@@ -222,6 +228,7 @@ project/
 │       ├── reflect.md
 │       └── ask.md
 ├── .memory-bank/
+│   ├── BOOTSTRAP.md             # Internal bootstrap configuration
 │   ├── custom_modes/            # Mode instruction files
 │   │   ├── van_instructions.md
 │   │   ├── plan_instructions.md
@@ -250,9 +257,9 @@ project/
 #### Multi-Project Structure
 ```
 monorepo/
-├── CLAUDE.md                    # Claude Code configuration
 ├── starter-prompt.md            # Initialization guide
 ├── .memory-bank/
+│   ├── BOOTSTRAP.md             # Internal bootstrap configuration
 │   ├── custom_modes/            # Mode instruction files
 │   ├── shared/                  # Cross-project resources
 │   │   ├── patterns.md          # Reusable patterns
@@ -607,7 +614,7 @@ setup-memory-bank.sh --add-project
 
 - **[Starter Guide](starter-prompt.md)**: Quick start instructions
 - **[Mode Instructions](.memory-bank/custom_modes/)**: Detailed mode documentation
-- **[Configuration](CLAUDE.md)**: Complete Claude Code configuration
+- **[Bootstrap](.memory-bank/BOOTSTRAP.md)**: Internal bootstrap configuration
 - **[Automation](.memory-bank/scripts/)**: Automation and enhancement tools
 
 ## 🙏 Acknowledgments
@@ -733,7 +740,7 @@ The `--keep-knowledge` option removes Memory Bank infrastructure while preservin
 - `.memory-bank/scripts/` - Automation scripts
 - `.memory-bank/templates/` - Templates
 - `.memory-bank/.env` - Environment file
-- Root files: `CLAUDE.md`, `QUICK-REFERENCE.md`, etc.
+- Root files: `QUICK-REFERENCE.md`, `starter-prompt.md`
 
 **What's Preserved:**
 - `.memory-bank/context/` - Your project context files
@@ -752,7 +759,7 @@ This is perfect when you want to remove Memory Bank functionality but keep all t
 
 **Project-level:**
 - `.memory-bank/` directory and all contents
-- `CLAUDE.md`, `QUICK-REFERENCE.md`, `starter-prompt.md`
+- `QUICK-REFERENCE.md`, `starter-prompt.md`
 - Local `setup-memory-bank.sh` script
 - Old migration backup directories (`.memory-bank.backup.*`)
 - Note: Fresh backups created with `--backup` are preserved
@@ -768,7 +775,7 @@ rm -f ~/.local/bin/claude-memory-*
 rm -rf ~/.claude/commands/memory-bank
 
 # Remove from current project
-rm -rf .memory-bank CLAUDE.md QUICK-REFERENCE.md starter-prompt.md setup-memory-bank.sh
+rm -rf .memory-bank QUICK-REFERENCE.md starter-prompt.md setup-memory-bank.sh
 
 # Clean shell configuration
 # Edit ~/.bashrc or ~/.zshrc and remove Claude Memory Bank sections

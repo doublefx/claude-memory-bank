@@ -1,6 +1,6 @@
 # Claude Code Memory Bank Configuration - Hybrid System
 
-> **Memory Bank System v2.2.0** - Context-Driven Workflow  
+> **Memory Bank System v2.3.0** - Context-Driven Workflow  
 > Original methodology by @vanzan01, hybrid design for optimal context + workflow balance  
 > Combines context preservation with structured development workflow
 

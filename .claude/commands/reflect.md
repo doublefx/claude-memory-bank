@@ -1,4 +1,4 @@
-# REFLECT Mode - Validate & Learn
+# Memory Bank: REFLECT Mode - Validate & Learn
 <!-- Version: 2.1.0 -->
 
 Invoke @REFLECT mode to validate implementation and capture learnings.

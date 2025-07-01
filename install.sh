@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Claude Memory Bank Global Installer v2.2
+# Claude Memory Bank Global Installer v2.3.0
 # Adaptation of the original cursor-memory-bank by @vanzan01 for Claude Code
 # This installer sets up the global commands and prepares the system for project-specific setup
 # v2.0: Added support for single-project and multi-project repositories
 # v2.2: Migrated slash commands to user-level namespace
+# v2.3.0: Moved CLAUDE.md to .memory-bank/BOOTSTRAP.md
 
 set -e
 
@@ -20,10 +21,10 @@ INSTALL_DIR="$HOME/.claude-memory-bank"
 BIN_DIR="$HOME/.local/bin"
 REPO_URL="https://github.com/doublefx/claude-memory-bank"
 
-echo -e "${BLUE}Claude Memory Bank v2.2 - Global Installer${NC}"
+echo -e "${BLUE}Claude Memory Bank v2.3.0 - Global Installer${NC}"
 echo -e "${BLUE}===========================================${NC}"
 echo ""
-echo "This installer will set up Claude Memory Bank v2.2 globally on your system."
+echo "This installer will set up Claude Memory Bank v2.3.0 globally on your system."
 echo "Supports both single-project and multi-project repositories."
 echo "Installs Claude Code Terminal slash commands at user level."
 echo "Original methodology by @vanzan01, adapted for Claude Code."
@@ -196,14 +197,14 @@ EOF
 
 INSTALL_DIR="$HOME/.claude-memory-bank"
 
-echo "Claude Memory Bank v2.2 Status"
+echo "Claude Memory Bank v2.3.0 Status"
 echo "==============================="
 echo "Installation directory: $INSTALL_DIR"
 
 if [ -d "$INSTALL_DIR/claude-memory-bank" ]; then
     echo "✓ System installed"
     cd "$INSTALL_DIR/claude-memory-bank"
-    echo "Version: v2.2 ($(git describe --tags --always 2>/dev/null || echo 'development'))"
+    echo "Version: v2.3.0 ($(git describe --tags --always 2>/dev/null || echo 'development'))"
     echo "Last updated: $(git log -1 --format=%cd --date=short 2>/dev/null || echo 'unknown')"
 else
     echo "✗ System not installed"
@@ -221,10 +222,10 @@ if [ -f ".memory-bank/tasks.md" ] || [ -d ".memory-bank/shared" ]; then
     else
         echo "✓ Single-project repository"
     fi
-    if [ -f "CLAUDE.md" ]; then
-        echo "✓ Claude Code configuration present"
+    if [ -f ".memory-bank/BOOTSTRAP.md" ]; then
+        echo "✓ Memory Bank bootstrap present"
     else
-        echo "✗ Claude Code configuration missing"
+        echo "✗ Memory Bank bootstrap missing"
     fi
 else
     echo "✗ No memory bank in current directory"
@@ -323,7 +324,7 @@ main() {
     setup_shell_integration
     
     echo ""
-    echo -e "${GREEN}Claude Memory Bank v2.2 installation complete!${NC}"
+    echo -e "${GREEN}Claude Memory Bank v2.3.0 installation complete!${NC}"
     echo ""
     echo "Next steps:"
     echo "1. Restart your shell or run: source ~/.bashrc (or ~/.zshrc)"
@@ -353,7 +354,7 @@ main() {
     echo "  /user:memory-bank:implement - Build and test"
     echo "  /user:memory-bank:reflect  - Validate and learn"
     echo ""
-    echo -e "${BLUE}Version 2.2 Features:${NC}"
+    echo -e "${BLUE}Version 2.3.0 Features:${NC}"
     echo "  - User-level slash commands for Claude Code Terminal"
     echo "  - Automatic single/multi-project detection"
     echo "  - Cross-project task scanning"
@@ -367,7 +368,7 @@ main() {
 # Handle command line arguments
 case "${1:-}" in
     --help|-h)
-        echo "Claude Memory Bank v2.2 Global Installer"
+        echo "Claude Memory Bank v2.3.0 Global Installer"
         echo ""
         echo "Usage: $0 [options]"
         echo ""
@@ -375,7 +376,8 @@ case "${1:-}" in
         echo "  --help, -h     Show this help message"
         echo "  --uninstall    Remove Claude Memory Bank"
         echo ""
-        echo "Version 2.2 features:"
+        echo "Version 2.3.0 features:
+        - Bootstrap file moved to .memory-bank/BOOTSTRAP.md (no more CLAUDE.md conflicts)"
         echo "  - User-level slash commands for Claude Code Terminal"
         echo "  - Single-project and multi-project repository support"
         echo "  - Automatic structure detection and cross-project task management"

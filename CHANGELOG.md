@@ -5,6 +5,27 @@ All notable changes to Claude Memory Bank will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-07-01
+
+### Breaking Changes
+- **Bootstrap File Moved**: CLAUDE.md renamed to .memory-bank/BOOTSTRAP.md
+  - Prevents conflicts with user's Claude Code configurations
+  - Bootstrap file now internal, accessed only via slash commands
+  - No more CLAUDE.md files created in project root
+  - `/user:memory-bank:activate` updated to read new location
+
+### Changed
+- setup-memory-bank.sh no longer creates CLAUDE.md
+- install.sh status check updated for new location
+- sync-from-project.sh updated to sync BOOTSTRAP.md
+- All documentation updated to reflect new structure
+
+### Migration Guide
+1. Existing installations will continue to work
+2. New installations use .memory-bank/BOOTSTRAP.md
+3. Run `cmb-update` to get latest changes
+4. No user action required for single user
+
 ## [2.2.0] - 2025-06-30
 
 ### Breaking Changes
@@ -53,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Claude Code Terminal Integration**: Full slash command support
   - Six slash commands in `.claude/commands/` directory
   - `/project:ask`, `/project:van`, `/project:plan`, `/project:implement`, `/project:reflect`
-  - `/project:memory-bank` to force CLAUDE.md reading
+  - `/project:memory-bank` to force reading the bootstrap file
   - (All moved to user-level namespace in v2.2)
   - Each command maps to corresponding @ mode
 - **Temporary File Tracking System**: New `temp-files.md` in active directory

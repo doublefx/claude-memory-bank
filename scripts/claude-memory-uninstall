@@ -155,7 +155,7 @@ create_backup() {
         # Backup project files if in a project
         if [ -d ".memory-bank" ]; then
             cp -r .memory-bank "$backup_dir/project-memory-bank" 2>/dev/null
-            [ -f "CLAUDE.md" ] && cp CLAUDE.md "$backup_dir/" 2>/dev/null
+            # BOOTSTRAP.md stays internal, backed up with .memory-bank
             [ -f "QUICK-REFERENCE.md" ] && cp QUICK-REFERENCE.md "$backup_dir/" 2>/dev/null
             [ -f "starter-prompt.md" ] && cp starter-prompt.md "$backup_dir/" 2>/dev/null
         fi
@@ -236,7 +236,7 @@ uninstall_project() {
         remove_item ".memory-bank/technical" "Technical patterns"
         
         # Remove project root files
-        remove_item "CLAUDE.md" "Claude Code configuration"
+        # BOOTSTRAP.md removed with .memory-bank directory
         remove_item "QUICK-REFERENCE.md" "Quick reference guide"
         remove_item "starter-prompt.md" "Starter prompt"
         remove_item "setup-memory-bank.sh" "Local setup script"
@@ -246,7 +246,7 @@ uninstall_project() {
     else
         # Remove everything
         remove_item ".memory-bank" "Memory Bank directory"
-        remove_item "CLAUDE.md" "Claude Code configuration"
+        # BOOTSTRAP.md removed with .memory-bank directory
         remove_item "QUICK-REFERENCE.md" "Quick reference guide"
         remove_item "starter-prompt.md" "Starter prompt"
         remove_item "setup-memory-bank.sh" "Local setup script"
