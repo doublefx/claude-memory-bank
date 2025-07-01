@@ -149,6 +149,9 @@ setup-memory-bank.sh --multi
 ### Start Working
 
 #### Using Slash Commands (Recommended)
+
+![Claude Code Memory Bank Integration](assets/memory-bank-screenshot.png)
+
 ```bash
 # Initialize Memory Bank system
 /user:memory-bank:activate
